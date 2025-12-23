@@ -1,8 +1,8 @@
 const express = require("express")
-const usersRouter = express.Router()
+const storesRouter = express.Router()
 
 //===============
 
 //===============
 
-module.exports = usersRouter
+module.exports = storesRouter
