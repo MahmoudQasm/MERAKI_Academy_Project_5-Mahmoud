@@ -108,8 +108,45 @@ const updateProductById = (req, res) => {
     });
 };
 
+const deleteProductById = (req, res) => {
+  const productId = req.params.id;
+
+  const query = `
+    DELETE FROM products
+    WHERE id = $1
+    RETURNING *;
+  `;
+
+  pool
+    .query(query, [productId])
+    .then((result) => {
+      if (result.rows.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "Product not found",
+        });
+      }
+
+      res.status(200).json({
+        success: true,
+        message: "Product deleted successfully",
+        product: result.rows[0],
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+        err: err.message,
+      });
+    });
+};
+
+
+
 module.exports = {
   addNewProducts,
   getProductById,
   updateProductById,
+  deleteProductById
 };
