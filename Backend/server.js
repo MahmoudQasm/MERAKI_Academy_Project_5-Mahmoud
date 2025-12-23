@@ -11,7 +11,8 @@ const storesRouter = require("./MVC/routes/stores");
 const app = express();
 const PORT = 5000;
 //====================
-// const usersRouter = require("./MVC/routes/users")
+app.use("/products", productsRouter);
+
 //====================
 
 app.use(cors());
