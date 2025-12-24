@@ -47,14 +47,16 @@ const updateCategoryById = async (req, res) => {
   const { name, description, imgsrc } = req.body;
   try {
     const result = await pool.query(
-      `
-            UPDATE categories 
+      `     UPDATE categories 
             SET name = $1, description=$2, imgsrc = $3 
             WHERE id = $4
             RETURNING *`,
       [name, description, imgsrc, id]
     );
-    res.status(200).json(result.rows);
+    res.status(200).json({
+      success: true,
+      result: result.rows,
+    });
   } catch (err) {
     res.status(500).json({
       success: false,
