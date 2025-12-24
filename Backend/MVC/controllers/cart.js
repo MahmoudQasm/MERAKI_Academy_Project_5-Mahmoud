@@ -1,6 +1,5 @@
 const { pool } = require("../models/db");
 
-
 const addToCart = (req, res) => {
   const { products_id, users_id } = req.body;
 
@@ -63,7 +62,41 @@ const updateCart = (req, res) => {
     });
 };
 
+const deleteFromCart = (req, res) => {
+  const { cart_id } = req.params;
+
+  const query = `
+    DELETE FROM cart
+    WHERE id = $1
+    RETURNING *;
+  `;
+
+  pool
+    .query(query, [cart_id])
+    .then((result) => {
+      if (result.rows.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "Item not found",
+        });
+      }
+
+      res.json({
+        success: true,
+        message: "Item deleted from cart",
+        deletedItem: result.rows[0],
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        error: err.message,
+      });
+    });
+};
+
 module.exports = {
   addToCart,
-  updateCart
+  updateCart,
+  deleteFromCart,
 };
