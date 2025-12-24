@@ -94,9 +94,38 @@ const deleteFromCart = (req, res) => {
       });
     });
 };
+const checkout = (req, res) => {
+  const { users_id } = req.body;
+
+  const query = `
+    UPDATE cart
+    SET is_deleted = true
+    WHERE users_id = $1 AND is_deleted = false
+    RETURNING *;
+  `;
+
+  pool
+    .query(query, [users_id])
+    .then((result) => {
+      if (result.rows.length === 0) {
+        return res.status(400).json({
+          success: false,
+          message: "Cart is empty",
+        });
+      }
+
+      res.json({
+        success: true,
+        message: "Checkout completed",
+        items: result.rows,
+      });
+    })
+    .catch((err) => res.status(500).json({ success: false, err: err.message }));
+};
 
 module.exports = {
   addToCart,
   updateCart,
   deleteFromCart,
+  checkout,
 };
