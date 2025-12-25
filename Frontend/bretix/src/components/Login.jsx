@@ -18,6 +18,7 @@ function Login() {
       .then((result) => {
         localStorage.setItem("token", result.data.token);
         setToken("token", result.data.token);
+        console.log(result.data.token);
         
         navigate("/");
       })
@@ -27,7 +28,7 @@ function Login() {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100">
+    <div className="login">
       <input
         type="email"
         name="email"
