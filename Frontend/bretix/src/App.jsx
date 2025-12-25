@@ -4,7 +4,7 @@ import "./App.css";
 import Home from "./components/Shared componenets/Home";
 import Navbar from "./components/Shared componenets/Navbar";
 import Login from "./components/Login";
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function App() {
   return (
