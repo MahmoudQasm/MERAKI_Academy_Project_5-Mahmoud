@@ -9,9 +9,13 @@ const cartRouter = express.Router();
 
 //========================
 cartRouter.post("/", addToCart);
-cartRouter.put("/update", updateCart);
-cartRouter.delete("/delete", deleteFromCart);
-cartRouter.put("/checkout");
+
+cartRouter.put("/:cart_id", updateCart);
+
+cartRouter.delete("/:cart_id", deleteFromCart);
+
+cartRouter.post("/checkout", checkout);
+
 //========================
 
 module.exports = cartRouter;
