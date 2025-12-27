@@ -6,6 +6,11 @@ const Navbar = () =>{
         <div>
             <button onClick={()=>{navigate("/")}}>Home</button>
             <button onClick={()=>{navigate("/Login")}}>Login</button>
+            <button onClick={()=>{navigate("/register")}}>Register</button> 
+            <button>Stores</button>
+            <button>Products</button>
+            <button>Contact Us</button>
+            
         </div>
     )
 }
