@@ -5,7 +5,7 @@ import Home from "./components/Shared componenets/Home";
 import Navbar from "./components/Shared componenets/Navbar";
 import Login from "./components/Shared componenets/Login";
 import Register from "./components/Shared componenets/Register";
-import Proudects from "./components/Proudects";
+import Products from "./components/Products";
 function App() {
   return (
     <div>
@@ -15,7 +15,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/Proudects" element={<Proudects />} />
+        <Route path="/Products" element={<Products />} />
       </Routes>
     </div>
   );
