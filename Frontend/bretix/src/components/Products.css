@@ -1,4 +1,4 @@
-/* الحاوية الكبيرة */
+
 .container-main {
     width: 100%;
     max-width: 1200px;
@@ -34,7 +34,7 @@
     color: #2ecc71;
 }
 
-/* أزرار التحكم */
+
 .slider-btns {
     display: flex;
     gap: 10px;
@@ -58,35 +58,35 @@
     color: #fff;
 }
 
-/* --- منطقة السلايدر (أهم جزء) --- */
+
 .products-slider {
     display: flex;
-    /* يخلي المنتجات جنب بعض */
+   
     flex-wrap: nowrap;
-    /* يمنعهم ينزلوا سطر جديد نهائياً */
+  
     overflow-x: auto;
-    /* يفعل السكرول الأفقي (اللمس والسحب) */
+
     scroll-behavior: smooth;
     scroll-snap-type: x mandatory;
-    /* يخلي المنتج "يوقف" في مكانه */
+
     gap: 20px;
     padding: 10px 0 30px 0;
     scrollbar-width: none;
-    /* إخفاء السكرول بار في فايرفوكس */
+  
 }
 
 .products-slider::-webkit-scrollbar {
     display: none;
-    /* إخفاء السكرول بار في كروم وسافاري */
+
 }
 
-/* ... الكود السابق يبقى كما هو، عدّل فقط هذه الأجزاء ... */
+
 
 .product-item {
     flex: 0 0 280px;
     min-width: 280px;
     display: flex;
-    /* لضمان أن الكارد يأخذ كامل ارتفاع الحاوية */
+ 
     scroll-snap-align: start;
 }
 
@@ -97,30 +97,30 @@
     overflow: hidden;
     transition: 0.3s;
 
-    /* الحل السحري للتساوي */
+   
     display: flex;
     flex-direction: column;
     width: 100%;
-    /* لملء الـ product-item */
+  
     height: 100%;
-    /* لجعل جميع الكروت بنفس الارتفاع إذا كانت في صف واحد */
+
 }
 
 .image-wrapper {
     position: relative;
     width: 100%;
     height: 250px;
-    /* ارتفاع ثابت وموحد للصور */
+  
     background: #f9f9f9;
     flex-shrink: 0;
-    /* يمنع الصورة من الانكماش */
+
 }
 
 .product-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* لقص الصور المختلفة بنفس القياس دون تشويه */
+   
 }
 
 .product-info {
@@ -128,7 +128,7 @@
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    /* يجعل هذا القسم يتمدد ليملأ الفراغ */
+   
 }
 
 .product-name {
@@ -137,23 +137,22 @@
     margin: 0 0 15px 0;
     color: #333;
 
-    /* توحيد عدد أسطر النص (اختياري لكنه رائع للجمالية) */
+    
     display: -webkit-box;
     -webkit-line-clamp: 2;
-    /* يظهر سطرين فقط ثم ... */
+  
     -webkit-box-orient: vertical;
     overflow: hidden;
     height: 44px;
-    /* ارتفاع ثابت لسطرين لضمان بقاء السعر بنفس المستوى */
+   
 }
 
 .product-footer {
     margin-top: auto;
-    /* يدفع السعر والزر لأسفل الكارد دائماً مهما كان النص قصير */
+
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding-top: 10px;
 }
 
-/* ... باقي التنسيقات (Price, Button) تبقى كما هي ... */
