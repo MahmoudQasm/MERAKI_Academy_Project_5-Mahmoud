@@ -21,6 +21,26 @@ const addNewCategory = async (req, res) => {
   }
 };
 
+const getAllCategories = (req, res) => {
+  const query = `SELECT * FROM cataegres`;
+
+  pool
+    .query(query)
+    .then((result) => {
+      res.status(200).json({
+        success: true,
+        categories: result.rows,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+        err: err.message,
+      });
+    });
+};
+
 const getCategoryById = async (req, res) => {
   const { id } = req.params;
 
@@ -90,4 +110,5 @@ module.exports = {
   getCategoryById,
   updateCategoryById,
   deleteCategoryById,
+  getAllCategories,
 };
