@@ -6,6 +6,7 @@ import Navbar from "./components/Shared componenets/Navbar";
 import Login from "./components/Shared componenets/Login";
 import Register from "./components/Shared componenets/Register";
 import Products from "./components/Products";
+import ProductDetails from "./components/ProductDetails";
 function App() {
   return (
     <div>
@@ -16,6 +17,7 @@ function App() {
         <Route path="/Login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/Products" element={<Products />} />
+        <Route path="/product/:id" element={<ProductDetails />} />
       </Routes>
     </div>
   );

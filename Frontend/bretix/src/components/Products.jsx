@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import "./Products.css"; 
+import "./Products.css";
+import { Link } from "react-router-dom";
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -13,14 +14,14 @@ function Products() {
       .catch((err) => console.log(err));
   }, []);
 
-  
   const scroll = (direction) => {
     if (sliderRef.current) {
       const { scrollLeft, clientWidth } = sliderRef.current;
-      const scrollTo = direction === "left" 
-        ? scrollLeft - clientWidth / 2 
-        : scrollLeft + clientWidth / 2;
-      
+      const scrollTo =
+        direction === "left"
+          ? scrollLeft - clientWidth / 2
+          : scrollLeft + clientWidth / 2;
+
       sliderRef.current.scrollTo({ left: scrollTo, behavior: "smooth" });
     }
   };
@@ -30,33 +31,46 @@ function Products() {
       <div className="header-section">
         <p className="sub-title">Eco Essentials Planet-Friendly</p>
         <div className="title-row">
-          <h2 className="main-title">Bestselling <span>✨ Products</span></h2>
+          <h2 className="main-title">
+            Bestselling <span>✨ Products</span>
+          </h2>
           <div className="slider-btns">
-            <button className="nav-btn prev" onClick={() => scroll("left")}>←</button>
-            <button className="nav-btn next" onClick={() => scroll("right")}>→</button>
+            <button className="nav-btn prev" onClick={() => scroll("left")}>
+              ←
+            </button>
+            <button className="nav-btn next" onClick={() => scroll("right")}>
+              →
+            </button>
           </div>
         </div>
       </div>
 
-      {/* منطقة السلايدر - هنا السحب (Swipe) شغال */}
       <div className="products-slider" ref={sliderRef}>
         {products.map((item, i) => (
-          <div className="product-item" key={i}>
+          <Link
+            to={`/product/${item.id}`}
+            className="product-item"
+            key={item.id}
+          >
             <div className="product-card">
               <div className="image-wrapper">
                 <span className="product-badge">{item.badge || "New"}</span>
-                <img src={item.imgsrc} alt={item.title} className="product-img" />
+                <img
+                  src={item.imgsrc}
+                  alt={item.title}
+                  className="product-img"
+                />
               </div>
-              
+
               <div className="product-info">
                 <div className="color-options">
                   <span className="dot dot-1"></span>
                   <span className="dot dot-2"></span>
                   <span className="dot dot-3"></span>
                 </div>
-                
+
                 <h3 className="product-name">{item.title}</h3>
-                
+
                 <div className="product-footer">
                   <span className="price">${item.price}</span>
                   <button className="add-to-cart-btn">
@@ -65,7 +79,7 @@ function Products() {
                 </div>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
