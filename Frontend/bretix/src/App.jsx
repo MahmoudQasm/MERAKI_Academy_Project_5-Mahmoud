@@ -15,6 +15,7 @@ import Products from "./components/Products";
 import ProductDetails from "./components/ProductDetails";
 import ImgSlider from "./components/ImgSlider";
 import Stores from "./components/Shared componenets/Stores";
+import Store from "./components/Shared componenets/Store";
 
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
         <Route path="/Products" element={<Products />} />
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/stores" element={<Stores/>}/>
+        <Route path="/stores/:id" element={<Store/>}/>
       </Routes>
     </div>
   );
