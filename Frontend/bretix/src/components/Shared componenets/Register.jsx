@@ -73,28 +73,28 @@ const Register = () => {
   };
 
   return (
-    <div className="register-page">
-      <div className="register-card">
-        <h2>Create Account</h2>
-        <p>Join our eco-friendly platform</p>
+  <div className="register-page">
+    <div className="register-card">
+      <h2>Create Account</h2>
+      <p>Join Bretix for a sustainable future</p>
 
-        <div className="owner-toggle">
-          <label>
-            <input
-              type="checkbox"
-              checked={asOwner}
-              onChange={() => {
-                asOwner ? makeUserStates() : makeOwnerStates();
-              }}
-            />
-            Create Business Account
-          </label>
-        </div>
+      <div className="owner-toggle">
+        <input
+          type="checkbox"
+          checked={asOwner}
+          id="owner-check"
+          onChange={() => {
+            asOwner ? makeUserStates() : makeOwnerStates();
+          }}
+        />
+        <label htmlFor="owner-check">Create Business Account</label>
+      </div>
 
+      <div className="inputs-grid">
         <input placeholder="First Name" onChange={(e) => setFirstName(e.target.value)} />
         <input placeholder="Last Name" onChange={(e) => setLastName(e.target.value)} />
-        <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-        <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
+        <input className="full-width" type="email" placeholder="Email Address" onChange={(e) => setEmail(e.target.value)} />
+        <input className="full-width" type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
         <input type="number" placeholder="Mobile Number" onChange={(e) => setPhoneNumber(e.target.value)} />
         <input type="number" placeholder="Age" onChange={(e) => setAge(e.target.value)} />
         <input placeholder="Country" onChange={(e) => setCountry(e.target.value)} />
@@ -102,17 +102,18 @@ const Register = () => {
 
         {asOwner && (
           <>
-            <hr />
-            <input placeholder="Store Name" onChange={(e) => setStoreTitle(e.target.value)} />
-            <input placeholder="About Store" onChange={(e) => setStoreDescription(e.target.value)} />
-            <input placeholder="Store Logo URL" onChange={(e) => setStoreLogo(e.target.value)} />
+            <div className="full-width"><hr /></div>
+            <input className="full-width" placeholder="Store Name" onChange={(e) => setStoreTitle(e.target.value)} />
+            <input className="full-width" placeholder="About Store" onChange={(e) => setStoreDescription(e.target.value)} />
+            <input className="full-width" placeholder="Store Logo URL" onChange={(e) => setStoreLogo(e.target.value)} />
           </>
         )}
-
-        <button onClick={confirmRegister}>Register</button>
       </div>
+
+      <button className="register-btn" onClick={confirmRegister}>Register Now</button>
     </div>
-  );
+  </div>
+);
 };
 
 export default Register;

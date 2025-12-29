@@ -1,72 +1,109 @@
+/* تنسيق الصفحة بالكامل لمنع أي فراغات */
 .register-page {
-    min-height: 100vh;
-    background: linear-gradient(135deg, #2f2f2f, #b5b5b5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: "Segoe UI", sans-serif;
+  width: 100vw;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #f0f4f1 0%, #d9e4dd 100%); /* ألوان هادئة مستوحاة من البيئة */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* الكرت الأبيض الأساسي */
 .register-card {
-    background-color: #f6f5ef;
-    padding: 35px;
-    width: 420px;
-    border-radius: 14px;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+  background: rgba(255, 255, 255, 0.95);
+  padding: 40px;
+  border-radius: 24px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 600px; /* عرض مناسب جداً للوسط */
+  text-align: center;
 }
 
 .register-card h2 {
-    text-align: center;
-    color: #224037;
-    margin-bottom: 5px;
+  color: #1b4332; /* أخضر غامق مثل Bretix */
+  font-size: 2rem;
+  margin-bottom: 10px;
 }
 
 .register-card p {
-    text-align: center;
-    font-size: 14px;
-    color: #6b6b6b;
-    margin-bottom: 20px;
+  color: #555;
+  margin-bottom: 30px;
 }
 
-.register-card input {
-    width: 100%;
-    padding: 11px 14px;
-    margin-bottom: 12px;
-    border-radius: 8px;
-    border: 1px solid #d6d6d6;
-    font-size: 14px;
+/* تنظيم المدخلات (Inputs) في شبكة (Grid) */
+.inputs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* جعل المدخلات بجانب بعضها */
+  gap: 15px;
+  margin-bottom: 20px;
 }
 
-.register-card input:focus {
-    outline: none;
-    border-color: #224037;
+/* استثناء لبعض الحقول لتأخذ العرض الكامل */
+.full-width {
+  grid-column: span 2;
 }
 
+input {
+  padding: 12px 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  outline: none;
+  font-size: 14px;
+  background-color: #f9f9f9;
+  transition: all 0.3s ease;
+}
+
+input:focus {
+  border-color: #2d6a4f; /* لون أخضر عند الضغط */
+  background-color: #fff;
+  box-shadow: 0 0 8px rgba(45, 106, 79, 0.1);
+}
+
+/* تنسيق الـ Toggle للعمل كأنه زر احترافي */
 .owner-toggle {
-    margin-bottom: 15px;
-    font-size: 13px;
-    color: #224037;
+  background: #f1f8f5;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  color: #2d6a4f;
+  font-weight: 600;
 }
 
-.register-card hr {
-    margin: 20px 0;
-    border: none;
-    height: 1px;
-    background: #ddd;
+.owner-toggle input {
+  width: 20px;
+  height: 20px;
+  accent-color: #2d6a4f;
 }
 
-.register-card button {
-    width: 100%;
-    padding: 12px;
-    background-color: #224037;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: 0.3s;
+/* الزر الأساسي */
+.register-btn {
+  width: 100%;
+  padding: 15px;
+  background-color: #1b4332; /* اللون الأخضر من شعارك */
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.3s;
 }
 
-.register-card button:hover {
-    background-color: #1a312a;
+.register-btn:hover {
+  background-color: #2d6a4f;
+  transform: translateY(-2px);
+}
+
+hr {
+  border: 0;
+  border-top: 1px dashed #ccc;
+  margin: 20px 0;
 }

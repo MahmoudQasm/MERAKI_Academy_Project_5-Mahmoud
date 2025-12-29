@@ -57,21 +57,30 @@ function Login() {
 
         {error && <div className="error-msg">{error}</div>}
 
-        <input
-          type="email"
-          placeholder="Email address"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <div className="login-form">
+          <input
+            type="email"
+            placeholder="Email address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-        <button onClick={loginNow}>Login</button>
+          <button onClick={loginNow}>Login</button>
+        </div>
+        
+        <div style={{marginTop: "20px", fontSize: "14px", color: "#666"}}>
+          Don't have an account? <span 
+            onClick={() => navigate("/register")} 
+            style={{color: "#2d6a4f", cursor: "pointer", fontWeight: "bold"}}
+          >Register here</span>
+        </div>
       </div>
     </div>
   );

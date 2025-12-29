@@ -1,68 +1,95 @@
+/* الحاوية الرئيسية تغطي كامل الشاشة وتلغي أي هوامش جانبية */
 .login-page {
-  height: 100vh;
-  background: linear-gradient(135deg, #2f2f2f, #b5b5b5);
+  width: 100vw;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
   display: flex;
-  align-items: center;
   justify-content: center;
-  font-family: "Segoe UI", sans-serif;
+  align-items: center;
+  /* تدرج لوني يتماشى مع الـ Register والنمط البيئي */
+  background: linear-gradient(135deg, #f0f4f1 0%, #d9e4dd 100%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* كرت الدخول */
 .login-card {
-  background-color: #f6f5ef;
-  padding: 40px;
-  width: 380px;
-  border-radius: 14px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+  background: rgba(255, 255, 255, 0.95);
+  padding: 50px 40px;
+  border-radius: 24px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 450px; /* العرض أصغر قليلاً من التسجيل لأنه حقوله أقل */
   text-align: center;
+  animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .login-card h2 {
-  color: #224037;
-  margin-bottom: 5px;
+  color: #1b4332; /* الأخضر الغامق الخاص بـ Bretix */
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+  font-weight: 700;
 }
 
 .login-card p {
-  color: #6b6b6b;
-  font-size: 14px;
-  margin-bottom: 20px;
+  color: #666;
+  font-size: 1rem;
+  margin-bottom: 35px;
 }
 
+/* تنسيق حقول الإدخال */
 .login-card input {
   width: 100%;
-  padding: 12px 14px;
-  margin-bottom: 15px;
-  border-radius: 8px;
-  border: 1px solid #d6d6d6;
-  font-size: 14px;
-  outline: none;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  background-color: #f9f9f9;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  box-sizing: border-box; /* لضمان عدم خروج الإدخال عن الكرت */
 }
 
 .login-card input:focus {
-  border-color: #224037;
+  border-color: #2d6a4f;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(45, 106, 79, 0.1);
+  outline: none;
 }
 
+/* زر الدخول */
 .login-card button {
   width: 100%;
-  padding: 12px;
-  background-color: #224037;
-  color: #fff;
+  padding: 15px;
+  background-color: #1b4332;
+  color: white;
   border: none;
-  border-radius: 25px;
-  font-size: 15px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
-  transition: 0.3s;
+  transition: all 0.3s ease;
+  margin-top: 10px;
 }
 
 .login-card button:hover {
-  background-color: #1a312a;
+  background-color: #2d6a4f;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(27, 67, 50, 0.2);
 }
 
-
+/* رسالة الخطأ */
 .error-msg {
-  background-color: #ffe6e6;
-  color: #c0392b;
-  padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 6px;
-  font-size: 13px;
+  background-color: #fff2f2;
+  color: #d90429;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  border-left: 4px solid #d90429;
 }
