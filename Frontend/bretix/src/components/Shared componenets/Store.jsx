@@ -44,13 +44,9 @@ const Store = () => {
             <h2>{store.title}</h2>
             <p className="store-desc">{store.description}</p>
             
-            <div className="price-tag">
-              <span className="currency">$</span>
-              <span className="amount">{store.price || "0.00"}</span>
-            </div>
+           
 
             <div className="action-buttons">
-              <button className="add-to-cart-btn">Add to Cart</button>
               <button className="wishlist-btn">♥</button>
             </div>
           </div>
