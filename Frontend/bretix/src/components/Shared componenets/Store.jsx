@@ -4,12 +4,14 @@ import { useParams } from "react-router-dom"
 
 const Store = ()=>{
     const {id} = useParams()
-    const [store,setStore] = useState()
+    const [store,setStore] = useState([])
 
     useEffect(()=>{
         axios.get(`http://localhost:5000/stores/${id}`)
         .then((res)=>{
             const storeData = res.data.result[0]
+            console.log(storeData);
+            
             setStore(storeData)
         })
         .catch((err)=>{console.log(err);
