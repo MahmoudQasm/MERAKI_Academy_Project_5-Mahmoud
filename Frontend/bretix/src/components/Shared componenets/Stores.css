@@ -1,0 +1,106 @@
+.stores-container {
+    padding: 40px 5%;
+    background-color: #f8faf9;
+    min-height: 100vh;
+}
+
+.stores-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.stores-header h2 {
+    color: #1b4332;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.stores-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.store-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 1px solid #edf2ef;
+    display: flex;
+    flex-direction: column;
+}
+
+.store-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(27, 67, 50, 0.15);
+    border-color: #b7e4c7;
+}
+
+
+.store-image-wrapper {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    background-color: #f0f4f1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.store-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.store-card:hover .store-image-wrapper img {
+    transform: scale(1.1);
+}
+
+
+.store-info {
+    padding: 20px;
+    text-align: center;
+}
+
+.store-info h3 {
+    color: #1b4332;
+    margin: 0 0 10px 0;
+    font-size: 1.4rem;
+}
+
+.store-info p {
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    height: 45px;
+   
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+/* زر "Visit Store" */
+.visit-btn {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #d8e2dc;
+    color: #1b4332;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    display: inline-block;
+    transition: 0.3s;
+}
+
+.store-card:hover .visit-btn {
+    background-color: #1b4332;
+    color: white;
+}
