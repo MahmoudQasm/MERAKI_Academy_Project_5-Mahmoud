@@ -1,0 +1,138 @@
+.product-view-container {
+    background-color: #f4f7f4;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+.edit-card {
+    background: #ffffff;
+    display: flex;
+    flex-direction: row;
+    /* الصورة بجانب المعلومات */
+    gap: 40px;
+    width: 100%;
+    max-width: 1000px;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(34, 64, 55, 0.1);
+}
+
+/* قسم الصورة */
+.image-preview-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.main-preview-img {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 15px;
+    border: 1px solid #e0e7e0;
+}
+
+/* قسم التفاصيل */
+.details-edit-section {
+    flex: 1.5;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.section-title {
+    color: #224037;
+    margin-bottom: 10px;
+    font-size: 24px;
+    border-bottom: 2px solid #4caf50;
+    width: fit-content;
+}
+
+.input-field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.input-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.input-field label {
+    font-weight: bold;
+    color: #224037;
+    font-size: 14px;
+}
+
+.input-field input,
+.input-field textarea {
+    padding: 12px;
+    border: 1px solid #ced4ce;
+    border-radius: 8px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.input-field textarea {
+    height: 120px;
+    resize: none;
+}
+
+.input-field input:focus,
+.input-field textarea:focus {
+    border-color: #4caf50;
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.1);
+}
+
+/* الأزرار */
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.confirm-btn {
+    flex: 2;
+    background-color: #224037;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.confirm-btn:hover {
+    background-color: #2d5549;
+    transform: translateY(-2px);
+}
+
+.delete-btn {
+    flex: 1;
+    background-color: #ff4d4d;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.delete-btn:hover {
+    background-color: #cc0000;
+}
+
+/* التجاوب مع الشاشات الصغيرة */
+@media (max-width: 850px) {
+    .edit-card {
+        flex-direction: column;
+    }
+}

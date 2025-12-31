@@ -1,0 +1,125 @@
+/* الحاوية الرئيسية */
+.store-products-container {
+    padding: 40px 5%;
+    background-color: #f6f5ef;
+    /* لون كريمي هادئ */
+    min-height: 100vh;
+}
+
+/* الهيدر */
+.store-header {
+    margin-bottom: 40px;
+    border-bottom: 2px solid #224037;
+    padding-bottom: 20px;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-content h1 {
+    color: #224037;
+    font-size: 2rem;
+}
+
+.add-product-btn {
+    background-color: #224037;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 50px;
+    /* تصميم دائري عصري */
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.add-product-btn:hover {
+    background-color: #3d6b5d;
+    transform: scale(1.05);
+}
+
+/* توزيع الشبكة (Grid) */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+/* بطاقة المنتج */
+.product-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: 0.3s all ease-in-out;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eee;
+}
+
+.product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 25px rgba(34, 64, 55, 0.15);
+}
+
+/* الصورة */
+.product-image-wrapper {
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+    background: #f9f9f9;
+}
+
+.product-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* لضمان عدم تشوه الصورة */
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.product-card:hover img {
+    transform: scale(1.1);
+}
+
+/* معلومات المنتج */
+.product-info {
+    padding: 15px;
+}
+
+.product-title {
+    font-size: 18px;
+    color: #224037;
+    margin: 0 0 10px 0;
+    font-weight: 700;
+}
+
+.product-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.product-price {
+    color: #4caf50;
+    /* لون أخضر حيوي للسعر */
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.product-rate {
+    background: #fff9e6;
+    padding: 2px 8px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    color: #d4a017;
+}
+
+.no-products {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: #888;
+    padding: 50px;
+}

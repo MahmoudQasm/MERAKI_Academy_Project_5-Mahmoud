@@ -1,0 +1,113 @@
+.add-product-wrapper {
+    background-color: #f9fbf9;
+    /* خلفية فاتحة جداً مائلة للأخضر */
+    min-height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+.add-product-card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 800px;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(34, 64, 55, 0.08);
+    /* ظل خفيف بلون البراند */
+    border: 1px solid #e0e7e0;
+}
+
+.form-title {
+    color: #224037;
+    /* لون بريتكس الأساسي */
+    font-size: 28px;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.form-subtitle {
+    color: #666;
+    text-align: center;
+    margin-bottom: 35px;
+    font-size: 14px;
+}
+
+/* استخدام الـ GRID لتوزيع الحقول */
+.product-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* عمودين */
+    gap: 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* لجعل الوصف يأخذ العرض كاملاً */
+.full-width {
+    grid-column: span 2;
+}
+
+.input-group label {
+    font-weight: 600;
+    color: #224037;
+    font-size: 14px;
+}
+
+.input-group input,
+.input-group textarea {
+    padding: 12px 15px;
+    border: 1px solid #ced4ce;
+    border-radius: 8px;
+    outline: none;
+    transition: 0.3s;
+    font-family: inherit;
+}
+
+.input-group textarea {
+    height: 100px;
+    resize: none;
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+    border-color: #4caf50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.2);
+}
+
+.add-btn {
+    width: 100%;
+    margin-top: 30px;
+    padding: 15px;
+    background-color: #224037;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.add-btn:hover {
+    background-color: #2d5549;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(34, 64, 55, 0.2);
+}
+
+/* تجاوب مع الموبايل */
+@media (max-width: 600px) {
+    .product-grid {
+        grid-template-columns: 1fr;
+        /* عمود واحد في الشاشات الصغيرة */
+    }
+
+    .full-width {
+        grid-column: span 1;
+    }
+}
