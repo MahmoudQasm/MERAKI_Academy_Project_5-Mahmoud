@@ -1,7 +1,8 @@
 const { pool } = require("../models/db");
 
 const addNewProducts = (req, res) => {
-  const { imgsrc, title, description, price, rate, categories_id,store_id } = req.body;
+  const { imgsrc, title, description, price, rate, categories_id, store_id } =
+    req.body;
 
   const query = `
     INSERT INTO products (imgsrc, title, description, price, rate, categories_id,store_id)
@@ -9,7 +10,15 @@ const addNewProducts = (req, res) => {
     RETURNING *;
   `;
 
-  const values = [imgsrc, title, description, price, rate, categories_id,store_id];
+  const values = [
+    imgsrc,
+    title,
+    description,
+    price,
+    rate,
+    categories_id,
+    store_id,
+  ];
 
   pool
     .query(query, values)
@@ -92,7 +101,7 @@ const updateProductById = async (req, res) => {
             SET title = $1, description=$2, imgsrc = $3 , price = $4, rate = $5, categories_id = $6
             WHERE id = $7
             RETURNING *`,
-      [imgsrc, title, description, price, rate, categories_id, id]
+      [title, description, imgsrc, price, rate, categories_id, id]
     );
     res.status(200).json({
       success: true,
@@ -124,17 +133,17 @@ const deleteProductById = async (req, res) => {
   }
 };
 
-const getTop10Products = async(req,res)=>{
+const getTop10Products = async (req, res) => {
   try {
     const result = await pool.query(`SELECT *
       FROM products 
       ORDER BY rate DESC NULLS LAST
-      LIMIT 10`)
-      res.status(200).json({success:true,result:result.rows})
-
-  }catch(err){console.log(err);
+      LIMIT 10`);
+    res.status(200).json({ success: true, result: result.rows });
+  } catch (err) {
+    console.log(err);
   }
-}
+};
 module.exports = {
   addNewProducts,
   getProductById,

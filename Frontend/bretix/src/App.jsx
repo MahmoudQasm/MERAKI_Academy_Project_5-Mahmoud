@@ -56,7 +56,7 @@ function App() {
         <Route path="stores/StoreManagement" element={<StoreManagement/>}/>
         <Route path="/stores/:id/addnewproduct" element={<AddNewProduct/>} />
         <Route path="/:id/allproducts" element={<AllProducts/>}/>
-        <Route path="/allproducts/:productid" element={<ProductView/>}/>
+        <Route path="/allproducts/:productId" element={<ProductView/>}/>
       </Routes>
       <Footer/>
     </div>

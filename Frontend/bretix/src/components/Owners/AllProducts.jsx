@@ -19,10 +19,8 @@ const AllProducts = ()=>{
     .catch((err)=>{console.log(err);
     })},[])
 
-    console.log(storeProducts);
-
     const showProducts = storeProducts.map((product)=>{
-        return <div key={product.id}>
+        return <div key={product.id} >
             <img src={product.imgsrc} alt={product.title} onClick={()=>{navigate(`/allproducts/${product.id}`)}} /><br />
             <h3>{product.title}</h3><span>{product.rate}</span>
         </div>
