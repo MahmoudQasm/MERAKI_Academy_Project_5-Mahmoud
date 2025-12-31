@@ -18,7 +18,7 @@ const AddNewProduct = ()=>{
         const newProductData = {imgsrc, title, description, price, rate, categories_id,}
         try{
             const response = await axios.post("http://localhost:5000/stores/addnewproductinstore", {...newProductData,store_id:store_id})
-            console.log(response.data.result);
+            navigate(`/${store_id}/allproducts`)
         }catch(err){console.log(err);
         }
     }

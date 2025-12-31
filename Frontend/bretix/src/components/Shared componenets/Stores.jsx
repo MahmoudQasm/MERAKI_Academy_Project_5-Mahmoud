@@ -30,7 +30,13 @@ const Stores = () => {
           <div
             key={store.id}
             className="store-card"
-            onClick={() => navigate(`/stores/${store.id}`)}
+            onClick={() => {
+              if (localStorage.getItem("storeId") === `${store.id}`) {
+                navigate(`stores/StoreManagement`);
+              } else {
+                navigate(`/stores/${store.id}`);
+              }
+            }}
           >
             <div className="store-image-wrapper">
               <img src={store.logo} alt={store.title} />
