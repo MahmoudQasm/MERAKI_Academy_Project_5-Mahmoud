@@ -20,6 +20,7 @@ import StoreManagement from "./components/Owners/StoreManagement";
 import AddNewProduct from "./components/Owners/AddNewProduct";
 import AllProducts from "./components/Owners/AllProducts";
 import Footer from "./components/Shared componenets/Footer";
+import ProductView from "./components/Owners/ProductView";
 
 
 function App() {
@@ -53,8 +54,9 @@ function App() {
         <Route path="/stores" element={<Stores/>}/>
         <Route path="/stores/:id" element={<Store/>}/>
         <Route path="stores/StoreManagement" element={<StoreManagement/>}/>
-        <Route path="stores/:id/addnewproduct" element={<AddNewProduct/>} />
+        <Route path="/stores/:id/addnewproduct" element={<AddNewProduct/>} />
         <Route path="/:id/allproducts" element={<AllProducts/>}/>
+        <Route path="/allproducts/:productid" element={<ProductView/>}/>
       </Routes>
       <Footer/>
     </div>

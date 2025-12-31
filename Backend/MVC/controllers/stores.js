@@ -129,22 +129,30 @@ const getProductsInStore = async(req,res)=>{
   }
 }
 
-// const addNewProduct = async(req,res)=>{
-//     const { imgsrc, title, description, price, rate, categories_id } = req.body;
+const addNewProductInStore = async(req,res)=>{
+    const { imgsrc, title, description, price, rate, categories_id,store_id } = req.body;
 
-//   try{
-//     const result = await pool.query(`
-//       INSERT INTO products (imgsrc, title, description, price, rate, categories_id)
-//     VALUES ($1, $2, $3, $4, $5, $6)
-//     RETURNING *
-//       `,
-//     [imgsrc, title, description, price, rate, categories_id]
-//     )
-//     const newProductId = result.rows.id
+  try{
+    const result = await pool.query(`
+      INSERT INTO products (imgsrc, title, description, price, rate, categories_id,store_id)
+    VALUES ($1, $2, $3, $4, $5, $6,$7)
+    RETURNING *
+      `,
+    [imgsrc, title, description, price, rate, categories_id,store_id]
+    )
+    res.status(201).json({
+      success:true,
+      result:result.rows
+    })
 
-//   }catch(err){console.log(err);
-//   }
-// }
+  }catch(err){
+    res.status(500).json({
+      success:false,
+      message:"server error",
+      message:err.message
+    })
+  }
+}
 
 module.exports = {
   addNewStore,
@@ -153,4 +161,5 @@ module.exports = {
   deleteStoreById,
   getAllStores,
   getProductsInStore,
+  addNewProductInStore,
 };
