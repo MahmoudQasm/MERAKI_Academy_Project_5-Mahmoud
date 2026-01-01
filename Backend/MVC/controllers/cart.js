@@ -60,33 +60,7 @@ const addToCart = (req, res) => {
 };
 
 const getCartWereIsDeletedFalse = (req, res) => {
-  // const userId = req.token.user_id;
-
-  // pool
-  //   .query(
-  //     `
-  //   SELECT
-  //     cart_products.id,
-  //     cart_products.quantity,
-  //     products.id AS product_id,
-  //     products.title,
-  //     products.price,
-  //     products.imgsrc,
-  //     cart.id AS cart_id
-  //   FROM cart
-  //   JOIN cart_products ON cart.id = cart_products.cart
-  //   JOIN products ON cart_products.product = products.id
-  //   WHERE cart.is_deleted = false
-  //     AND cart.users_id = $1
-  //   `,
-  //     [userId]
-  //   )
-  //   .then((result) => {
-  //     res.json({ success: true, items: result.rows });
-  //   })
-  //   .catch((err) => {
-  //     res.status(500).json({ success: false, error: err.message });
-  //   });
+ 
   const userId = req.token.user_id;
 
   pool

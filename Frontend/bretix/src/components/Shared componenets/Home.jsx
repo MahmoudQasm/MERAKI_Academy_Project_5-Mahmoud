@@ -6,13 +6,11 @@ import "./ProductssGrid.css";
 const Home = () => {
   const navigate = useNavigate();
   const [top10Products, setTop10Products] = useState([]);
-  
 
   useEffect(() => {
     axios
       .get("http://localhost:5000/products/top10")
       .then((res) => {
-      
         setTop10Products(res.data.result);
       })
       .catch((err) => {
@@ -20,9 +18,38 @@ const Home = () => {
       });
   }, []);
 
+  const addToCart = (productId) => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("Please login first");
+      return;
+    }
+
+    axios
+      .post(
+        "http://localhost:5000/cart",
+        {
+          products_id: productId,
+          cart_id: localStorage.getItem("CartId"),
+          quantity: 1,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        alert("Product added to cart ✅");
+      })
+      .catch((err) => {
+        console.error(err.response?.data || err.message);
+        alert("Error adding product");
+      });
+  };
   return (
     <div className="container-main">
-    
       <div className="header-section">
         <p className="sub-title">Premium Selection</p>
         <h2 className="main-title">
@@ -30,50 +57,35 @@ const Home = () => {
         </h2>
       </div>
 
- 
       <div className="products-grid">
         {top10Products.map((product) => (
-          <Link
-            to={`/product/${product.id}`}
-            className="product-item"
-            key={product.id}
-          >
+          <div className="product-item" key={product.id}>
             <div className="product-card">
-              <div className="image-wrapper">
-             
-                <span className="product-badge">Top Rated</span>
-                <img
-                  src={product.imgsrc}
-                  alt={product.title}
-                  className="product-img"
-                />
-              </div>
-
-              <div className="product-info">
-         
-                <div className="color-options">
-                  <span className="dot dot-1"></span>
-                  <span className="dot dot-2"></span>
-                  <span className="dot dot-3"></span>
+              <Link to={`/product/${product.id}`}>
+                <div className="image-wrapper">
+                  <span className="product-badge">Top Rated</span>
+                  <img
+                    src={product.imgsrc}
+                    alt={product.title}
+                    className="product-img"
+                  />
                 </div>
 
                 <h3 className="product-name">{product.title}</h3>
+              </Link>
 
-                <div className="product-footer">
-                  <span className="price">${product.price}</span>
-                  <button 
-                    className="add-to-cart-btn"
-                    onClick={(e) => {
-                      e.preventDefault(); 
-                      console.log("Added to cart:", product.id);
-                    }}
-                  >
-                    <span className="plus-icon">+</span> Cart
-                  </button>
-                </div>
+              <div className="product-footer">
+                <span className="price">${product.price}</span>
+
+                <button
+                  className="add-to-cartProduct-btn"
+                  onClick={() => addToCart(product.id)}
+                >
+                  <span className="plus-icon">+</span> Cart
+                </button>
               </div>
             </div>
-          </Link>
+          </div>
         ))}
       </div>
     </div>
@@ -81,3 +93,8 @@ const Home = () => {
 };
 
 export default Home;
+
+<button
+  className="add-to-cart-btn"
+  onClick={() => addToCart(item.id)}
+></button>;
