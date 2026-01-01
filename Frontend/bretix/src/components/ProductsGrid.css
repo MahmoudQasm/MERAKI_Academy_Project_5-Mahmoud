@@ -1,108 +1,170 @@
+/* ====== GLOBAL RESET ====== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container-main {
+  width: 100%;
+  padding: 60px 5%;
+  background: #f9fafb;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ====== HEADER ====== */
+.header-section {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.sub-title {
+  color: #6b7280;
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.main-title {
+  font-size: 36px;
+  font-weight: 700;
+  color: #111827;
+  margin-top: 10px;
+}
+
+.main-title span {
+  color: #16a34a;
+}
+
+/* ====== GRID ====== */
 .products-grid {
-    display: grid;
-
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 25px;
-    padding: 20px;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 30px;
 }
 
-
+/* ====== CARD ====== */
 .product-item {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-}
-
-
-.product-card {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s;
-    height: 100%;
-}
-
-.product-card:hover {
-    transform: translateY(-5px);
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .product-item:hover {
-    transform: translateY(-5px);
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
 }
 
+/* ====== CARD CONTENT ====== */
+.product-card {
+  padding: 20px;
+  text-align: center;
+}
 
 .image-wrapper {
-    position: relative;
-    width: 100%;
-    padding-top: 100%;
-    background-color: #f9f9f9;
+  width: 100%;
+  height: 220px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .product-img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: transform 0.4s ease;
 }
 
+.product-item:hover .product-img {
+  transform: scale(1.08);
+}
 
+/* ====== BADGE ====== */
 .product-badge {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background: #2ecc71;
-    color: white;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    z-index: 1;
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: #16a34a;
+  color: #fff;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 20px;
 }
 
-
-.product-info {
-    padding: 20px;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
+/* ====== TITLE ====== */
 .product-name {
-    font-size: 1.1rem;
-    margin: 10px 0;
-    color: #333;
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+  min-height: 48px; /* مهم لتساوي الكروت */
 }
 
+/* ====== FOOTER ====== */
 .product-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 15px;
+  padding: 18px 20px;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .price {
-    font-weight: bold;
-    font-size: 1.2rem;
-    color: #2c3e50;
+  font-size: 20px;
+  font-weight: 700;
+  color: #16a34a;
 }
 
-
+/* ====== BUTTON ====== */
 .add-to-cart-btn {
-    background: #333;
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.2s;
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+  color: #ffffff;
+  border: none;
+  border-radius: 30px;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s ease;
 }
 
 .add-to-cart-btn:hover {
-    background: #555;
+  background: linear-gradient(135deg, #15803d, #16a34a);
+  transform: scale(1.05);
+}
+
+.plus-icon {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* ====== LINKS ====== */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 768px) {
+  .main-title {
+    font-size: 28px;
+  }
+
+  .image-wrapper {
+    height: 200px;
+  }
 }

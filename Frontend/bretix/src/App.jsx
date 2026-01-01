@@ -46,7 +46,7 @@ function App() {
           element={
             <>
               {" "}
-              <ImgSlider /> <br /> <Stores /> <br /> <Orders /> <br /> <Home />
+              <ImgSlider /> <br /> <Stores /> <br /> <Home />
             </>
           }
         />

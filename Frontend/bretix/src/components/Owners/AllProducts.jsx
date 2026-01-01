@@ -1,7 +1,7 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import "./AllProducts.css" // تأكد من إنشاء هذا الملف
+import "./AllProducts.css" 
 
 const AllProducts = () => {
     const navigate = useNavigate()
