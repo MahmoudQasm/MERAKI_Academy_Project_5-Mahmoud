@@ -31,7 +31,7 @@ function Login() {
       .post("http://localhost:5000/users/login", { email, password })
       .then((result) => {
         axios
-          .get("http://localhost:5000/cart/isDeletedFalse", {
+          .get("http://localhost:5000/cart/getCartWhereIsDeletedFalse", {
             headers: {
               Authorization: `Bearer ${result.data.token}`,
             },

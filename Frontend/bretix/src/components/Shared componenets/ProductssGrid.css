@@ -93,7 +93,7 @@
 }
 
 
-.add-to-cart-btn {
+.add-to-cartProduct-btn {
     background: #333;
     color: white;
     border: none;
@@ -103,6 +103,6 @@
     transition: background 0.2s;
 }
 
-.add-to-cart-btn:hover {
+.add-to-cartProduct-btn:hover {
     background: #555;
 }

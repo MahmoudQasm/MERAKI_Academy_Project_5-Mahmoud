@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 function Products() {
   const [products, setProducts] = useState([]);
   const token = localStorage.getItem("token");
-  console.log("TOKEN:", token);
   useEffect(() => {
     axios
       .get("http://localhost:5000/products/all")
@@ -17,9 +16,7 @@ function Products() {
   }, []);
 
   const addToCart = (productId) => {
-   
     const token = localStorage.getItem("token");
-   
 
     if (!token) {
       alert("Please login first");
@@ -30,9 +27,8 @@ function Products() {
       .post(
         "http://localhost:5000/cart",
         {
-          cart_id: localStorage.getItem("CartId"),
           products_id: productId,
-          
+          cart_id: localStorage.getItem("CartId"),
           quantity: 1,
         },
         {
