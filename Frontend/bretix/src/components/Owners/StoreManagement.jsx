@@ -23,8 +23,8 @@ const OwnerStoreManagement = () => {
         >
           All Products
         </button>
-        <button>Manager Dashboard</button>
-        <button>Change Store Info</button>
+        <button onClick={()=>{navigate("/managerdashboard")}}>Manager Dashboard</button>
+        <button onClick={()=>{navigate(`${storeId}`)}}>Change Store Info</button>
       </div>
     </div>
   );

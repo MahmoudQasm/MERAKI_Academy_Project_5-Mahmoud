@@ -113,6 +113,10 @@ const getCartWereIsDeletedFalse = (req, res) => {
     });
 };
 
+// const getStoreCart = async (req,res)=>{
+//   const {storeId} = req.params
+// }
+
 module.exports = {
   addToCart,
   getCartWereIsDeletedFalse,
