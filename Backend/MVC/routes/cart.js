@@ -1,5 +1,9 @@
 const express = require("express");
-const { addToCart, getCartWereIsDeletedFalse } = require("../controllers/cart");
+const {
+  addToCart,
+  getCartWereIsDeletedFalse,
+  getCartWhereIsDeletedTure,
+} = require("../controllers/cart");
 const authentication = require("../middlewares/authentication");
 const cartRouter = express.Router();
 
@@ -9,6 +13,11 @@ cartRouter.get(
   "/getCartWhereIsDeletedFalse",
   authentication,
   getCartWereIsDeletedFalse
+);
+cartRouter.get(
+  "/getCartWhereIsDeletedTure",
+  authentication,
+  getCartWhereIsDeletedTure
 );
 
 //========================
