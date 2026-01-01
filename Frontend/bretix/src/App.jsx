@@ -23,6 +23,8 @@ import AllProducts from "./components/Owners/AllProducts";
 import Footer from "./components/Shared componenets/Footer";
 import ProductView from "./components/Owners/ProductView";
 import Orders from "./components/Shared componenets/Orders";
+import StoreInfo from "./components/Owners/StoreInfo";
+import Dashboard from "./components/Owners/Dashboard";
 
 function App() {
   const [showNav, setShowNav] = useState(true);
