@@ -60,7 +60,6 @@ const addToCart = (req, res) => {
 };
 
 const getCartWereIsDeletedFalse = (req, res) => {
- 
   const userId = req.token.user_id;
 
   pool
@@ -166,10 +165,57 @@ const removeFromCart = (req, res) => {
       res.status(500).json({ success: false, error: err.message });
     });
 };
+const updatedQuantity = (req, res) => {
+  const cartProductId = req.params.cartProductId;
+  const { quantity } = req.body;
+  const userId = req.token.user_id;
+
+  if (!quantity || quantity < 1) {
+    return res.status(400).json({
+      success: false,
+      message: "Quantity must be at least 1",
+    });
+  }
+
+  const query = `
+    UPDATE cart_products
+    SET quantity = $1
+    FROM cart
+    WHERE cart_products.id = $2
+      AND cart_products.cart = cart.id
+      AND cart.users_id = $3
+    RETURNING cart_products.*;
+  `;
+
+  pool
+    .query(query, [quantity, cartProductId, userId])
+    .then((result) => {
+      if (result.rows.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "Cart product not found",
+        });
+      }
+
+      res.json({
+        success: true,
+        message: "Quantity updated",
+        item: result.rows[0],
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+      });
+    });
+};
 module.exports = {
   addToCart,
   getCartWereIsDeletedFalse,
   getCartWhereIsDeletedTure,
   getCartWithProducts,
-  removeFromCart
+  removeFromCart,
+  updatedQuantity,
 };
