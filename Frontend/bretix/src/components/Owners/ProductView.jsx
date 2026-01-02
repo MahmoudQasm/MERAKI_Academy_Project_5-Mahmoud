@@ -5,6 +5,7 @@ import "./ProductView.css";
 import Swal from "sweetalert2";
 
 const ProductView = () => {
+
   const navigate = useNavigate();
   const { productId } = useParams();
 
@@ -180,6 +181,9 @@ const ProductView = () => {
               <button className="confirm-btn" onClick={confirm}>Save Changes</button>
             )}
             <button className="delete-btn" onClick={deleteProduct}>Delete Product</button>
+            {JSON.stringify(product) === JSON.stringify(editedProduct) ? 
+            <button className="delete-btn" onClick={()=>{navigate(-1)}}>Cancel</button>:
+            <button className="delete-btn" onClick={()=>{navigate(-1)}}>Back</button>}
           </div>
         </div>
       </div>

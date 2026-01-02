@@ -1,81 +1,83 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
-import "./StoreInfo.css";
+
 
 const StoreInfo = () => {
-  const { id } = useParams();
-  const [storeInfo, setStoreInfo] = useState({});
-  const [storeInfoEdition, setStoreInfoEdition] = useState({});
+  const navigate = useNavigate()
+  const { storeId } = useParams();
+  const [storeInfo,setStoreInfo] = useState({})
+  const [storeInfoEdition,setStoreInfoEdition] = useState({})
 
-  useEffect(() => {
-    const getStoreInfo = async () => {
-      try {
-        const result = await axios.get(`http://localhost:5000/stores/${id}`);
-        const data = result.data.result[0];
-        setStoreInfo(data);
-        setStoreInfoEdition(data);
-      } catch (err) {
-        console.error("Error fetching store info", err);
-      }
-    };
-    getStoreInfo();
-  }, [id]);
+  useEffect(()=>{
+    const getStoreInfo = async ()=>{
+        const result = await axios.get(`http://localhost:5000/stores/${storeId}`)        
+        setStoreInfo(result.data.result[0])
+        setStoreInfoEdition(result.data.result[0])
+    }
+    getStoreInfo()
+  },[])
+  
+  const confirm = async () => {
+  const result = await Swal.fire({
+    title: "Save Changes?",
+    text: "Are you sure you want to update info?",
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonColor: "#1a3c34",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, Update",
+    cancelButtonText: "Cancel",
+  });
 
-  const handleUpdate = async () => {
-    const result = await Swal.fire({
-      title: "Save Changes?",
-      text: "Are you sure you want to update store information?",
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonColor: "#1a3c34", // Bretix Green
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, Update",
-      cancelButtonText: "Cancel"
+  if (result.isConfirmed) {
+    Swal.fire({
+      title: "Updating...",
+      text: "Please wait while we save your changes.",
+      allowOutsideClick: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading(); 
+      },
     });
 
-    if (result.isConfirmed) {
+    try {
+      await axios.put(
+        `http://localhost:5000/stores/${storeId}/update`,
+        { ...storeInfoEdition }
+      );
+      
+      setStoreInfo(storeInfoEdition);
+
       Swal.fire({
-        title: "Updating...",
-        text: "Please wait while we save your data",
-        allowOutsideClick: false,
-        showConfirmButton: false,
-        didOpen: () => Swal.showLoading(),
+        title: "Success!",
+        text: "Product updated successfully.",
+        icon: "success",
+        confirmButtonColor: "#1a3c34",
+        timer: 1500
       });
 
-      try {
-        await axios.put(`http://localhost:5000/stores/${id}`, storeInfoEdition);
-        setStoreInfo(storeInfoEdition);
-        Swal.fire({
-          title: "Updated!",
-          text: "Store information has been saved successfully.",
-          icon: "success",
-          confirmButtonColor: "#1a3c34",
-          timer: 2000
-        });
-      } catch (err) {
-        Swal.fire("Error", "Failed to update information", "error");
-      }
+    } catch (err) {
+      console.log(err);
+      Swal.fire({
+        title: "Error!",
+        text: "Could not update the product.",
+        icon: "error",
+        confirmButtonColor: "#1a3c34"
+      });
     }
-  };
+  }
+};
+    
 
-  const handleCancel = () => {
-    setStoreInfoEdition(storeInfo);
-  };
-
-  return (
-    <div className="store-info-page">
-      <div className="store-card">
-        <div className="store-header">
-          <div className="logo-preview">
-            <img src={storeInfoEdition.logo} alt="Store Logo" />
-          </div>
-          <div className="header-titles">
-            <h2>Store Identity</h2>
-            <p>Customize your brand appearance and details</p>
-          </div>
-        </div>
+  return (<div>
+    <img src={storeInfoEdition.logo} alt={storeInfoEdition.title} /><br />
+    Title<input type="text" value={storeInfoEdition.title} onChange={(e)=>{setStoreInfoEdition({...storeInfoEdition,title:e.target.value})}} /> <br />
+    Logo URL<input type="text" value={storeInfoEdition.logo} onChange={(e)=>{setStoreInfoEdition({...storeInfoEdition,logo:e.target.value})}} /> <br />
+    Description <input type="text" value={storeInfoEdition.description} onChange={(e)=>{setStoreInfoEdition({...storeInfoEdition,description:e.target.value})}} />
+    {JSON.stringify(storeInfo) !== JSON.stringify(storeInfoEdition) && <button onClick={confirm}>Confirm Edition</button>} <button onClick={()=>{navigate(-1)}}>Cancel</button>
 
         <div className="store-form">
           <div className="form-grid">

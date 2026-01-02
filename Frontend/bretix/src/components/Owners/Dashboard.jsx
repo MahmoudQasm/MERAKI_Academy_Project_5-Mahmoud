@@ -14,7 +14,15 @@ const Dashboard = ()=>{
     //     }
     // },[])
     return (
-        <div>hhhhiiii</div>
+        <div>
+            <h2>Manager View</h2>
+            <div>
+                <div>Total Sales</div>
+                <div>Total Orders</div>
+                <div>Average Per Order</div>
+                <div>Total Products</div>
+            </div>
+        </div>
     )
 }
 export default Dashboard
