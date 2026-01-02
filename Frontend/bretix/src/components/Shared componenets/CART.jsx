@@ -26,9 +26,7 @@ const Cart = () => {
       .then((res) => {
         console.log(res.data.message);
 
-        setItems(
-          items.filter((item) => item.cart_product_id !== cartProductId)
-        );
+        setItems(items.filter((item) => item.cart_product_id !== cartProductId));
       })
       .catch((err) => {
         console.error(err.response?.data || err.message);
@@ -47,9 +45,7 @@ const Cart = () => {
             <p>{item.title}</p>
             <p>Price: {item.price}</p>
             <p>Quantity : {item.quantity}</p>
-            <button onClick={() => removeFromCart(item.cart_product_id)}>
-              Remove
-            </button>
+            <button onClick={() => removeFromCart(item.cartProductId)}>Remove</button>
           </div>
         ))
       )}
