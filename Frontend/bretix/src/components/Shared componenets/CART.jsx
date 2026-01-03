@@ -37,8 +37,6 @@ const Cart = () => {
   const updateQuantity = (cartProductId, newQuantity) => {
     const token = localStorage.getItem("token");
 
-    if (newQuantity < 1) return;
-
     axios
       .patch(
         `http://localhost:5000/cart/${cartProductId}`,
@@ -46,16 +44,22 @@ const Cart = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       )
       .then(() => {
-        setItems(
-          items.map((item) =>
-            item.cart_product_id === cartProductId
-              ? { ...item, quantity: newQuantity }
-              : item
-          )
-        );
-      })
-      .catch((err) => console.log(err));
+        if (newQuantity === 0) {
+          setItems(items.filter((i) => i.cart_product_id !== cartProductId));
+        } else {
+          setItems(
+            items.map((item) =>
+              item.cart_product_id === cartProductId
+                ? { ...item, quantity: newQuantity }
+                : item
+            )
+          );
+        }
+      });
   };
+  const total = items.reduce((sum, item) => {
+  return sum + item.price * item.quantity;
+}, 0);
 
   return (
     <div>
@@ -69,6 +73,7 @@ const Cart = () => {
             <img src={item.imgsrc} alt={item.title} />
             <p>{item.title}</p>
             <p>Price: {item.price}</p>
+            <h3>Total: ${total}</h3>
             <p>Quantity : {item.quantity}</p>
             <button onClick={() => removeFromCart(item.cart_product_id)}>
               Remove
