@@ -114,7 +114,7 @@ const login = (req, res) => {
               userId: user.id,
               role: user.role_id,
               storeId: response.rows[0].id,
-              storeTitle:response.rows[0].title
+              storeTitle: response.rows[0].title,
             });
           })
           .catch((err) => {
@@ -154,4 +154,36 @@ const getAllUser = (req, res) => {
       });
     });
 };
-module.exports = { register, login, getAllUser };
+
+//==============updateUserInformation===========
+const updateUserInformation = (req, res) => {
+  const { id } = req.params;
+  const {
+    firstName,
+    lastName,
+    age,
+    country,
+    phoneNumber,
+    date_of_birthday,
+    email,
+  } = req.body;
+  pool
+    .query(
+      `UPDATE users SET firstName=$1,lastName=$2,age=$3,country=$4,phoneNumber=$5,date_of_birthday=$6,email=$7 WHERE id=$8 RETURNING *`,
+      [firstName, lastName, age, country, phoneNumber, date_of_birthday, email,id]
+    )
+    .then((result) => {
+      res.status(201).json({
+        success: true,
+        massage: "user information update Succsesfly",
+        result: result.rows,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: "error  server",
+      });
+    });
+};
+module.exports = { register, login, getAllUser,updateUserInformation };
