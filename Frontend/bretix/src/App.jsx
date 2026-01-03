@@ -27,6 +27,7 @@ import StoreInfo from "./components/Owners/StoreInfo";
 import Dashboard from "./components/Owners/Dashboard";
 import ContactUs from "./components/Shared componenets/ContactUs";
 import AdminDashboard from "./components/admin/AdminDashboard";
+import OrderDetails from "./components/Owners/OrderDetails";
 
 function App() {
   const [showNav, setShowNav] = useState(true);
@@ -64,6 +65,7 @@ function App() {
         <Route path="/allproducts/:productId" element={<ProductView />} />
         <Route path="/stores/StoreManagement/:storeId" element={<StoreInfo/>}/>
         <Route path="/managerdashboard" element={<Dashboard/>}/>
+        <Route path="/order-details/:order_id" element={<OrderDetails/>}/>
         <Route path="/Orders" element={<Orders />} />
               <Route path="/ContactUs" element={<ContactUs />} />
          <Route path="/AdminDashboard" element={<AdminDashboard />} />

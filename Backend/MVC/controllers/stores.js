@@ -252,14 +252,17 @@ const getOrders = async (req, res) => {
       SELECT 
         cart.id as order_id,
         cart.done_at,
+        users.firstname,
+        users.lastname,
         SUM(cart_products.quantity * products.price) as total
       FROM cart
       JOIN cart_products ON cart.id = cart_products.cart
       JOIN products ON cart_products.product = products.id
+      JOIN users ON cart.users_id = users.id
       WHERE products.store_id = ${id}
         AND cart.done_at IS NOT NULL
         ${dateCondition}
-      GROUP BY cart.id, cart.done_at
+      GROUP BY cart.id, cart.done_at, users.firstname, users.lastname
       ORDER BY cart.done_at DESC
       LIMIT 5 OFFSET ${offset}
     `);

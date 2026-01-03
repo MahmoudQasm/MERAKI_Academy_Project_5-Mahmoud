@@ -95,18 +95,19 @@ const Dashboard = () => {
           <button onClick={() => setPage(1)}>Filter</button>
         </div>
 
-        <div>
-          {orders.map(order => (
-            <div 
-              key={order.order_id}
-              onClick={() => navigate(`/stores/order-details/${order.order_id}`)}
-            >
-              <h4>Order #{order.order_id}</h4>
-              <p>Date: {order.done_at ? new Date(order.done_at).toLocaleDateString() : 'N/A'}</p>
-              <p>Total: ${order.total}</p>
-            </div>
-          ))}
-        </div>
+       <div>
+  {orders.map(order => (
+    <div 
+      key={order.order_id}
+      onClick={() => navigate(`/order-details/${order.order_id}`)}
+    >
+      <h4>Order #{order.order_id}</h4>
+      <p>Customer: {order.firstname} {order.lastname}</p>
+      <p>Date: {order.done_at ? new Date(order.done_at).toLocaleDateString() : 'N/A'}</p>
+      <p>Total: ${order.total}</p>
+    </div>
+  ))}
+</div>
 
         <div>
           <button 
