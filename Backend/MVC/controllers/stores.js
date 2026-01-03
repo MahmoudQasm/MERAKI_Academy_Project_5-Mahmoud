@@ -212,6 +212,31 @@ const getStoreStatistic = async (req, res) => {
   }
 };
 
+const getRevenueChart = async (req, res) => {
+  const { id } = req.params;
+  
+  try {
+    const result = await pool.query(`
+      SELECT 
+        DATE(cart.done_at) as date,
+        SUM(cart_products.quantity * products.price) as revenue
+      FROM cart_products
+      JOIN cart ON cart_products.cart = cart.id
+      JOIN products ON cart_products.product = products.id
+      WHERE products.store_id = $1 
+        AND cart.done_at >= NOW() - INTERVAL '7 days'
+      GROUP BY DATE(cart.done_at)
+      ORDER BY date
+    `, [id]);
+    
+    res.json({ success: true, data: result.rows });
+    
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ success: false });
+  }
+};
+
 module.exports = {
   addNewStore,
   getStoreById,
@@ -221,5 +246,6 @@ module.exports = {
   getProductsInStore,
   addNewProductInStore,
   getAllDoneOrdersForStoreById,
-  getStoreStatistic
+  getStoreStatistic,
+  getRevenueChart
 };
