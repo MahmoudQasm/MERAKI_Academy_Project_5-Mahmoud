@@ -1,4 +1,4 @@
-/* Variables for Easy Customization */
+
 :root {
   --primary-deep: #022c22;
   --primary-light: #064e3b;
@@ -28,7 +28,7 @@ body {
   width: 100%;
 }
 
-/* --- Sidebar Styles --- */
+
 .sidebar {
   width: 280px;
   background: linear-gradient(180deg, var(--primary-light) 0%, var(--primary-deep) 100%);
