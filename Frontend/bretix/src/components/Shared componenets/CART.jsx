@@ -46,8 +46,35 @@ const Cart = () => {
     return sum + item.price * item.quantity;
   }, 0);
 
+  const totalQuantity = items.reduce((sum, item) => {
+    return sum + item.quantity;
+  }, 0);
+
   return (
     <div>
+      <div>
+        Total quantity of products: {totalQuantity} <br />
+        Cart Totals : {total} <br />
+        <div>
+          <input
+            type="radio"
+            id="cash_on_delivery"
+            name="payment_method"
+            value="COD"
+          />
+          <label for="cash_on_delivery">Cash on Delivery</label>
+        </div>
+        <div>
+          <input
+            type="radio"
+            id="pay_by_card"
+            name="payment_method"
+            value="Card"
+          />
+          <label for="pay_by_card">Pay by card</label>
+        </div>
+        <button>Insert Location for Delivery</button>
+      </div>
       <h2>Your Cart</h2>
 
       {items.length === 0 ? (
