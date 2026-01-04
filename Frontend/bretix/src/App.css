@@ -72,7 +72,7 @@
 }
 
 
-/*products desgine*/
+
 
 .home-wrapper {
   width: 100%;
@@ -97,4 +97,29 @@
 
 body {
   margin: 0;
+}
+
+.page-content {
+  padding-top: 80px; 
+  min-height: calc(100vh - 80px);
+}
+
+
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+#root {
+  width: 100%;
+}
+.page-content {
+  padding-top: 80px; 
 }

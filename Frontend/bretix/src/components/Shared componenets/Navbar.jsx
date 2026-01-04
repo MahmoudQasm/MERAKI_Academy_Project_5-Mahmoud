@@ -3,6 +3,15 @@ import { useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import { FaUser, FaUserPlus, FaSignOutAlt } from "react-icons/fa";
 
+import {
+  Package,
+  Store,
+  ShieldCheck,
+  Home,
+  MessageSquare,
+  ShoppingCart,
+  ClipboardList,
+} from "lucide-react";
 const Navbar = () => {
   const navigate = useNavigate();
   const role = localStorage.getItem("role");
@@ -10,32 +19,73 @@ const Navbar = () => {
   return (
     <nav className="navbar-container">
       <div className="nav-group left">
-        <div className="nav-logo" onClick={() => navigate("/")}>
-          Bretix
+        <div
+          className="nav-logo"
+          onClick={() => navigate("/")}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "5px",
+            cursor: "pointer",
+          }}
+        >
+          <Home size={20} />
+          <span>Bretix</span>
         </div>
       </div>
 
       <div className="nav-group center">
-        <button className="nav-btn" onClick={() => navigate("/products")}>
-          Products
+        <button
+          className="icon-btn"
+          onClick={() => navigate("/products")}
+          title="Products"
+        >
+          <Package size={35} />
         </button>
-        <button className="nav-btn" onClick={() => navigate("/Orders")}>
-          Orders
+
+        <button
+          className="icon-btn"
+          onClick={() => navigate("/Orders")}
+          title="Orders"
+        >
+          <ClipboardList size={35} />
         </button>
-        <button className="nav-btn" onClick={() => navigate("/stores")}>
-          Stores
+
+        <button
+          className="icon-btn"
+          onClick={() => navigate("/stores")}
+          title="Stores"
+        >
+          <Store size={35} />
         </button>
-        <button className="nav-btn" onClick={() => navigate("/ContactUs")}>
-          Contact Us
+
+        <button
+          className="icon-btn"
+          onClick={() => navigate("/ContactUs")}
+          title="Contact Us"
+        >
+          <MessageSquare size={35} />
         </button>
-         <button className="nav-btn" onClick={() => navigate("/AdminDashboard")}>
-          AdminDashboard
-        </button>
+
+        {role === "1" && (
+          <button
+            className="icon-btn admin-link"
+            onClick={() => navigate("/AdminDashboard")}
+            title="Admin Dashboard"
+            style={{ color: "#10b981" }}
+          >
+            <ShieldCheck size={35} />
+          </button>
+        )}
       </div>
 
       <div className="nav-group right">
-        <button className="nav-btn" onClick={() => navigate("/cart")}>
-          🛒
+        <button
+          className="icon-btn"
+          onClick={() => navigate("/cart")}
+          title="Cart"
+        >
+          <ShoppingCart size={35} />
         </button>
 
         {role === "2" && (
@@ -54,15 +104,7 @@ const Navbar = () => {
               onClick={() => navigate("/Login")}
               title="Login"
             >
-              <FaUser size={18} />
-            </button>
-
-            <button
-              className="icon-btn register"
-              onClick={() => navigate("/register")}
-              title="Register"
-            >
-              <FaUserPlus size={18} />
+              <FaUser size={35} />
             </button>
           </>
         )}
@@ -76,7 +118,7 @@ const Navbar = () => {
               navigate("/");
             }}
           >
-            <FaSignOutAlt size={18} />
+            <FaSignOutAlt size={35} />
           </button>
         )}
       </div>
