@@ -47,7 +47,7 @@ function Orders() {
           </div>
         ) : (
           <div className="orders-grid-container">
-            {/* رأس الجدول للديسك توب */}
+     
             <div className="grid-header">
               <span>Product</span>
               <span>Order ID</span>
@@ -57,7 +57,7 @@ function Orders() {
 
             {orders.map((item, i) => (
               <div key={i} className="order-item-card">
-                {/* العمود الأول: معلومات المنتج */}
+              
                 <div className="product-column">
                   <div className="product-img-box">
                     <img src={item.imgsrc || "placeholder.png"} alt={item.title} />
@@ -68,18 +68,18 @@ function Orders() {
                   </div>
                 </div>
 
-                {/* العمود الثاني: رقم الطلب */}
+             
                 <div className="order-id-column">
                   <span className="label">Order ID:</span>
                   <span className="value">#ORD-{item.cart_id || i + 100}</span>
                 </div>
 
-                {/* العمود الثالث: الحالة */}
+             
                 <div className="status-column">
                   <span className="status-tag">Completed</span>
                 </div>
 
-                {/* العمود الرابع: السعر */}
+              
                 <div className="price-column">
                   <span className="price-value">{item.price} JOD</span>
                 </div>
