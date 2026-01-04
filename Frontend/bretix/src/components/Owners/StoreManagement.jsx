@@ -3,6 +3,17 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./storeOwner.css";
 const OwnerStoreManagement = () => {
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
+
+    if (!token) {
+      navigate("/Login");
+    } else if (parseInt(role) !== 2) {
+      navigate("/");
+    }
+  }, []);
+
   const navigate = useNavigate();
   const [storeId, setStoreId] = useState(localStorage.getItem("storeId"));
   const [storeTitle, setStoreTitle] = useState(
@@ -23,8 +34,20 @@ const OwnerStoreManagement = () => {
         >
           All Products
         </button>
-        <button onClick={()=>{navigate("/managerdashboard")}}>Manager Dashboard</button>
-        <button onClick={()=>{navigate(`${storeId}`)}}>Change Store Info</button>
+        <button
+          onClick={() => {
+            navigate("/managerdashboard");
+          }}
+        >
+          Manager Dashboard
+        </button>
+        <button
+          onClick={() => {
+            navigate(`${storeId}`);
+          }}
+        >
+          Change Store Info
+        </button>
       </div>
     </div>
   );

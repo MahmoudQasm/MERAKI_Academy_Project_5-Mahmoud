@@ -9,6 +9,17 @@ const OrderDetails = () => {
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
+
+    if (!token) {
+      navigate("/Login");
+    } else if (parseInt(role) !== 2) {
+      navigate("/");
+    }
+  }, []);
+
+  useEffect(() => {
     axios
       .get(`http://localhost:5000/stores/order-details/${order_id}`)
       .then((res) => {

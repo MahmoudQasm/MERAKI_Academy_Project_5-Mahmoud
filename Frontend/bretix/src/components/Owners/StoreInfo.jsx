@@ -5,16 +5,28 @@ import Swal from "sweetalert2";
 import "./StoreInfo.css";
 
 const StoreInfo = () => {
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
+
+    if (!token) {
+      navigate("/Login");
+    } else if (parseInt(role) !== 2) {
+      navigate("/");
+    }
+  }, []);
+
   const { storeId } = useParams();
   const [storeInfo, setStoreInfo] = useState({});
   const [storeInfoEdition, setStoreInfoEdition] = useState({});
-  
 
   useEffect(() => {
     const getStoreInfo = async () => {
       try {
-        const result = await axios.get(`http://localhost:5000/stores/${storeId}`);
-        const data = result.data.result[0];        
+        const result = await axios.get(
+          `http://localhost:5000/stores/${storeId}`
+        );
+        const data = result.data.result[0];
         setStoreInfo(data);
         setStoreInfoEdition(data);
       } catch (err) {
@@ -33,7 +45,7 @@ const StoreInfo = () => {
       confirmButtonColor: "#1a3c34", // Bretix Green
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, Update",
-      cancelButtonText: "Cancel"
+      cancelButtonText: "Cancel",
     });
 
     if (result.isConfirmed) {
@@ -53,7 +65,7 @@ const StoreInfo = () => {
           text: "Store information has been saved successfully.",
           icon: "success",
           confirmButtonColor: "#1a3c34",
-          timer: 2000
+          timer: 2000,
         });
       } catch (err) {
         Swal.fire("Error", "Failed to update information", "error");
@@ -82,37 +94,56 @@ const StoreInfo = () => {
           <div className="form-grid">
             <div className="input-field">
               <label>Store Title</label>
-              <input 
-                type="text" 
-                value={storeInfoEdition.title || ""} 
-                onChange={(e) => setStoreInfoEdition({...storeInfoEdition, title: e.target.value})} 
+              <input
+                type="text"
+                value={storeInfoEdition.title || ""}
+                onChange={(e) =>
+                  setStoreInfoEdition({
+                    ...storeInfoEdition,
+                    title: e.target.value,
+                  })
+                }
               />
             </div>
 
             <div className="input-field">
               <label>Logo URL</label>
-              <input 
-                type="text" 
-                value={storeInfoEdition.logo || ""} 
-                onChange={(e) => setStoreInfoEdition({...storeInfoEdition, logo: e.target.value})} 
+              <input
+                type="text"
+                value={storeInfoEdition.logo || ""}
+                onChange={(e) =>
+                  setStoreInfoEdition({
+                    ...storeInfoEdition,
+                    logo: e.target.value,
+                  })
+                }
               />
             </div>
 
             <div className="input-field full-row">
               <label>Description</label>
-              <textarea 
+              <textarea
                 rows="4"
-                value={storeInfoEdition.description || ""} 
-                onChange={(e) => setStoreInfoEdition({...storeInfoEdition, description: e.target.value})} 
+                value={storeInfoEdition.description || ""}
+                onChange={(e) =>
+                  setStoreInfoEdition({
+                    ...storeInfoEdition,
+                    description: e.target.value,
+                  })
+                }
               />
             </div>
           </div>
 
           <div className="form-actions">
             {JSON.stringify(storeInfo) !== JSON.stringify(storeInfoEdition) && (
-              <button className="confirm-btn" onClick={handleUpdate}>Confirm Edition</button>
+              <button className="confirm-btn" onClick={handleUpdate}>
+                Confirm Edition
+              </button>
             )}
-            <button className="cancel-btn" onClick={handleCancel}>Cancel</button>
+            <button className="cancel-btn" onClick={handleCancel}>
+              Cancel
+            </button>
           </div>
         </div>
       </div>
