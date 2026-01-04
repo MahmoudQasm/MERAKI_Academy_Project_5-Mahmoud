@@ -58,7 +58,7 @@ const Cart = () => {
             <img src={item.imgsrc} alt={item.title} />
             <p>{item.title}</p>
             <p>Price: {item.price}</p>
-            <h3>Total: ${total}</h3>
+            <p>Total: {item.price * item.quantity}</p>
             <p>Quantity : {item.quantity}</p>
             <button
               onClick={() =>
