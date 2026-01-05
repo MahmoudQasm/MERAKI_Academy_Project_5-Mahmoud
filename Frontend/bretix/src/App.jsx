@@ -46,7 +46,7 @@ function App() {
     }
   }, [location.pathname]);
   return (
-  <Elements stripe={stripePromise}>
+ /*  <Elements stripe={stripePromise}>   */
     <div>
       <Navbar />
       <Routes>
@@ -81,13 +81,13 @@ function App() {
           <Route path="/ContactUs" element={<ContactUs />} />
           <Route path="/AdminDashboard" element={<AdminDashboard />} />
 
-          <Route path="/checkout" element={<CheckoutPage />} />
-          <Route path="/success" element={<SuccessPage />} />
-   
+         {/*  <Route path="/checkout" element={<CheckoutPage />} /> */}
+         {/*  <Route path="/success" element={<SuccessPage />} />
+    */}
       </Routes>
       <Footer />
     </div>
-   </Elements>
+  /*  </Elements>  */
   );
 }
 

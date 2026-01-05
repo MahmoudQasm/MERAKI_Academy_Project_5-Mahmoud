@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { cleareRole, setRole } from "../../redux/roleSlice";
 import { useSelector } from "react-redux";
 
+
 function Login() {
   const dispatch = useDispatch();
 
@@ -14,6 +15,7 @@ function Login() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const [token, setToken] = useState(null);
+  const [message, setMessage] = useState("");
   const loginNow = () => {
     if (!email) {
       setError("Email is required");
@@ -57,7 +59,22 @@ function Login() {
   const roleState = useSelector((state) => {
     return state.role.role;
   });
+const forgotPassword = () => {
+  if (!email) {
+    setError("Please enter your email first");
+    return;
+  }
 
+  axios
+    .post("http://localhost:5000/users/forgot-password", { email })
+    .then((res) => {
+      setError("");
+      setMessage(res.data.message);
+    })
+    .catch((err) => {
+      setError(err.response?.data?.message || "Something went wrong");
+    });
+};
   return (
     <div className="login-page">
       <div className="login-card">
@@ -92,6 +109,19 @@ function Login() {
           >
             Register here
           </span>
+          <p
+  onClick={forgotPassword}
+  style={{
+    marginTop: "10px",
+    cursor: "pointer",
+    color: "#2d6a4f",
+    fontSize: "14px",
+    textAlign: "right",
+  }}
+>
+  Forgot Password?
+</p>
+{message && <div className="success-msg">{message}</div>}
         </div>
       </div>
     </div>
