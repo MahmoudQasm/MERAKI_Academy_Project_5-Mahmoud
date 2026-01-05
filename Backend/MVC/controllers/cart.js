@@ -181,7 +181,7 @@ const updatedQuantity = (req, res) => {
       }
 
       res.json({
-        success:  true,
+        success: true,
         message: "Quantity updated",
         item: result.rows[0],
       });
@@ -194,10 +194,37 @@ const updatedQuantity = (req, res) => {
       });
     });
 };
+
+const checkoutPayment = async (req, res) => {
+  const { cartId } = req.params;
+  try {
+    const result = await pool.query(`
+      UPDATE cart
+      SET is_deleted = true,
+          done_at = CURRENT_TIMESTAMP
+      WHERE id = $1
+      RETURNING *;
+    `, [cartId]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Cart not found' });
+    }
+
+    res.json({ 
+      success: true, 
+      message: 'Payment completed successfully'
+    });
+    
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
 module.exports = {
   addToCart,
   getCartWereIsDeletedFalse,
   getCartWhereIsDeletedTure,
   getCartWithProducts,
   updatedQuantity,
+  checkoutPayment,
 };

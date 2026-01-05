@@ -10,23 +10,31 @@ import {
   Plus,
 } from "lucide-react";
 import "./Cart.css";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const [items, setItems] = useState([]);
+  const [cartId, setCartId] = useState(null);
   const token = localStorage.getItem("token");
+  const navigate = useNavigate()
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/cart/with-products", {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => {
-        setItems(res.data.items);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+ useEffect(() => {
+  axios
+    .get("http://localhost:5000/cart/with-products", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((res) => {
+      setItems(res.data.items);
+      if (res.data.items.length > 0) {
+        const id = res.data.items[0].cart_id;
+        setCartId(id);
+        localStorage.setItem('cartId', id);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}, []);
 
   const updateQuantity = (cartProductId, newQuantity) => {
     const token = localStorage.getItem("token");
@@ -56,6 +64,14 @@ const Cart = () => {
     0
   );
   const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
+
+  const confirmCheckout = () => {
+  if (items.length === 0) {
+    alert('Your cart is empty!');
+    return;
+  }
+  navigate('/checkout');
+};
 
   return (
     <div className="cart-premium-wrapper">
@@ -147,7 +163,7 @@ const Cart = () => {
             <button className="location-btn">
               Insert Location for Delivery
             </button>
-            <button className="checkout-btn-final">Confirm Order</button>
+            <button className="checkout-btn-final" onClick={confirmCheckout}>Confirm Order</button>
           </div>
         </div>
       </div>
