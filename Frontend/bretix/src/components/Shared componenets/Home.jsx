@@ -72,7 +72,6 @@ const Home = () => {
         "http://localhost:5000/cart",
         {
           products_id: product.id,
-          cart_id: localStorage.getItem("CartId"),
           quantity: 1,
         },
         {

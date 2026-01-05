@@ -44,7 +44,7 @@ function Login() {
                     console.log(res);
 
             console.log(res.data.items);
-            localStorage.setItem("CartId", res.data.items[0].id);         
+            localStorage.setItem("cartId", res.data.items[0].id);         
           }).catch((err)=>{
             console.log(err);           
           });

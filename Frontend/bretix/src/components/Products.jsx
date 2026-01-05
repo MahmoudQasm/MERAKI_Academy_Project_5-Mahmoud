@@ -66,7 +66,6 @@ function Products() {
         "http://localhost:5000/cart",
         {
           products_id: item.id,
-          cart_id: localStorage.getItem("CartId"),
           quantity: 1,
         },
         {

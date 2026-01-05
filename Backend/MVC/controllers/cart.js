@@ -1,39 +1,57 @@
 const { pool } = require("../models/db");
 
-const addToCart = (req, res) => {
-  const { products_id, cart_id, quantity } = req.body;
+const addToCart = async (req, res) => {
+  const { products_id, quantity } = req.body;
   const userId = req.token.user_id;
 
-  if (!products_id || !cart_id || !quantity) {
+  if (!products_id || !quantity) {
     return res.status(400).json({
       success: false,
       message: "Missing required information",
     });
   }
 
-  pool
-    .query(
+  try {
+    let cartResult = await pool.query(
+      `SELECT id FROM cart WHERE users_id = $1 AND is_deleted = false`,
+      [userId]
+    );
+
+    let cartId;
+
+    if (cartResult.rows.length === 0) {
+      const newCart = await pool.query(
+        `INSERT INTO cart (users_id) VALUES ($1) RETURNING id`,
+        [userId]
+      );
+      cartId = newCart.rows[0].id;
+    } else {
+      cartId = cartResult.rows[0].id;
+    }
+
+    const result = await pool.query(
       `INSERT INTO cart_products (cart, product, quantity)
        VALUES ($1, $2, $3)
        ON CONFLICT (cart, product)
        DO UPDATE SET quantity = cart_products.quantity + EXCLUDED.quantity
        RETURNING *`,
-      [cart_id, products_id, quantity]
-    )
-    .then((result) => {
-      res.status(201).json({
-        success: true,
-        message: "Product added to cart",
-        item: result.rows[0],
-      });
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).json({
-        success: false,
-        message: "Error adding product to cart",
-      });
+      [cartId, products_id, quantity]
+    );
+
+    res.status(201).json({
+      success: true,
+      message: "Product added to cart",
+      item: result.rows[0],
+      cartId: cartId,
     });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      success: false,
+      message: "Error adding product to cart",
+    });
+  }
 };
 
 const getCartWereIsDeletedFalse = (req, res) => {
@@ -220,6 +238,7 @@ const checkoutPayment = async (req, res) => {
         res.json({
           success: true,
           message: "Payment completed successfully",
+          newCartId: cartresult.rows[0].id,
         });
       })
 
