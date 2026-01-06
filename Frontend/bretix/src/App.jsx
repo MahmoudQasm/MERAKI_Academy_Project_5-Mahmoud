@@ -50,10 +50,18 @@ function App() {
     }
   }, [location.pathname]);
   return (
+ restMyPasswordFunction
     <Elements stripe={stripePromise}>
       <div>
         <Navbar />
         <Routes>
+
+   <Elements stripe={stripePromise}> 
+    <div>
+      <Navbar />
+      <Routes>
+      
+main
           <Route
             path="/"
             element={
@@ -83,6 +91,7 @@ function App() {
           <Route path="/Orders" element={<Orders />} />
           <Route path="/ContactUs" element={<ContactUs />} />
           <Route path="/AdminDashboard" element={<AdminDashboard />} />
+ restMyPasswordFunction
           <Route path="/forget-password" element={<ForgetPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/checkout" element={<CheckoutPage />} />
@@ -91,6 +100,15 @@ function App() {
         <Footer />
       </div>
     </Elements>
+
+
+          <Route path="/checkout" element={<CheckoutPage />} />
+         <Route path="/success" element={<SuccessPage />} />
+      </Routes>
+      <Footer />
+    </div>
+   </Elements>  
+ main
   );
 }
 

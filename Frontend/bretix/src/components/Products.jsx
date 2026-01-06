@@ -5,14 +5,40 @@ import { Link } from "react-router-dom";
 
 function Products() {
   const [products, setProducts] = useState([]);
-  const token = localStorage.getItem("token");
+  const [category, setCategory] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [stores, setStores] = useState([]);
 
+  
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/products/all")
-      .then((res) => setProducts(res.data.products))
-      .catch((err) => console.log(err));
+   
+    axios.get("http://localhost:5000/products/all")
+      .then((res) => {
+        setProducts(res.data.products || []);
+      })
+      .catch((err) => console.log("Error products:", err));
+
+
+    axios.get("http://localhost:5000/categories/")
+      .then((result) => {
+        setCategory(result.data.result || []);
+      })
+      .catch((err) => console.log("Error categories:", err));
+
+  
+    axios.get("http://localhost:5000/stores/all")
+      .then((result) => {
+        setStores(result.data.result || []);
+      })
+      .catch((err) => console.log("Error stores:", err));
   }, []);
+
+  
+  const filteredProducts = products.filter((item) => {
+    if (!selectedCategory) return true;
+    return item.categories_id === selectedCategory;
+  });
+
 
   const handleFlyAnimation = (e, imgsrc) => {
     const cart = document.getElementById("cart-icon-nav");
@@ -23,26 +49,18 @@ function Products() {
     flyingImg.className = "flying-product-premium";
 
     const rect = e.target.getBoundingClientRect();
-    const scrollLeft =
-      window.pageXOffset || document.documentElement.scrollLeft;
+    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
     flyingImg.style.left = `${rect.left + scrollLeft}px`;
     flyingImg.style.top = `${rect.top + scrollTop}px`;
 
     document.body.appendChild(flyingImg);
-
     const cartRect = cart.getBoundingClientRect();
 
     requestAnimationFrame(() => {
-      flyingImg.style.setProperty(
-        "--target-x",
-        `${cartRect.left + scrollLeft - rect.left}px`
-      );
-      flyingImg.style.setProperty(
-        "--target-y",
-        `${cartRect.top + scrollTop - rect.top}px`
-      );
+      flyingImg.style.setProperty("--target-x", `${cartRect.left + scrollLeft - rect.left}px`);
+      flyingImg.style.setProperty("--target-y", `${cartRect.top + scrollTop - rect.top}px`);
       flyingImg.classList.add("is-flying");
     });
 
@@ -52,6 +70,8 @@ function Products() {
       setTimeout(() => cart.classList.remove("cart-bounce-premium"), 400);
     }, 900);
   };
+
+
   const addToCart = (e, item) => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -61,35 +81,43 @@ function Products() {
 
     handleFlyAnimation(e, item.imgsrc);
 
-    axios
-      .post(
-        "http://localhost:5000/cart",
-        {
-          products_id: item.id,
-          cart_id: localStorage.getItem("CartId"),
-          quantity: 1,
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      )
-
-      .then((res) => {
-        console.log("Product added");
-
-        const currentCount = parseInt(localStorage.getItem("cartCount") || "0");
-        const newCount = currentCount + 1;
-        localStorage.setItem("cartCount", newCount);
-
-        window.dispatchEvent(new Event("cartUpdated"));
-      })
-      .catch((err) => {
-        alert("Error adding product");
-      });
+    axios.post("http://localhost:5000/cart", 
+      {
+        products_id: item.id,
+        cart_id: localStorage.getItem("CartId"),
+        quantity: 1,
+      },
+      { headers: { Authorization: `Bearer ${token}` } }
+    )
+    .then((res) => {
+      const currentCount = parseInt(localStorage.getItem("cartCount") || "0");
+      localStorage.setItem("cartCount", currentCount + 1);
+      window.dispatchEvent(new Event("cartUpdated"));
+    })
+    .catch((err) => alert("Error adding product"));
   };
 
   return (
     <div className="container-main">
+    
+      <div className="category-filter-bar">
+        <button 
+          className={selectedCategory === "" ? "active" : ""} 
+          onClick={() => setSelectedCategory("")}
+        >
+          All Products
+        </button>
+        {category.map((cat) => (
+          <button 
+            key={cat.id} 
+            className={selectedCategory === cat.id ? "active" : ""}
+            onClick={() => setSelectedCategory(cat.id)}
+          >
+            {cat.title}
+          </button>
+        ))}
+      </div>
+
       <div className="header-section">
         <p className="sub-title">Eco Essentials Planet-Friendly</p>
         <h2 className="main-title">
@@ -98,17 +126,13 @@ function Products() {
       </div>
 
       <div className="products-grid">
-        {products.map((item) => (
+        {filteredProducts.map((item) => (
           <div className="product-item" key={item.id}>
             <Link to={`/product/${item.id}`}>
               <div className="product-card">
                 <div className="image-wrapper">
                   <span className="product-badge">{item.badge || "New"}</span>
-                  <img
-                    src={item.imgsrc}
-                    alt={item.title}
-                    className="product-img"
-                  />
+                  <img src={item.imgsrc} alt={item.title} className="product-img" />
                 </div>
                 <h3 className="product-name">{item.title}</h3>
               </div>
@@ -116,10 +140,7 @@ function Products() {
 
             <div className="product-footer">
               <span className="price">${item.price}</span>
-              <button
-                className="add-to-cart-btn"
-                onClick={(e) => addToCart(e, item)}
-              >
+              <button className="add-to-cart-btn" onClick={(e) => addToCart(e, item)}>
                 <span className="plus-icon">+</span> Cart
               </button>
             </div>

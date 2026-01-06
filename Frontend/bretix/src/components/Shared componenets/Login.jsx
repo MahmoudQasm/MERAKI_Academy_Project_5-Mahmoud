@@ -32,6 +32,8 @@ function Login() {
     axios
       .post("http://localhost:5000/users/login", { email, password })
       .then((result) => {
+        console.log(1);
+        
         axios
           .get("http://localhost:5000/cart/getCartWhereIsDeletedFalse", {
             headers: {
@@ -39,9 +41,14 @@ function Login() {
             },
           })
           .then((res) => {
-            localStorage.setItem("CartId", res.data.items[0].id);
-          
+                    console.log(res);
+
+            console.log(res.data.items);
+            localStorage.setItem("cartId", res.data.items[0].id);         
+          }).catch((err)=>{
+            console.log(err);           
           });
+
         dispatch(setRole(result.data.role));
         localStorage.setItem("token", result.data.token);
         localStorage.setItem("role", result.data.role);
