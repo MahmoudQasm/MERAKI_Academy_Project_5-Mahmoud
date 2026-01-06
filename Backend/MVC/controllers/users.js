@@ -1,3 +1,4 @@
+const nodemailer = require("nodemailer");
 const { pool } = require("../models/db");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -136,6 +137,105 @@ const login = (req, res) => {
     });
   });
 };
+//================ForgetPassword================
+const requestForgotPassword = (req, res) => {
+  const { email } = req.body;
+
+  pool
+    .query("SELECT * FROM users WHERE email=$1", [email])
+    .then((result) => {
+      if (result.rows.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "Email not found",
+        });
+      }
+
+      const token = jwt.sign({ email }, process.env.SECRET, {
+        expiresIn: "15m",
+      });
+
+      const resetLink = `http://localhost:5173/reset-password?token=${token}`;
+
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS,
+        },
+      });
+
+      transporter.sendMail(
+        {
+          from: process.env.EMAIL_USER,
+          to: email,
+          subject: "Reset Password",
+          html: `
+          <h3>Reset your password</h3>
+          <p>Click the link below:</p>
+          <a href="${resetLink}">${resetLink}</a>
+          <p>This link expires in 15 minutes</p>
+        `,
+        },
+        (err, info) => {
+          if (err) {
+            console.log("Email sending error:", err);
+            return res.status(500).json({
+              success: false,
+              message: "Failed to send email",
+              error: err.message,
+            });
+          } else {
+            console.log("Email sent:", info.response);
+            return res.status(200).json({
+              success: true,
+              message: "Reset link sent to your email",
+            });
+          }
+        }
+      );
+    })
+    .catch((err) => {
+      console.log("Server query error:", err);
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+        error: err.message,
+      });
+    });
+};
+const resetPassword = (req, res) => {
+  const { token, newPassword } = req.body;
+
+  if (!token || !newPassword) {
+    return res.status(400).json({
+      success: false,
+      message: "Token and new password are required",
+    });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.SECRET);
+    const hashedPassword = bcrypt.hashSync(newPassword, 10);
+
+    pool
+      .query("UPDATE users SET password=$1 WHERE email=$2", [
+        hashedPassword,
+        decoded.email,
+      ])
+      .then(() => {
+        res.status(200).json({
+          success: true,
+          message: "Password updated successfully ✅",
+        });
+      });
+  } catch (err) {
+    res.status(400).json({
+      success: false,
+      message: "Invalid or expired token",
+    });
+  }
+};
 //====================getall User============
 const getAllUser = (req, res) => {
   pool
@@ -170,7 +270,16 @@ const updateUserInformation = (req, res) => {
   pool
     .query(
       `UPDATE users SET firstName=$1,lastName=$2,age=$3,country=$4,phoneNumber=$5,date_of_birthday=$6,email=$7 WHERE id=$8 RETURNING *`,
-      [firstName, lastName, age, country, phoneNumber, date_of_birthday, email,id]
+      [
+        firstName,
+        lastName,
+        age,
+        country,
+        phoneNumber,
+        date_of_birthday,
+        email,
+        id,
+      ]
     )
     .then((result) => {
       res.status(201).json({
@@ -186,4 +295,11 @@ const updateUserInformation = (req, res) => {
       });
     });
 };
-module.exports = { register, login, getAllUser,updateUserInformation };
+module.exports = {
+  register,
+  login,
+  requestForgotPassword,
+  getAllUser,
+  updateUserInformation,
+  resetPassword,
+};
