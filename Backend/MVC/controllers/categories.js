@@ -22,7 +22,7 @@ const addNewCategory = async (req, res) => {
 };
 
 const getAllCategories = (req, res) => {
-  const query = `SELECT * FROM cataegres`;
+  const query = `SELECT * FROM categories`;
 
   pool
     .query(query)

@@ -295,11 +295,4 @@ const updateUserInformation = (req, res) => {
       });
     });
 };
-module.exports = {
-  register,
-  login,
-  requestForgotPassword,
-  getAllUser,
-  updateUserInformation,
-  resetPassword,
-};
+module.exports = { register, login, getAllUser, updateUserInformation };

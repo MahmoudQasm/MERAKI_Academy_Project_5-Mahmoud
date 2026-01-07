@@ -14,6 +14,7 @@
     "@stripe/react-stripe-js": "^5.4.1",
     "@stripe/stripe-js": "^8.6.0",
     "axios": "^1.13.2",
+    "google-map-react": "^2.2.5",
     "lucide-react": "^0.562.0",
     "nodemailer": "^7.0.12",
     "react": "^18.3.1",
