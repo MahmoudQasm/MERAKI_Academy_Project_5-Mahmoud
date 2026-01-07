@@ -50,10 +50,19 @@ function App() {
     }
   }, [location.pathname]);
   return (
+
+ 
+ 
+
+ 
+      
+
+
     <Elements stripe={stripePromise}>
       <div>
         <Navbar />
         <Routes>
+
           <Route
             path="/"
             element={

@@ -23,6 +23,7 @@ const Cart = () => {
   const token = localStorage.getItem("token");
   const [addressData, setAddressData] = useState({});
   const navigate = useNavigate();
+  const [address, setAddress] = useState("Loading address...");
 
   useEffect(() => {
     axios
@@ -151,7 +152,9 @@ const Cart = () => {
           </div>
 
           {items.length === 0 ? (
-            <div className="empty-msg">سلتك خضراء بانتظار منتجاتك..</div>
+            <div className="empty-msg">
+              Your cart is waiting for your products..
+            </div>
           ) : (
             items.map((item) => (
               <div className="cart-item-card" key={item.cart_product_id}>
@@ -236,7 +239,6 @@ const Cart = () => {
         </div>
       </div>
 
-      {/* Location Modal */}
       {showLocationModal && (
         <div className="location-modal-overlay">
           <div className="location-modal">

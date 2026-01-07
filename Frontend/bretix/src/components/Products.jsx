@@ -8,16 +8,14 @@ function Products() {
   const [category, setCategory] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [stores, setStores] = useState([]);
+  const [toast, setToast] = useState({ show: false, message: "" });
 
-  
   useEffect(() => {
-   
     axios.get("http://localhost:5000/products/all")
       .then((res) => {
         setProducts(res.data.products || []);
       })
       .catch((err) => console.log("Error products:", err));
-
 
     axios.get("http://localhost:5000/categories/")
       .then((result) => {
@@ -25,7 +23,6 @@ function Products() {
       })
       .catch((err) => console.log("Error categories:", err));
 
-  
     axios.get("http://localhost:5000/stores/all")
       .then((result) => {
         setStores(result.data.result || []);
@@ -33,12 +30,18 @@ function Products() {
       .catch((err) => console.log("Error stores:", err));
   }, []);
 
-  
   const filteredProducts = products.filter((item) => {
     if (!selectedCategory) return true;
     return item.categories_id === selectedCategory;
+    
+    
   });
+    console.log(filteredProducts);
 
+  const showToast = (message) => {
+    setToast({ show: true, message });
+    setTimeout(() => setToast({ show: false, message: "" }), 3000);
+  };
 
   const handleFlyAnimation = (e, imgsrc) => {
     const cart = document.getElementById("cart-icon-nav");
@@ -71,17 +74,17 @@ function Products() {
     }, 900);
   };
 
-
   const addToCart = (e, item) => {
     const token = localStorage.getItem("token");
     if (!token) {
-      alert("Please login first");
+      showToast("Please login first");
       return;
     }
 
     handleFlyAnimation(e, item.imgsrc);
 
-    axios.post("http://localhost:5000/cart", 
+    axios.post(
+      "http://localhost:5000/cart",
       {
         products_id: item.id,
         cart_id: localStorage.getItem("CartId"),
@@ -89,27 +92,34 @@ function Products() {
       },
       { headers: { Authorization: `Bearer ${token}` } }
     )
-    .then((res) => {
+    .then(() => {
       const currentCount = parseInt(localStorage.getItem("cartCount") || "0");
       localStorage.setItem("cartCount", currentCount + 1);
       window.dispatchEvent(new Event("cartUpdated"));
+      showToast("Product added to cart");
     })
-    .catch((err) => alert("Error adding product"));
+    .catch(() => showToast("Error adding product"));
   };
 
   return (
     <div className="container-main">
-    
+      {toast.show && (
+        <div className="toast-premium">
+          <span>{toast.message}</span>
+          <button onClick={() => setToast({ show: false, message: "" })}>✕</button>
+        </div>
+      )}
+
       <div className="category-filter-bar">
-        <button 
-          className={selectedCategory === "" ? "active" : ""} 
+        <button
+          className={selectedCategory === "" ? "active" : ""}
           onClick={() => setSelectedCategory("")}
         >
           All Products
         </button>
         {category.map((cat) => (
-          <button 
-            key={cat.id} 
+          <button
+            key={cat.id}
             className={selectedCategory === cat.id ? "active" : ""}
             onClick={() => setSelectedCategory(cat.id)}
           >

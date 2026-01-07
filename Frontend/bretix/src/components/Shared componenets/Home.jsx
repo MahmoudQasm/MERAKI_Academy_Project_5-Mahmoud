@@ -7,6 +7,20 @@ const Home = () => {
   const navigate = useNavigate();
   const [top10Products, setTop10Products] = useState([]);
 
+
+  const [notification, setNotification] = useState({
+    show: false,
+    message: "",
+    type: "info",
+  });
+
+  const showNotification = (message, type = "info") => {
+    setNotification({ show: true, message, type });
+    setTimeout(() => {
+      setNotification({ show: false, message: "", type: "info" });
+    }, 3000);
+  };
+
   useEffect(() => {
     axios
       .get("http://localhost:5000/products/top10")
@@ -61,7 +75,7 @@ const Home = () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      alert("Please login first");
+      showNotification("Please login first", "warning");
       return;
     }
 
@@ -84,15 +98,23 @@ const Home = () => {
         const currentCount = parseInt(localStorage.getItem("cartCount") || "0");
         localStorage.setItem("cartCount", currentCount + 1);
         window.dispatchEvent(new Event("cartUpdated"));
+        showNotification("Product added to cart 🛒", "success");
       })
       .catch((err) => {
         console.error(err.response?.data || err.message);
-        alert("Error adding product");
+        showNotification("Error adding product", "error");
       });
   };
 
   return (
     <div className="container-main">
+    
+      {notification.show && (
+        <div className={`notification-box ${notification.type}`}>
+          {notification.message}
+        </div>
+      )}
+
       <div className="header-section">
         <p className="sub-title">Premium Selection</p>
         <h2 className="main-title">
