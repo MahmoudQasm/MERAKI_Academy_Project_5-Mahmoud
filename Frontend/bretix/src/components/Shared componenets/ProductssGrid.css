@@ -106,3 +106,38 @@
 .add-to-cartProduct-btn:hover {
     background: #555;
 }
+
+.notification-box {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 14px 20px;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: 500;
+  z-index: 9999;
+  animation: slideIn 0.4s ease;
+}
+
+.notification-box.success {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+
+.notification-box.error {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+.notification-box.warning {
+  background: linear-gradient(135deg, #0bf551, #06d934);
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

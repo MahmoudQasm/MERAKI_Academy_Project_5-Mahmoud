@@ -261,3 +261,38 @@ a {
 .add-to-cart-btn:active {
   transform: scale(0.95);
 }
+
+.toast-premium {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: #3be008;
+  color: #fff;
+  padding: 14px 20px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  animation: slideUp 0.3s ease;
+  z-index: 9999;
+}
+
+.toast-premium button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "./Orders.css";
+
 function Orders() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -28,26 +29,25 @@ function Orders() {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen text-gray-500">
-        جاري تحميل طلباتك...
+        Loading your orders...
       </div>
     );
   }
 
- return (
+  return (
     <div className="orders-page">
       <div className="orders-wrapper">
         <header className="orders-header">
           <h1>My Orders</h1>
-          <p>سجل المشتريات الخاصة بك</p>
+          <p>Your purchase history</p>
         </header>
 
         {orders.length === 0 ? (
           <div className="no-orders">
-            <p>لا يوجد طلبات حالياً في سجلك.</p>
+            <p>No orders found in your history.</p>
           </div>
         ) : (
           <div className="orders-grid-container">
-     
             <div className="grid-header">
               <span>Product</span>
               <span>Order ID</span>
@@ -57,10 +57,12 @@ function Orders() {
 
             {orders.map((item, i) => (
               <div key={i} className="order-item-card">
-              
                 <div className="product-column">
                   <div className="product-img-box">
-                    <img src={item.imgsrc || "placeholder.png"} alt={item.title} />
+                    <img
+                      src={item.imgsrc || "placeholder.png"}
+                      alt={item.title}
+                    />
                   </div>
                   <div className="product-info">
                     <h3>{item.title || "Sustainable Product"}</h3>
@@ -68,18 +70,17 @@ function Orders() {
                   </div>
                 </div>
 
-             
                 <div className="order-id-column">
                   <span className="label">Order ID:</span>
-                  <span className="value">#ORD-{item.cart_id || i + 100}</span>
+                  <span className="value">
+                    #ORD-{item.cart_id || i + 100}
+                  </span>
                 </div>
 
-             
                 <div className="status-column">
                   <span className="status-tag">Completed</span>
                 </div>
 
-              
                 <div className="price-column">
                   <span className="price-value">{item.price} JOD</span>
                 </div>

@@ -84,7 +84,6 @@ const Cart = () => {
 
   const handleLocationClick = () => {
     setShowLocationModal(true);
-    // Get current location
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -97,7 +96,6 @@ const Cart = () => {
         },
         (error) => {
           console.log("Error getting location:", error);
-          // Default to Irbid, Jordan if location access denied
           const defaultLocation = { lat: 32.5556, lng: 35.8469 };
           setCurrentLocation(defaultLocation);
           setSelectedLocation(defaultLocation);
@@ -114,17 +112,21 @@ const Cart = () => {
     if (selectedLocation) {
       localStorage.setItem('deliveryLocation', JSON.stringify(selectedLocation));
       setShowLocationModal(false);
-      alert(`Location saved: ${selectedLocation.lat.toFixed(4)}, ${selectedLocation.lng.toFixed(4)}`);
+      alert(
+        `Location saved: ${selectedLocation.lat.toFixed(4)}, ${selectedLocation.lng.toFixed(4)}`
+      );
     }
   };
 
   const Marker = () => (
-    <div style={{
-      width: '30px',
-      height: '30px',
-      position: 'absolute',
-      transform: 'translate(-50%, -100%)'
-    }}>
+    <div
+      style={{
+        width: '30px',
+        height: '30px',
+        position: 'absolute',
+        transform: 'translate(-50%, -100%)'
+      }}
+    >
       <MapPin size={30} color="#e74c3c" fill="#e74c3c" />
     </div>
   );
@@ -141,7 +143,9 @@ const Cart = () => {
           </div>
 
           {items.length === 0 ? (
-            <div className="empty-msg">سلتك خضراء بانتظار منتجاتك..</div>
+            <div className="empty-msg">
+              Your cart is waiting for your products..
+            </div>
           ) : (
             items.map((item) => (
               <div className="cart-item-card" key={item.cart_product_id}>
@@ -226,13 +230,15 @@ const Cart = () => {
         </div>
       </div>
 
-      {/* Location Modal */}
       {showLocationModal && (
         <div className="location-modal-overlay">
           <div className="location-modal">
             <div className="modal-header">
               <h3>Select Delivery Location</h3>
-              <button className="close-modal" onClick={() => setShowLocationModal(false)}>
+              <button
+                className="close-modal"
+                onClick={() => setShowLocationModal(false)}
+              >
                 <X size={24} />
               </button>
             </div>
@@ -265,10 +271,16 @@ const Cart = () => {
               </div>
             </div>
             <div className="modal-footer">
-              <button className="cancel-btn" onClick={() => setShowLocationModal(false)}>
+              <button
+                className="cancel-btn"
+                onClick={() => setShowLocationModal(false)}
+              >
                 Cancel
               </button>
-              <button className="confirm-location-btn" onClick={confirmLocation}>
+              <button
+                className="confirm-location-btn"
+                onClick={confirmLocation}
+              >
                 Confirm Location
               </button>
             </div>
