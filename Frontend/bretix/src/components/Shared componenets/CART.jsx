@@ -22,6 +22,7 @@ const Cart = () => {
   const [currentLocation, setCurrentLocation] = useState(null);
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
+  const [address, setAddress] = useState("Loading address...");
 
   useEffect(() => {
     axios

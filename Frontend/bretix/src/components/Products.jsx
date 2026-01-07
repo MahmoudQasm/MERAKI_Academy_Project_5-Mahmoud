@@ -37,7 +37,10 @@ function Products() {
   const filteredProducts = products.filter((item) => {
     if (!selectedCategory) return true;
     return item.categories_id === selectedCategory;
+    
+    
   });
+    console.log(filteredProducts);
 
 
   const handleFlyAnimation = (e, imgsrc) => {

@@ -50,7 +50,7 @@ const AdminDashboard = () => {
 
     axios
       .put(`http://localhost:5000/users/update/${usersEdit.id}`, usersEdit)
-      .then((result) => {
+      .then(() => {
         const updatedUsers = users.map((u) =>
           u.id === usersEdit.id ? { ...u, ...usersEdit } : u
         );
@@ -61,7 +61,8 @@ const AdminDashboard = () => {
       })
       .catch((err) => {
         console.error("Error updating user:", err);
-        alert("حدث خطأ أثناء التحديث");
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 3000);
       });
   };
 
@@ -75,6 +76,7 @@ const AdminDashboard = () => {
       categories_id,
       store_id,
     };
+
     axios
       .post(`http://localhost:5000/products/`, adminAddProduct)
       .then((result) => {
@@ -236,7 +238,9 @@ const AdminDashboard = () => {
               <div className="section-header">
                 <div>
                   <h3>Eco-Products Catalog</h3>
-                  <p className="subtitle">Manage your sustainable inventory</p>
+                  <p className="subtitle">
+                    Manage your sustainable inventory
+                  </p>
                 </div>
                 <button
                   className={`add-product-btn ${showAddForm ? "close" : ""}`}
@@ -278,7 +282,9 @@ const AdminDashboard = () => {
                       <input
                         type="text"
                         value={description}
-                        onChange={(e) => setDescription(e.target.value)}
+                        onChange={(e) =>
+                          setDescription(e.target.value)
+                        }
                       />
                     </div>
                     <div className="input-field">
@@ -294,7 +300,9 @@ const AdminDashboard = () => {
                       <input
                         type="text"
                         value={categories_id}
-                        onChange={(e) => setCategories_id(e.target.value)}
+                        onChange={(e) =>
+                          setCategories_id(e.target.value)
+                        }
                       />
                     </div>
                     <div className="input-field full-row">
@@ -302,7 +310,9 @@ const AdminDashboard = () => {
                       <input
                         type="text"
                         value={store_id}
-                        onChange={(e) => setStore_id(e.target.value)}
+                        onChange={(e) =>
+                          setStore_id(e.target.value)
+                        }
                       />
                     </div>
                   </div>
@@ -321,7 +331,9 @@ const AdminDashboard = () => {
                     <div className="product-image-wrapper">
                       <img src={product.imgsrc} alt={product.title} />
                       <div className="product-overlay">
-                        <button className="view-details">Quick View</button>
+                        <button className="view-details">
+                          Quick View
+                        </button>
                       </div>
                     </div>
                     <div className="product-info">
@@ -329,8 +341,12 @@ const AdminDashboard = () => {
                         {product.title || "Item"}
                       </h4>
                       <div className="product-meta">
-                        <span className="product-price">${product.price}</span>
-                        <span className="product-stock">In Stock</span>
+                        <span className="product-price">
+                          ${product.price}
+                        </span>
+                        <span className="product-stock">
+                          In Stock
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -355,7 +371,9 @@ const AdminDashboard = () => {
                       <th>Member Info</th>
                       <th>Location</th>
                       <th>Status</th>
-                      <th style={{ textAlign: "right" }}>Management</th>
+                      <th style={{ textAlign: "right" }}>
+                        Management
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -371,17 +389,22 @@ const AdminDashboard = () => {
                               <span className="name">
                                 {user.firstname} {user.lastname}
                               </span>
-                              <span className="id">ID: #{user.id}</span>
+                              <span className="id">
+                                ID: #{user.id}
+                              </span>
                             </div>
                           </div>
                         </td>
                         <td>
                           <div className="location-chip">
-                            <Leaf size={12} /> {user.country || "Global"}
+                            <Leaf size={12} />{" "}
+                            {user.country || "Global"}
                           </div>
                         </td>
                         <td>
-                          <span className="status-pill active">Verified</span>
+                          <span className="status-pill active">
+                            Verified
+                          </span>
                         </td>
                         <td style={{ textAlign: "right" }}>
                           <button
@@ -436,7 +459,8 @@ const AdminDashboard = () => {
                     <Package size={40} />
                   </div>
                   <p>
-                    Synchronizing with <strong>Bretix API</strong> nodes...
+                    Synchronizing with{" "}
+                    <strong>Bretix API</strong> nodes...
                   </p>
                 </div>
               </section>

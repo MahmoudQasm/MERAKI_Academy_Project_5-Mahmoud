@@ -592,3 +592,16 @@ body {
         opacity: 1;
     }
 }
+
+.eco-toast-box.error {
+  border-left: 5px solid #ef4444;
+  background: linear-gradient(135deg, #1f2933, #111827);
+}
+
+.eco-toast-box.error h4 {
+  color: #ef4444;
+}
+
+.eco-toast-box.error p {
+  color: #e5e7eb;
+}
