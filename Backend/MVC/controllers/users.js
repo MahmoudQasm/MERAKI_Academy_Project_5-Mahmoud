@@ -366,4 +366,5 @@ const updateUserInformation = (req, res) => {
       });
     });
 };
-module.exports = { register, login, getAllUser, updateUserInformation ,requestForgotPassword,resetPassword,getMyProfile,updateMyProfile};
+module.exports = { register, login, getAllUser, updateUserInformation,requestForgotPassword,
+  resetPassword, };

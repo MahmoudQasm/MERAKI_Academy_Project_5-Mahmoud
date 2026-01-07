@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import GoogleMapReact from 'google-map-react';
+import GoogleMapReact from "google-map-react";
 import {
   Trash2,
   ShoppingBag,
@@ -9,7 +9,7 @@ import {
   Minus,
   Plus,
   MapPin,
-  X
+  X,
 } from "lucide-react";
 import "./Cart.css";
 import { useNavigate } from "react-router-dom";
@@ -21,6 +21,7 @@ const Cart = () => {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [currentLocation, setCurrentLocation] = useState(null);
   const token = localStorage.getItem("token");
+  const [addressData, setAddressData] = useState({});
   const navigate = useNavigate();
   const [address, setAddress] = useState("Loading address...");
 
@@ -34,7 +35,7 @@ const Cart = () => {
         if (res.data.items.length > 0) {
           const id = res.data.items[0].cart_id;
           setCartId(id);
-          localStorage.setItem('cartId', id);
+          localStorage.setItem("cartId", id);
         }
       })
       .catch((err) => {
@@ -73,33 +74,35 @@ const Cart = () => {
 
   const confirmCheckout = () => {
     if (items.length === 0) {
-      alert('Your cart is empty!');
+      alert("Your cart is empty!");
       return;
     }
     if (!selectedLocation) {
-      alert('Please select delivery location first!');
+      alert("Please select delivery location first!");
       return;
     }
-    navigate('/checkout');
+    navigate("/checkout");
   };
 
   const handleLocationClick = () => {
     setShowLocationModal(true);
-    if (navigator.geolocation) {
+    // Get current location
+    if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const location = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          };
-          setCurrentLocation(location);
-          setSelectedLocation(location);
+        async (position) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+
+          const response = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`
+          );
+
+          const data = await response.json();
+          setCurrentLocation({ lat, lng });
+          setAddressData(data.address);
         },
         (error) => {
-          console.log("Error getting location:", error);
-          const defaultLocation = { lat: 32.5556, lng: 35.8469 };
-          setCurrentLocation(defaultLocation);
-          setSelectedLocation(defaultLocation);
+          console.error(error.message);
         }
       );
     }
@@ -111,10 +114,15 @@ const Cart = () => {
 
   const confirmLocation = () => {
     if (selectedLocation) {
-      localStorage.setItem('deliveryLocation', JSON.stringify(selectedLocation));
+      localStorage.setItem(
+        "deliveryLocation",
+        JSON.stringify(selectedLocation)
+      );
       setShowLocationModal(false);
       alert(
-        `Location saved: ${selectedLocation.lat.toFixed(4)}, ${selectedLocation.lng.toFixed(4)}`
+        `Location saved: ${selectedLocation.lat.toFixed(
+          4
+        )}, ${selectedLocation.lng.toFixed(4)}`
       );
     }
   };
@@ -122,10 +130,10 @@ const Cart = () => {
   const Marker = () => (
     <div
       style={{
-        width: '30px',
-        height: '30px',
-        position: 'absolute',
-        transform: 'translate(-50%, -100%)'
+        width: "30px",
+        height: "30px",
+        position: "absolute",
+        transform: "translate(-50%, -100%)",
       }}
     >
       <MapPin size={30} color="#e74c3c" fill="#e74c3c" />
@@ -245,17 +253,21 @@ const Cart = () => {
             </div>
             <div className="modal-body">
               <p className="location-instruction">
-                Click on the map to select your delivery location, or use your current location.
+                Click on the map to select your delivery location, or use your
+                current location.
               </p>
               {selectedLocation && (
                 <p className="selected-coords">
-                  Selected: {selectedLocation.lat.toFixed(4)}, {selectedLocation.lng.toFixed(4)}
+                  Selected: {selectedLocation.lat.toFixed(4)},{" "}
+                  {selectedLocation.lng.toFixed(4)}
                 </p>
               )}
-              <div style={{ height: '400px', width: '100%' }}>
+              <div style={{ height: "400px", width: "100%" }}>
                 {currentLocation && (
                   <GoogleMapReact
-                    bootstrapURLKeys={{ key: "AIzaSyDOlbYHkwC0-qcwR4ny_SlUXphJmF3h6hE" }}
+                    bootstrapURLKeys={{
+                      key: "AIzaSyDOlbYHkwC0-qcwR4ny_SlUXphJmF3h6hE",
+                    }}
                     defaultCenter={currentLocation}
                     center={selectedLocation || currentLocation}
                     defaultZoom={14}
