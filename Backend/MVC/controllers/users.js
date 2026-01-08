@@ -238,46 +238,49 @@ const resetPassword = (req, res) => {
 };
 //=============profileusers===========
 const getMyProfile = (req, res) => {
-  try {
-    
-    const userId = req.token.user_id;
+  const userId = req.token.user_id;
 
-    pool
-      .query(`SELECT id, firstname, lastname, age, country, phonenumber, date_of_birthday, email FROM users WHERE id=$1`, [userId])
-      .then((result) => {
-        if (result.rows.length === 0) {
-          return res.status(404).json({
-            success: false,
-            message: "User not found",
-          });
-        }
-        res.status(200).json({
-          success: true,
-          user: result.rows[0],
-        });
-      })
-      .catch((err) => {
-        res.status(500).json({
-          success: false,
-          message: "Server error",
-          error: err.message,
-        });
+  pool
+    .query(
+      `SELECT 
+        id,
+        firstname,
+        lastname,
+        age,
+        country,
+        phonenumber,
+        date_of_birthday,
+        email
+      FROM users
+      WHERE id=$1 AND is_deleted=false`,
+      [userId]
+    )
+    .then((result) => {
+      res.status(200).json({
+        success: true,
+        user: result.rows[0],
       });
-  } catch (err) {
-    res.status(400).json({
-      success: false,
-      message: "Invalid request",
-      error: err.message,
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+      });
     });
-  }
 };
 
 
 //================updateProfileUsers=========
 const updateMyProfile = (req, res) => {
   const userId = req.token.user_id;
-  const { firstname, lastname, age, country, phonenumber, date_of_birthday } =
-    req.body;
+  const {
+    firstname,
+    lastname,
+    age,
+    country,
+    phonenumber,
+    date_of_birthday,
+  } = req.body;
 
   pool
     .query(
@@ -288,9 +291,17 @@ const updateMyProfile = (req, res) => {
         country=$4,
         phonenumber=$5,
         date_of_birthday=$6
-       WHERE id=$7
-       RETURNING id, firstname, lastname, age, country, phonenumber, date_of_birthday, email`,
-      [firstname, lastname, age, country, phonenumber, date_of_birthday, userId]
+      WHERE id=$7
+      RETURNING *`,
+      [
+        firstname,
+        lastname,
+        age,
+        country,
+        phonenumber,
+        date_of_birthday,
+        userId,
+      ]
     )
     .then((result) => {
       res.status(200).json({
@@ -305,6 +316,38 @@ const updateMyProfile = (req, res) => {
         message: "Server error",
       });
     });
+};
+
+const changePassword = (req, res) => {
+  const userId = req.token.user_id;
+  const { currentPassword, newPassword } = req.body;
+
+  pool.query(`SELECT * FROM users WHERE id=$1`, [userId]).then((result) => {
+    const user = result.rows[0];
+
+    bcrypt.compare(currentPassword, user.password).then((isMatch) => {
+      if (!isMatch) {
+        return res.status(403).json({
+          success: false,
+          message: "Current password is incorrect",
+        });
+      }
+
+      const hashedPassword = bcrypt.hashSync(newPassword, 10);
+
+      pool
+        .query(`UPDATE users SET password=$1 WHERE id=$2`, [
+          hashedPassword,
+          userId,
+        ])
+        .then(() => {
+          res.status(200).json({
+            success: true,
+            message: "Password updated successfully ✅",
+          });
+        });
+    });
+  });
 };
 
 //====================getall User============
@@ -375,4 +418,5 @@ module.exports = {
   resetPassword,
   getMyProfile,
   updateMyProfile,
+  changePassword
 };
