@@ -18,7 +18,7 @@ function Profile() {
 
   // ================== GET PROFILE ==================
   useEffect(() => {
-    if (!token) return;
+    if (!token) return; // لو ما في توكن، ما نحاول
     axios
       .get("http://localhost:5000/users/profile", {
         headers: { Authorization: `Bearer ${token}` },

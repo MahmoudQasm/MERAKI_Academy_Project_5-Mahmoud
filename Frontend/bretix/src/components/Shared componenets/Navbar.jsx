@@ -1,4 +1,4 @@
-import React ,{useState,useEffect}from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import { FaUser, FaUserPlus, FaSignOutAlt } from "react-icons/fa";
@@ -20,7 +20,6 @@ const Navbar = () => {
     parseInt(localStorage.getItem("cartCount") || "0")
   );
 
-  
   useEffect(() => {
     const handleStorageChange = () => {
       setCartCount(parseInt(localStorage.getItem("cartCount") || "0"));
@@ -83,7 +82,7 @@ const Navbar = () => {
       <div className="nav-group right">
         <button
           id="cart-icon-nav"
-          className="icon-btn cart-wrapper-nav" 
+          className="icon-btn cart-wrapper-nav"
           onClick={() => navigate("/cart")}
           title="Cart"
         >
@@ -123,7 +122,15 @@ const Navbar = () => {
             </button>
           </>
         )}
-
+        {role !== null && (
+          <button
+            className="icon-btn"
+            title="Profile"
+            onClick={() => navigate("/profile")}
+          >
+            <FaUserPlus size={35} />
+          </button>
+        )}
         {role !== null && (
           <button
             className="icon-btn logout"
