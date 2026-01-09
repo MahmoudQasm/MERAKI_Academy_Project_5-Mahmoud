@@ -296,3 +296,11 @@ a {
     opacity: 1;
   }
 }
+.category-dropdown {
+  margin-top: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: #fff;
+  font-size: 14px;
+}
