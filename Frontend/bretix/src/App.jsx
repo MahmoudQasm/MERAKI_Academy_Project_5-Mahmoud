@@ -35,6 +35,7 @@ import SuccessPage from "./components/User/SuccessPage";
 import ForgetPassword from "./components/Shared componenets/forgetPassword";
 import ResetPassword from "./components/Shared componenets/ResetPassword";
 import Profile from "./components/Shared componenets/Profile";
+import ChangePassword from "./components/Shared componenets/ChangePassword";
 const stripePromise = loadStripe(
   `pk_test_51SmBxL0V4wgzFf3V5fa3mpFRF4e093p5Adj005VP1nzpJFmiTruWpjNkaG3BcZFtM0e9cO1Bxn6q1ZoLW0dtaCcd00kwkx3bGI`
 );
@@ -88,6 +89,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/success" element={<SuccessPage />} />
+          <Route path="/change-password" element={<ChangePassword />} />
         </Routes>
         <Footer />
       </div>

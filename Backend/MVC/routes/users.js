@@ -9,6 +9,7 @@ const {
   resetPassword,
   getMyProfile,
   updateMyProfile,
+  changePassword,
 } = require("../controllers/users");
 
 const authentication = require("../middlewares/authentication");
@@ -23,5 +24,6 @@ usersRouter.post("/request-forgot-password", requestForgotPassword);
 usersRouter.post("/reset-password", resetPassword);
 usersRouter.get("/", getAllUser);
 usersRouter.put("/update/:id", updateUserInformation);
+usersRouter.put("/change-password", authentication, changePassword);
 
 module.exports = usersRouter;
