@@ -1,7 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Navbar.css";
-import { FaUser, FaUserPlus, FaSignOutAlt, FaIdCard } from "react-icons/fa";
+import {
+  FaUser,
+  FaUserPlus,
+  FaSignOutAlt,
+  FaIdCard,
+  FaKey,
+} from "react-icons/fa";
 import {
   Package,
   Store,
@@ -138,6 +144,17 @@ const Navbar = () => {
                   >
                     <FaIdCard /> <span>My Profile</span>
                   </div>
+
+                  <div
+                    className="dropdown-item"
+                    onClick={() => {
+                      navigate("/change-password");
+                      setShowDropdown(false);
+                    }}
+                  >
+                    <FaKey /> <span>Change Password</span>
+                  </div>
+
                   {role === "2" && (
                     <div
                       className="dropdown-item"
@@ -149,7 +166,9 @@ const Navbar = () => {
                       <Store size={16} /> <span>Management</span>
                     </div>
                   )}
+
                   <hr />
+
                   <div
                     className="dropdown-item logout-red"
                     onClick={() => {
