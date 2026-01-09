@@ -22,6 +22,7 @@ const storesRouter = express.Router();
 //====================================================================================
 storesRouter.get("/all", getAllStores);
 storesRouter.get("/:id", getStoreById);
+storesRouter.get("/:id/products", getProductsInStore); 
 
 //====================================================================================
 storesRouter.post("/addnewstore", authentication, addNewStore);

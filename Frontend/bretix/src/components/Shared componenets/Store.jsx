@@ -87,7 +87,7 @@ const Store = () => {
               <div 
                 key={product.id} 
                 className="product-card-store"
-                onClick={() => navigate(`/products/${product.id}`)}
+                onClick={() => navigate(`/product/${product.id}`)}
                 style={{ cursor: 'pointer' }}
               >
                 <div className="product-image">

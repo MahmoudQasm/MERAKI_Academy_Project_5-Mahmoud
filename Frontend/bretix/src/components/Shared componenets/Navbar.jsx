@@ -72,7 +72,9 @@ const Navbar = () => {
             className={`profile-circle-btn ${showDropdown ? 'active' : ''}`} 
             onClick={() => setShowDropdown(!showDropdown)}
           >
-<span className="profile-initials">PL</span>          </button>
+            <FaUserPlus size={35} />
+          </button>
+        
 
           {showDropdown && (
             <div className="nav-dropdown-menu" >
