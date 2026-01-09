@@ -10,14 +10,14 @@ import {
 const Navbar = () => {
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
-  const dropdownRef = useRef(null); // لإغلاق القائمة عند الضغط خارجها
+  const dropdownRef = useRef(null);
   
   const role = localStorage.getItem("role");
   const [cartCount, setCartCount] = useState(
     parseInt(localStorage.getItem("cartCount") || "0")
   );
 
-  // إغلاق القائمة عند الضغط في أي مكان خارجها
+ 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -53,61 +53,62 @@ const Navbar = () => {
       </div>
 
       <div className="nav-group right">
-        {/* سلة المشتريات */}
         <button className="icon-btn cart-wrapper-nav" onClick={() => navigate("/cart")}>
           <ShoppingCart size={28} />
           {cartCount > 0 && <span className="cart-badge-premium">{cartCount}</span>}
         </button>
 
-        {role === "2" && (
-          <button
-            className="nav-btn"
-            onClick={() => navigate("/stores/StoreManagement")}
-          >
-            Store Management
-          </button>
-        )}
-
+       
         {role === "1" && (
           <button className="icon-btn admin-link" onClick={() => navigate("/AdminDashboard")} title="Admin Dashboard">
             <ShieldCheck size={35} />
           </button>
         )}
 
-        {role === null && (
-          <>
-            <button
-              className="icon-btn"
-              onClick={() => navigate("/Login")}
-              title="Login"
-            >
-              <FaUser size={35} />
-            </button>
-          </>
-        )}
-
-        {role !== null && (
-          <button
-            className="icon-btn"
-            title="Profile"
-            onClick={() => navigate("/profile")}
+       
+        <div className="profile-dropdown-wrapper" ref={dropdownRef}>
+          <button 
+            className={`profile-circle-btn ${showDropdown ? 'active' : ''}`} 
+            onClick={() => setShowDropdown(!showDropdown)}
           >
             <FaUserPlus size={35} />
           </button>
         )}
 
-        {role !== null && (
-          <button
-            className="icon-btn logout"
-            title="Logout"
-            onClick={() => {
-              localStorage.clear();
-              navigate("/");
-            }}
-          >
-            <FaSignOutAlt size={35} />
-          </button>
-        )}
+          {showDropdown && (
+            <div className="nav-dropdown-menu" >
+              
+              {role === null ? (
+                <>
+                  <div className="dropdown-item" onClick={() => {navigate("/Login"); setShowDropdown(false);}}>
+                    <FaUser /> <span>Login</span>
+                  </div>
+                  
+                </>
+              ) : (
+                <>
+                  <div className="dropdown-item" onClick={() => {navigate("/profile"); setShowDropdown(false);}}>
+                    <FaIdCard /> <span>My Profile</span>
+                  </div>
+                  {role === "2" && (
+                    <div className="dropdown-item" onClick={() => {navigate("/stores/StoreManagement"); setShowDropdown(false);}}>
+                      <Store size={16} /> <span>Management</span>
+                    </div>
+                  )}
+                  <hr />
+                  <div className="dropdown-item logout-red" onClick={() => {
+                    localStorage.clear();
+                    navigate("/");
+                    setShowDropdown(false);
+                    window.location.reload();
+                  }}>
+                    <FaSignOutAlt /> <span>Logout</span>
+                  </div>
+                </>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </nav>
   );

@@ -11,19 +11,22 @@ function Products() {
   const [toast, setToast] = useState({ show: false, message: "" });
 
   useEffect(() => {
-    axios.get("http://localhost:5000/products/all")
+    axios
+      .get("http://localhost:5000/products/all")
       .then((res) => {
         setProducts(res.data.products || []);
       })
       .catch((err) => console.log("Error products:", err));
 
-    axios.get("http://localhost:5000/categories/")
+    axios
+      .get("http://localhost:5000/categories/")
       .then((result) => {
-        setCategory(result.data.result || []);
+        setCategory(result.data.categories || []);
       })
       .catch((err) => console.log("Error categories:", err));
 
-    axios.get("http://localhost:5000/stores/all")
+    axios
+      .get("http://localhost:5000/stores/all")
       .then((result) => {
         setStores(result.data.result || []);
       })
@@ -33,10 +36,8 @@ function Products() {
   const filteredProducts = products.filter((item) => {
     if (!selectedCategory) return true;
     return item.categories_id === selectedCategory;
-    
-    
   });
-    console.log(filteredProducts);
+  console.log(filteredProducts);
 
   const showToast = (message) => {
     setToast({ show: true, message });
@@ -52,7 +53,8 @@ function Products() {
     flyingImg.className = "flying-product-premium";
 
     const rect = e.target.getBoundingClientRect();
-    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+    const scrollLeft =
+      window.pageXOffset || document.documentElement.scrollLeft;
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
     flyingImg.style.left = `${rect.left + scrollLeft}px`;
@@ -62,8 +64,14 @@ function Products() {
     const cartRect = cart.getBoundingClientRect();
 
     requestAnimationFrame(() => {
-      flyingImg.style.setProperty("--target-x", `${cartRect.left + scrollLeft - rect.left}px`);
-      flyingImg.style.setProperty("--target-y", `${cartRect.top + scrollTop - rect.top}px`);
+      flyingImg.style.setProperty(
+        "--target-x",
+        `${cartRect.left + scrollLeft - rect.left}px`
+      );
+      flyingImg.style.setProperty(
+        "--target-y",
+        `${cartRect.top + scrollTop - rect.top}px`
+      );
       flyingImg.classList.add("is-flying");
     });
 
@@ -83,22 +91,23 @@ function Products() {
 
     handleFlyAnimation(e, item.imgsrc);
 
-    axios.post(
-      "http://localhost:5000/cart",
-      {
-        products_id: item.id,
-        cart_id: localStorage.getItem("CartId"),
-        quantity: 1,
-      },
-      { headers: { Authorization: `Bearer ${token}` } }
-    )
-    .then(() => {
-      const currentCount = parseInt(localStorage.getItem("cartCount") || "0");
-      localStorage.setItem("cartCount", currentCount + 1);
-      window.dispatchEvent(new Event("cartUpdated"));
-      showToast("Product added to cart");
-    })
-    .catch(() => showToast("Error adding product"));
+    axios
+      .post(
+        "http://localhost:5000/cart",
+        {
+          products_id: item.id,
+          cart_id: localStorage.getItem("CartId"),
+          quantity: 1,
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      )
+      .then(() => {
+        const currentCount = parseInt(localStorage.getItem("cartCount") || "0");
+        localStorage.setItem("cartCount", currentCount + 1);
+        window.dispatchEvent(new Event("cartUpdated"));
+        showToast("Product added to cart");
+      })
+      .catch(() => showToast("Error adding product"));
   };
 
   return (
@@ -106,7 +115,9 @@ function Products() {
       {toast.show && (
         <div className="toast-premium">
           <span>{toast.message}</span>
-          <button onClick={() => setToast({ show: false, message: "" })}>✕</button>
+          <button onClick={() => setToast({ show: false, message: "" })}>
+            ✕
+          </button>
         </div>
       )}
 
@@ -118,13 +129,17 @@ function Products() {
           All Products
         </button>
         {category.map((cat) => (
-          <button
+          <select name="catagories" id="catago">
+            <option value={cat}>{cat.name}</option>
+          </select>
+
+          /*<button
             key={cat.id}
             className={selectedCategory === cat.id ? "active" : ""}
             onClick={() => setSelectedCategory(cat.id)}
           >
             {cat.title}
-          </button>
+          </button>*/
         ))}
       </div>
 
@@ -136,13 +151,17 @@ function Products() {
       </div>
 
       <div className="products-grid">
-        {filteredProducts.map((item) => (
+        {products.map((item) => (
           <div className="product-item" key={item.id}>
             <Link to={`/product/${item.id}`}>
               <div className="product-card">
                 <div className="image-wrapper">
                   <span className="product-badge">{item.badge || "New"}</span>
-                  <img src={item.imgsrc} alt={item.title} className="product-img" />
+                  <img
+                    src={item.imgsrc}
+                    alt={item.title}
+                    className="product-img"
+                  />
                 </div>
                 <h3 className="product-name">{item.title}</h3>
               </div>
@@ -150,7 +169,10 @@ function Products() {
 
             <div className="product-footer">
               <span className="price">${item.price}</span>
-              <button className="add-to-cart-btn" onClick={(e) => addToCart(e, item)}>
+              <button
+                className="add-to-cart-btn"
+                onClick={(e) => addToCart(e, item)}
+              >
                 <span className="plus-icon">+</span> Cart
               </button>
             </div>
