@@ -10,14 +10,14 @@ import {
 const Navbar = () => {
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
-  const dropdownRef = useRef(null);
+  const dropdownRef = useRef(null); // لإغلاق القائمة عند الضغط خارجها
   
   const role = localStorage.getItem("role");
   const [cartCount, setCartCount] = useState(
     parseInt(localStorage.getItem("cartCount") || "0")
   );
 
- 
+  // إغلاق القائمة عند الضغط في أي مكان خارجها
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -53,27 +53,26 @@ const Navbar = () => {
       </div>
 
       <div className="nav-group right">
+        {/* سلة المشتريات */}
         <button className="icon-btn cart-wrapper-nav" onClick={() => navigate("/cart")}>
           <ShoppingCart size={28} />
           {cartCount > 0 && <span className="cart-badge-premium">{cartCount}</span>}
         </button>
 
-       
+        {/* كبسة الإدارة (تظهر فقط للأدوار المحددة) */}
         {role === "1" && (
           <button className="icon-btn admin-link" onClick={() => navigate("/AdminDashboard")} title="Admin Dashboard">
             <ShieldCheck size={35} />
           </button>
         )}
 
-       
+        {/* الدائرة المدمجة (Profile & Auth) */}
         <div className="profile-dropdown-wrapper" ref={dropdownRef}>
           <button 
             className={`profile-circle-btn ${showDropdown ? 'active' : ''}`} 
             onClick={() => setShowDropdown(!showDropdown)}
           >
-            <FaUserPlus size={35} />
-          </button>
-        )}
+<span className="profile-initials">PL</span>          </button>
 
           {showDropdown && (
             <div className="nav-dropdown-menu" >
@@ -100,7 +99,7 @@ const Navbar = () => {
                     localStorage.clear();
                     navigate("/");
                     setShowDropdown(false);
-                    window.location.reload();
+                    window.location.reload(); // لتحديث الحالة
                   }}>
                     <FaSignOutAlt /> <span>Logout</span>
                   </div>
