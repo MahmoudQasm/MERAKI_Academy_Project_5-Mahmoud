@@ -36,7 +36,7 @@ function Products() {
 
   const filteredProducts = products.filter((item) => {
     if (!selectedCategory) return true;
-    return item.categories_id === selectedCategory;
+    return item.categories_id == selectedCategory;
   });
   console.log(filteredProducts);
 
@@ -163,7 +163,7 @@ function Products() {
       </div>
 
       <div className="products-grid">
-        {products.map((item) => (
+        {filteredProducts.map((item) => (
           <div className="product-item" key={item.id}>
             <Link to={`/product/${item.id}`}>
               <div className="product-card">
