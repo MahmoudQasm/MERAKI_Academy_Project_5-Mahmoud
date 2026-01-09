@@ -1,15 +1,44 @@
-#root {
-    max-width:1220px;   
-    margin: 0 auto;
-    padding: 2rem;
-    text-align: center;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.login {
+html, body, #root {
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; 
+}
+
+
+#root {
+    text-align: center;
+
+}
+
+
+.page-content, .main-wrapper, .login-page-container {
+    width: 100%;
+    min-height: calc(100vh - 80px);
+    padding-top: 80px; 
     display: flex;
-    flex-direction: column;
+    align-items: center;
     justify-content: center;
 }
+
+
+.login-card {
+    width: 90%;
+    max-width: 450px;
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+}
+
 
 .packageimage {
     display: flex;
@@ -18,17 +47,13 @@
     justify-content: center;
     padding: 40px 20px;
     background-color: #1a237e;
-}
-
-
-.allcards {
-    display: flex;
-    justify-content: center;
+    width: 100%;
 }
 
 .carditems {
-    width: 300px !important;
-    height: 530px;
+    width: 300px;
+    height: auto; 
+    min-height: 500px;
     display: flex;
     flex-direction: column;
     border-radius: 12px;
@@ -37,10 +62,9 @@
     color: white;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.4);
     transition: transform 0.25s ease;
-
 }
 
-.carditems :hover {
+.carditems:hover {
     transform: translateY(-5px);
 }
 
@@ -51,75 +75,22 @@
 }
 
 
-.carditems .card-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex: 1;
-}
+@media screen and (max-width: 768px) {
+    .navbar-container {
+        padding: 0 15px;
+    }
+    
+    .login-card {
+        padding: 25px;
+        width: 95%;
+    }
 
+    .nav-group.center {
+        display: none; 
+    }
 
-.carditems .card-text {
-    font-size: 14px;
-    line-height: 1.4;
-    margin-bottom: 15px;
-}
-
-
-.carditems button {
-    width: 100%;
-    margin-bottom: 10px;
-}
-
-
-
-
-.home-wrapper {
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-}
-
-
-.container-main {
-  width: 100%;
-  max-width: 100%; 
-  padding: 40px 4%;
-  box-sizing: border-box;
-}
-
-
-.slide-container {
-  width: 100%;
-  margin-top: 0;
-}
-
-body {
-  margin: 0;
-}
-
-.page-content {
-  padding-top: 80px; 
-  min-height: calc(100vh - 80px);
-}
-
-
-
-* {
-  box-sizing: border-box;
-}
-
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  overflow-x: hidden;
-}
-
-#root {
-  width: 100%;
-}
-.page-content {
-  padding-top: 80px; 
+    .carditems {
+        width: 100%;
+        max-width: 350px;
+    }
 }

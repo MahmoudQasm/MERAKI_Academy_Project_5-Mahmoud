@@ -63,7 +63,7 @@ const AdminDashboard = () => {
 
     axios
       .put(`http://localhost:5000/users/update/${usersEdit.id}`, usersEdit)
-      .then(() => {
+      .then((result) => {
         const updatedUsers = users.map((u) =>
           u.id === usersEdit.id ? { ...u, ...usersEdit } : u
         );
@@ -74,8 +74,7 @@ const AdminDashboard = () => {
       })
       .catch((err) => {
         console.error("Error updating user:", err);
-        setShowToast(true);
-        setTimeout(() => setShowToast(false), 3000);
+        alert("حدث خطأ أثناء التحديث");
       });
   };
 
@@ -89,7 +88,6 @@ const AdminDashboard = () => {
       categories_id,
       store_id,
     };
-
     axios
       .post(`http://localhost:5000/products/`, adminAddProduct)
       .then((result) => {
@@ -293,13 +291,8 @@ const AdminDashboard = () => {
             <p>Welcome back, here's what's happening today.</p>
           </div>
           <div className="header-profile">
-            <div className="profile-info">
-              <p className="admin-name">Administrator</p>
-              <p className="admin-status">Verified Account</p>
-            </div>
-            <div className="profile-avatar">
-              AD<div className="online-indicator"></div>
-            </div>
+            
+           
           </div>
         </header>
 
@@ -414,13 +407,7 @@ const AdminDashboard = () => {
 
           {activeTab === "users" && (
             <div className="users-section animate-fade-in">
-              <div className="section-header-modern">
-                <div>
-                  <h3>Eco-System Members</h3>
-                  <p>{users.length} verified sustainable users</p>
-                </div>
-              </div>
-
+              
               <div className="modern-table-container">
                 <table className="modern-table">
                   <thead>
@@ -442,9 +429,9 @@ const AdminDashboard = () => {
                             </div>
                             <div className="user-text">
                               <span className="name">
-                                {user.firstname} {user.lastname}
+                                {user.firstname} 
                               </span>
-                              <span className="id">ID: #{user.id}</span>
+                              
                             </div>
                           </div>
                         </td>
@@ -486,7 +473,7 @@ const AdminDashboard = () => {
                 />
                 <StatCard
                   title="Eco Projects"
-                  value={storesCount}
+                  value="24"
                   change="+2"
                   icon={<Leaf size={20} />}
                   type="green"
