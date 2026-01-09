@@ -9,6 +9,7 @@ function Products() {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [stores, setStores] = useState([]);
   const [toast, setToast] = useState({ show: false, message: "" });
+  const [showDropDown, setShowDropDown] = useState(false);
 
   useEffect(() => {
     axios
@@ -128,19 +129,30 @@ function Products() {
         >
           All Products
         </button>
-        {category.map((cat) => (
-          <select name="catagories" id="catago">
-            <option value={cat}>{cat.name}</option>
-          </select>
-
-          /*<button
-            key={cat.id}
-            className={selectedCategory === cat.id ? "active" : ""}
-            onClick={() => setSelectedCategory(cat.id)}
+        <button
+          className={selectedCategory === "" ? "active" : ""}
+          onClick={() => setShowDropDown(!showDropDown)}
+        >
+          All Categories
+        </button>
+        {showDropDown && (
+          <select
+            className="category-dropdown"
+            value={selectedCategory}
+            onChange={(e) => {
+              setSelectedCategory(e.target.value);
+              setShowDropDown(false);
+            }}
           >
-            {cat.title}
-          </button>*/
-        ))}
+            <option value="">All Products</option>
+
+            {category.map((cat) => (
+              <option key={cat.id} value={cat.id}>
+                {cat.name}
+              </option>
+            ))}
+          </select>
+        )}
       </div>
 
       <div className="header-section">
