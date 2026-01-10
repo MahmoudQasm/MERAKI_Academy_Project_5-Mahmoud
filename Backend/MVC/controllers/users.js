@@ -269,18 +269,11 @@ const getMyProfile = (req, res) => {
     });
 };
 
-
 //================updateProfileUsers=========
 const updateMyProfile = (req, res) => {
   const userId = req.token.user_id;
-  const {
-    firstname,
-    lastname,
-    age,
-    country,
-    phonenumber,
-    date_of_birthday,
-  } = req.body;
+  const { firstname, lastname, age, country, phonenumber, date_of_birthday } =
+    req.body;
 
   pool
     .query(
@@ -293,15 +286,7 @@ const updateMyProfile = (req, res) => {
         date_of_birthday=$6
       WHERE id=$7
       RETURNING *`,
-      [
-        firstname,
-        lastname,
-        age,
-        country,
-        phonenumber,
-        date_of_birthday,
-        userId,
-      ]
+      [firstname, lastname, age, country, phonenumber, date_of_birthday, userId]
     )
     .then((result) => {
       res.status(200).json({
@@ -317,7 +302,65 @@ const updateMyProfile = (req, res) => {
       });
     });
 };
+const requestEmailChange = async (req, res) => {
+  const userId = req.token.user_id;
+  const { newEmail } = req.body;
 
+  const code = Math.floor(100000 + Math.random() * 900000).toString();
+
+  try {
+    await pool.query(
+      `UPDATE users 
+       SET pending_email=$1, email_verification_code=$2 
+       WHERE id=$3`,
+      [newEmail, code, userId]
+    );
+
+    await transporter.sendMail({
+      to: newEmail,
+      subject: "Verify your new email",
+      html: `<h3>Your verification code</h3><h2>${code}</h2>`,
+    });
+
+    res.json({
+      success: true,
+      message: "Verification code sent to new email",
+    });
+  } catch (err) {
+    res.status(500).json({ success: false });
+  }
+};
+const verifyEmailChange = async (req, res) => {
+  const userId = req.token.user_id;
+  const { code } = req.body;
+
+  const result = await pool.query(
+    `SELECT pending_email, email_verification_code 
+     FROM users WHERE id=$1`,
+    [userId]
+  );
+
+  if (result.rows.length === 0) {
+    return res.status(400).json({ message: "User not found" });
+  }
+
+  const user = result.rows[0];
+
+  if (user.email_verification_code !== code) {
+    return res.status(400).json({ message: "Invalid code" });
+  }
+
+  await pool.query(
+    `UPDATE users 
+     SET email=pending_email,
+         pending_email=NULL,
+         email_verification_code=NULL
+     WHERE id=$1`,
+    [userId]
+  );
+
+  res.json({ success: true, message: "Email updated successfully" });
+};
 const changePassword = (req, res) => {
   const userId = req.token.user_id;
   const { currentPassword, newPassword } = req.body;
@@ -418,5 +461,7 @@ module.exports = {
   resetPassword,
   getMyProfile,
   updateMyProfile,
-  changePassword
+  changePassword,
+  requestEmailChange,
+  verifyEmailChange 
 };
