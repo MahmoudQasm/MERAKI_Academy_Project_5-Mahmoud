@@ -108,7 +108,7 @@ const StoreInfo = () => {
       <div className="owner-main-content">
         <header className="owner-header">
           <div className="owner-header-info">
-            <h2>Store Settings</h2>
+            <h2>Store Info</h2>
             <p>Manage your brand identity and store description.</p>
           </div>
         </header>

@@ -5,10 +5,10 @@ import {
   Package, 
   Settings, 
   LogOut, 
-  Store, 
   Leaf, 
   ArrowRightCircle,
-  TrendingUp
+  TrendingUp,
+  Store
 } from "lucide-react";
 import "./StoreManagement.css";
 
@@ -33,26 +33,18 @@ const OwnerStoreManagement = () => {
       <aside className="owner-sidebar">
         <div className="owner-logo-section">
           <div className="owner-logo-icon">
-            <Store size={24} />
+            <Leaf size={24} />
           </div>
           <div className="owner-logo-text">
-            <h1>BRETIX <span>OWNER</span></h1>
+            <h1>BRETIX <span>ECO</span></h1>
             <p>Merchant Portal</p>
           </div>
         </div>
 
         <nav className="owner-nav">
           <div className="owner-nav-item active">
-            <LayoutDashboard size={20} />
-            <span>Management</span>
-          </div>
-          <div className="owner-nav-item" onClick={() => navigate(`/${storeId}/allproducts`)}>
-            <Package size={20} />
-            <span>Products</span>
-          </div>
-          <div className="owner-nav-item" onClick={() => navigate(`${storeId}`)}>
-            <Settings size={20} />
-            <span>Settings</span>
+            <Store size={20} />
+            <span>Store Management</span>
           </div>
         </nav>
 
@@ -63,6 +55,7 @@ const OwnerStoreManagement = () => {
           </button>
         </div>
       </aside>
+
       <div className="owner-main-content">
         <header className="owner-header">
           <div className="owner-header-info">

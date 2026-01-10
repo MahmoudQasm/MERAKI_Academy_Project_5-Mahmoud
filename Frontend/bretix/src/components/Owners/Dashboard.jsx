@@ -19,7 +19,6 @@ const Dashboard = () => {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
 
-
   useEffect(() => {
     const token = localStorage.getItem("token");
     const role = localStorage.getItem("role");
@@ -27,7 +26,6 @@ const Dashboard = () => {
     else if (parseInt(role) !== 2) navigate("/");
   }, [navigate]);
 
-  
   useEffect(() => {
     const token = localStorage.getItem("token");
     axios.get(`http://localhost:5000/stores/${id}/statistic`, {
@@ -37,7 +35,6 @@ const Dashboard = () => {
     .catch((err) => console.log(err));
   }, [id]);
 
- 
   useEffect(() => {
     const token = localStorage.getItem("token");
     axios.get(`http://localhost:5000/stores/${id}/last-seven-days-chart`, {
@@ -46,7 +43,6 @@ const Dashboard = () => {
     .then((res) => setChartData(res.data.data))
     .catch((err) => console.log(err));
   }, [id]);
-
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -64,7 +60,6 @@ const Dashboard = () => {
 
   return (
     <div className="owner-dashboard-container">
-
       <aside className="owner-sidebar">
         <div className="owner-logo-section">
           <div className="owner-logo-icon"><Leaf size={24} /></div>
@@ -76,7 +71,7 @@ const Dashboard = () => {
         <nav className="owner-nav">
           <div className="owner-nav-item active"><LayoutDashboard size={20} /> <span>Overview</span></div>
           <div className="owner-nav-item" onClick={() => navigate(`/${id}/allproducts`)}><Package size={20} /> <span>Inventory</span></div>
-          <div className="owner-nav-item" onClick={() => navigate(`${id}`)}><Settings size={20} /> <span>Store Info</span></div>
+          <div className="owner-nav-item" onClick={() => navigate(`/stores/StoreManagement/${id}`)}><Settings size={20} /> <span>Store Info</span></div>
         </nav>
         <div className="owner-sidebar-footer">
           <button className="owner-back-btn" onClick={() => navigate("/")}><LogOut size={18} /> <span>Exit</span></button>
@@ -91,7 +86,6 @@ const Dashboard = () => {
           </div>
         </header>
 
-  
         <div className="owner-stats-grid">
           <StatCard title="Total Sales" value={`$${stats.totalSales || 0}`} icon={<TrendingUp />} type="emerald" />
           <StatCard title="Orders" value={stats.total_orders || 0} icon={<ShoppingBag />} type="blue" />
