@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import GoogleMapReact from "google-map-react";
+import SearchBar from "material-ui-search-bar";
+
 import {
   Trash2,
   ShoppingBag,
   CreditCard,
   Truck,
-  Minus,
-  Plus,
+  MinusCircle, // تغيير الأيقونة
+  PlusCircle,  // تغيير الأيقونة
   MapPin,
   X,
   CheckCircle,
@@ -30,7 +32,6 @@ const Cart = () => {
   const [address, setAddress] = useState("Loading address...");
   const [selAddressData, setSelAddressData] = useState({});
 
-  // الحالة الجديدة للـ Toast (البوكس البديل للـ alert)
   const [toast, setToast] = useState({ show: false, message: "", type: "info" });
 
   const showCustomToast = (msg, type = "info") => {
@@ -182,7 +183,6 @@ const Cart = () => {
 
   return (
     <div className="cart-premium-wrapper">
-      {/* Toast UI Section */}
       {toast.show && (
         <div className={`premium-toast-container ${toast.type}`}>
           <div className="toast-content">
@@ -216,23 +216,31 @@ const Cart = () => {
                   <h4>{item.title}</h4>
                   <p className="unit-price">${item.price}</p>
                 </div>
-                <div className="quantity-box">
+
+           
+                <div className="quantity-box-premium">
                   <button
+                    className="qty-btn-neo minus"
                     onClick={() =>
                       updateQuantity(item.cart_product_id, item.quantity - 1)
                     }
                   >
-                    <Minus size={14} />
+                    <MinusCircle size={22} strokeWidth={1.5} />
                   </button>
-                  <span>{item.quantity}</span>
+                  
+                  <span className="qty-number" >{item.quantity}</span>
+                  
                   <button
+                    className="qty-btn-neo plus"
                     onClick={() =>
                       updateQuantity(item.cart_product_id, item.quantity + 1)
                     }
                   >
-                    <Plus size={14} />
+                    <PlusCircle size={22} strokeWidth={1.5} />
                   </button>
                 </div>
+                {/* ------------------------ */}
+
                 <div className="item-subtotal">
                   ${(item.price * item.quantity).toFixed(2)}
                 </div>

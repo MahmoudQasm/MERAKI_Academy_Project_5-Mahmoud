@@ -445,3 +445,64 @@
   from { width: 100%; }
   to { width: 0%; }
 }
+.quantity-box-premium {
+  display: flex;
+  align-items: center;
+  background: #f8f9fa;
+  padding: 5px 12px;
+  border-radius: 50px;
+  gap: 15px;
+  box-shadow: inset 2px 2px 5px #e0e0e0, inset -2px -2px 5px #ffffff;
+}
+
+.qty-btn-neo {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: all 0.3s ease;
+  color: #555;
+}
+
+.qty-btn-neo:hover {
+  transform: scale(1.2);
+}
+
+.qty-btn-neo.minus:hover {
+  color: #e74c3c; 
+}
+
+.qty-btn-neo.plus:hover {
+  color: #2ecc71; 
+}
+
+.qty-number {
+  font-weight: 800;
+  font-size: 1.1rem;
+  min-width: 25px;
+  text-align: center;
+  color: #2c3e50;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* تحديث الـ Toast CSS السابق ليشمل حركات أفضل */
+.premium-toast-container {
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 16px 28px;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  z-index: 10001;
+  animation: toastSlideIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+@keyframes toastSlideIn {
+  from { transform: translateX(120%); }
+  to { transform: translateX(0); }
+}
