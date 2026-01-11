@@ -116,9 +116,9 @@
 }
 
 
-/* الزر في حالته الطبيعية (أخضر Bretix Eco) */
+
 .add-to-cart-btn {
-  background: #2d5a27; /* اللون الأخضر الغاباتي */
+  background: #2d5a27; 
   color: white;
   border: none;
   padding: 15px 35px;
@@ -138,9 +138,9 @@
   box-shadow: 0 15px 25px rgba(45, 90, 39, 0.3);
 }
 
-/* حالة النجاح (يتغير للون الرملي/الخشبي) */
+
 .add-to-cart-btn.success-state {
-  background: #d4a373 !important; /* لون Bretix Accent */
+  background: #d4a373 !important;
   transform: scale(1.05);
 }
 
@@ -226,7 +226,7 @@
   to { width: 0%; }
 }
 
-/* إضافة تحسينات لـ Qty Selector ليناسب التصميم */
+
 .qty-selector-eco {
   display: flex;
   align-items: center;
