@@ -10,6 +10,8 @@ import {
   Plus,
   MapPin,
   X,
+  CheckCircle,
+  AlertCircle,
 } from "lucide-react";
 import "./Cart.css";
 import { useNavigate } from "react-router-dom";
@@ -27,6 +29,14 @@ const Cart = () => {
   const navigate = useNavigate();
   const [address, setAddress] = useState("Loading address...");
   const [selAddressData, setSelAddressData] = useState({});
+
+  // الحالة الجديدة للـ Toast (البوكس البديل للـ alert)
+  const [toast, setToast] = useState({ show: false, message: "", type: "info" });
+
+  const showCustomToast = (msg, type = "info") => {
+    setToast({ show: true, message: msg, type });
+    setTimeout(() => setToast({ show: false, message: "", type: "info" }), 3500);
+  };
 
   useEffect(() => {
     axios
@@ -77,11 +87,11 @@ const Cart = () => {
 
   const confirmCheckout = () => {
     if (items.length === 0) {
-      alert("Your cart is empty!");
+      showCustomToast("Your cart is empty!", "error");
       return;
     }
     if (!selectedLocation) {
-      alert("Please select delivery location first!");
+      showCustomToast("Please select delivery location first!", "error");
       return;
     }
     if (selectedPayment === "COD") {
@@ -98,6 +108,7 @@ const Cart = () => {
         })
         .catch((err) => {
           console.log("OrderFailed", err);
+          showCustomToast("Order failed, please try again.", "error");
         });
     } else {
       navigate("/checkout");
@@ -111,10 +122,6 @@ const Cart = () => {
 
     const data = await response.json();
     setSelAddressData(data.address);
-
-    (error) => {
-      console.error(error.message);
-    };
   };
 
   const handleLocationClick = () => {
@@ -135,6 +142,7 @@ const Cart = () => {
         },
         (error) => {
           console.error(error.message);
+          showCustomToast("Please enable location access", "error");
         }
       );
     }
@@ -152,8 +160,9 @@ const Cart = () => {
         JSON.stringify(selectedLocation)
       );
       setShowLocationModal(false);
-      alert(
-        `Location saved:  ${selAddressData.country}, ${selAddressData.state} - ${selAddressData.road}`
+      showCustomToast(
+        `Location saved: ${selAddressData.country || ''} ${selAddressData.state || ''}`, 
+        "success"
       );
     }
   };
@@ -173,6 +182,17 @@ const Cart = () => {
 
   return (
     <div className="cart-premium-wrapper">
+      {/* Toast UI Section */}
+      {toast.show && (
+        <div className={`premium-toast-container ${toast.type}`}>
+          <div className="toast-content">
+            {toast.type === "success" ? <CheckCircle size={20} /> : <AlertCircle size={20} />}
+            <span>{toast.message}</span>
+          </div>
+          <div className="toast-progress"></div>
+        </div>
+      )}
+
       <div className="cart-main-container">
         <div className="cart-items-section">
           <div className="cart-header-title">
@@ -239,42 +259,42 @@ const Cart = () => {
               <span>${total.toFixed(2)}</span>
             </div>
 
-          <div className="payment-options">
-  <p>Payment Method</p>
-  <label className="radio-label">
-    <input
-      type="radio"
-      name="payment_method"
-      value="COD"
-      checked={selectedPayment === "COD"}
-      onChange={(e) => setSelectedPayment(e.target.value)}
-    />
-    <div className="radio-design">
-      <Truck size={16} /> Cash on Delivery
-    </div>
-  </label>
+            <div className="payment-options">
+              <p>Payment Method</p>
+              <label className="radio-label">
+                <input
+                  type="radio"
+                  name="payment_method"
+                  value="COD"
+                  checked={selectedPayment === "COD"}
+                  onChange={(e) => setSelectedPayment(e.target.value)}
+                />
+                <div className="radio-design">
+                  <Truck size={16} /> Cash on Delivery
+                </div>
+              </label>
 
-  <label className="radio-label">
-    <input
-      type="radio"
-      name="payment_method"
-      value="Card"
-      checked={selectedPayment === "Card"}
-      onChange={(e) => setSelectedPayment(e.target.value)}
-    />
-    <div className="radio-design">
-      <CreditCard size={16} /> Pay by card
-    </div>
-  </label>
-</div>
+              <label className="radio-label">
+                <input
+                  type="radio"
+                  name="payment_method"
+                  value="Card"
+                  checked={selectedPayment === "Card"}
+                  onChange={(e) => setSelectedPayment(e.target.value)}
+                />
+                <div className="radio-design">
+                  <CreditCard size={16} /> Pay by card
+                </div>
+              </label>
+            </div>
 
-<button className="location-btn" onClick={handleLocationClick}>
-  Insert Location for Delivery
-</button>
+            <button className="location-btn" onClick={handleLocationClick}>
+              Insert Location for Delivery
+            </button>
 
-<button className="checkout-btn-final" onClick={confirmCheckout}>
-  {selectedPayment === "COD" ? "Confirm Order" : "Go to Payment"}
-</button>
+            <button className="checkout-btn-final" onClick={confirmCheckout}>
+              {selectedPayment === "COD" ? "Confirm Order" : "Go to Payment"}
+            </button>
           </div>
         </div>
       </div>
