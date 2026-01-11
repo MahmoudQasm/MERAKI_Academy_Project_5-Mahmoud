@@ -55,7 +55,6 @@ const addToCart = async (req, res) => {
 
 const getCartWereIsDeletedFalse = (req, res) => {
   const userId = req.token.user_id;
-  console.log(req.token.user_id);
 
   pool
     .query(

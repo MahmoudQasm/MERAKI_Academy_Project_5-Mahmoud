@@ -155,8 +155,7 @@ const requestForgotPassword = (req, res) => {
         expiresIn: "15m",
       });
 
-      const resetLink = `http://localhost:5173/reset-password?token=${token}`;
-
+      const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
       const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -186,7 +185,6 @@ const requestForgotPassword = (req, res) => {
               error: err.message,
             });
           } else {
-            console.log("Email sent:", info.response);
             return res.status(200).json({
               success: true,
               message: "Reset link sent to your email",
@@ -303,7 +301,6 @@ const updateMyProfile = (req, res) => {
     });
 };
 
-
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -317,17 +314,13 @@ const requestEmailChange = async (req, res) => {
     const userId = req.token.user_id;
     const { newEmail } = req.body;
 
-
-   
     if (!newEmail || !/\S+@\S+\.\S+/.test(newEmail)) {
-      console.log("❌ Invalid email format");
       return res.status(400).json({
         success: false,
         message: "A valid new email is required",
       });
     }
 
-   
     const existingCodeResult = await pool.query(
       `SELECT email_verification_code 
        FROM users 
@@ -338,20 +331,14 @@ const requestEmailChange = async (req, res) => {
     const existingCode = existingCodeResult.rows[0]?.email_verification_code;
 
     if (existingCode) {
-      console.log("⚠️ Verification code already exists 👉", existingCode);
-      console.log("📨 Not generating a new code");
-
       return res.json({
         success: true,
         message: "Verification code already sent",
       });
     }
 
-    
     const code = Math.floor(100000 + Math.random() * 900000).toString();
-    console.log("🔐 GENERATED CODE 👉", code);
 
-    
     const updateResult = await pool.query(
       `UPDATE users 
        SET pending_email=$1, email_verification_code=$2 
@@ -359,17 +346,12 @@ const requestEmailChange = async (req, res) => {
       [newEmail, code, userId]
     );
 
-    console.log("🗄️ DB UPDATED 👉", updateResult.rowCount);
-
-  
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
       to: newEmail,
       subject: "Verify your new email",
       html: `<h3>Your verification code</h3><h2>${code}</h2>`,
     });
-
-    console.log("📧 EMAIL SENT TO 👉", newEmail);
 
     res.json({
       success: true,
@@ -387,15 +369,10 @@ const requestEmailChange = async (req, res) => {
 const verifyEmailChange = async (req, res) => {
   try {
     const userId = req.token.user_id;
-    
+
     const code = String(req.body.code || "").trim();
 
-    console.log("➡️ VERIFY EMAIL CHANGE");
-    console.log("User ID 👉", userId);
-    console.log("Input Code 👉", code);
-
     if (!code) {
-      console.log("❌ No code provided");
       return res.status(400).json({
         success: false,
         message: "Verification code is required",
@@ -409,7 +386,6 @@ const verifyEmailChange = async (req, res) => {
     );
 
     if (!result.rows.length) {
-      console.log("❌ User not found");
       return res.status(400).json({
         success: false,
         message: "User not found",
@@ -418,21 +394,14 @@ const verifyEmailChange = async (req, res) => {
 
     const user = result.rows[0];
 
-    
     const dbCode = String(user.email_verification_code || "").trim();
 
-    console.log("🗄️ DB CODE 👉", dbCode);
-    console.log("📨 INPUT CODE 👉", code);
-
     if (dbCode !== code) {
-      console.log("❌ CODE MISMATCH");
       return res.status(400).json({
         success: false,
         message: "Invalid verification code",
       });
     }
-
-    console.log("✅ CODE MATCHED");
 
     const updateResult = await pool.query(
       `UPDATE users 
@@ -442,8 +411,6 @@ const verifyEmailChange = async (req, res) => {
        WHERE id=$1`,
       [userId]
     );
-
-    console.log("🎉 EMAIL UPDATED SUCCESSFULLY 👉", updateResult.rowCount);
 
     res.json({
       success: true,
@@ -559,5 +526,5 @@ module.exports = {
   updateMyProfile,
   changePassword,
   requestEmailChange,
-  verifyEmailChange 
+  verifyEmailChange,
 };

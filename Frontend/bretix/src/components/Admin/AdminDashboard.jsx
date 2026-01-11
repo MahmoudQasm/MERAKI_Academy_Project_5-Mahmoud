@@ -74,7 +74,6 @@ const AdminDashboard = () => {
       })
       .catch((err) => {
         console.error("Error updating user:", err);
-        alert("حدث خطأ أثناء التحديث");
       });
   };
 
@@ -111,6 +110,8 @@ const AdminDashboard = () => {
 
   const fetchCompletedOrders = async () => {
     setIsLoadingOrders(true);
+    const token = localStorage.getItem("token");
+
     try {
       const response = await axios.get(
         "http://localhost:5000/cart/allcompleted",
@@ -120,6 +121,9 @@ const AdminDashboard = () => {
             limit: 10,
             ...(startDate && { startDate }),
             ...(endDate && { endDate }),
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -145,9 +149,15 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     const getTotal = async () => {
+      const token = localStorage.getItem("token");
       try {
         const result = await axios.get(
-          `http://localhost:5000/cart/totalsales`
+          `http://localhost:5000/cart/totalsales`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         setTotalSales(result.data.total);
         setCSC(result.data.numOfCarts);
@@ -290,10 +300,7 @@ const AdminDashboard = () => {
             <h2>{activeTab.toUpperCase()}</h2>
             <p>Welcome back, here's what's happening today.</p>
           </div>
-          <div className="header-profile">
-            
-           
-          </div>
+          <div className="header-profile"></div>
         </header>
 
         <main className="content">
@@ -407,7 +414,6 @@ const AdminDashboard = () => {
 
           {activeTab === "users" && (
             <div className="users-section animate-fade-in">
-              
               <div className="modern-table-container">
                 <table className="modern-table">
                   <thead>
@@ -428,10 +434,7 @@ const AdminDashboard = () => {
                               {user.lastname?.charAt(0)}
                             </div>
                             <div className="user-text">
-                              <span className="name">
-                                {user.firstname} 
-                              </span>
-                              
+                              <span className="name">{user.firstname}</span>
                             </div>
                           </div>
                         </td>
@@ -505,8 +508,20 @@ const AdminDashboard = () => {
                 >
                   <h3>Recent Completed Orders</h3>
 
-                  <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "10px",
+                      alignItems: "center",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "5px",
+                      }}
+                    >
                       <Calendar size={16} />
                       <input
                         type="date"
@@ -524,7 +539,13 @@ const AdminDashboard = () => {
                       />
                     </div>
                     <span>to</span>
-                    <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "5px",
+                      }}
+                    >
                       <Calendar size={16} />
                       <input
                         type="date"
@@ -634,7 +655,9 @@ const AdminDashboard = () => {
                                 >
                                   ${parseFloat(order.total).toFixed(2)}
                                 </td>
-                                <td style={{ color: "#6b7280", fontSize: "14px" }}>
+                                <td
+                                  style={{ color: "#6b7280", fontSize: "14px" }}
+                                >
                                   {new Date(order.done_at).toLocaleDateString(
                                     "en-US",
                                     {

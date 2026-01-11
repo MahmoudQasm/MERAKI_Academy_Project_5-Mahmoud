@@ -70,7 +70,6 @@ const Register = () => {
         "http://localhost:5000/users/login",
         { email: email, password: password }
       );
-      
 
       localStorage.setItem("token", loginResult.data.token);
       localStorage.setItem("role", loginResult.data.role);
@@ -81,8 +80,6 @@ const Register = () => {
           },
         })
         .then((res) => {
-          console.log(res.data.items[0].id);
-
           localStorage.setItem("CartId", res.data.items[0].id);
         });
 

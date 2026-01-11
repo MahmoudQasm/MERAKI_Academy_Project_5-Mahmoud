@@ -46,8 +46,6 @@ const ProductView = () => {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        console.log(result.data.product);
-
         setProduct(result.data.product);
         setEditedProduct(result.data.product);
       } catch (err) {
