@@ -106,3 +106,36 @@ hr {
   border-top: 1px dashed #ccc;
   margin: 20px 0;
 }
+.success-popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.popup-card {
+  background: #fff;
+  padding: 25px 35px;
+  border-radius: 12px;
+  text-align: center;
+  animation: scaleIn 0.3s ease-in-out;
+}
+
+.popup-card h3 {
+  color: #2e7d32;
+  margin-bottom: 10px;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

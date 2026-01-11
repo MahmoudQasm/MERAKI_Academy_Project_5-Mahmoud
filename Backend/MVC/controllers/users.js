@@ -178,7 +178,6 @@ const requestForgotPassword = (req, res) => {
         },
         (err, info) => {
           if (err) {
-            console.log("Email sending error:", err);
             return res.status(500).json({
               success: false,
               message: "Failed to send email",
@@ -194,7 +193,6 @@ const requestForgotPassword = (req, res) => {
       );
     })
     .catch((err) => {
-      console.log("Server query error:", err);
       res.status(500).json({
         success: false,
         message: "Server error",
@@ -358,7 +356,6 @@ const requestEmailChange = async (req, res) => {
       message: "Verification code sent to new email",
     });
   } catch (error) {
-    console.error("🔥 EMAIL CHANGE ERROR 👉", error);
     res.status(500).json({
       success: false,
       message: "Server error",
@@ -417,7 +414,6 @@ const verifyEmailChange = async (req, res) => {
       message: "Email updated successfully",
     });
   } catch (error) {
-    console.error("🔥 VERIFY EMAIL ERROR 👉", error);
     res.status(500).json({
       success: false,
       message: "Server error",

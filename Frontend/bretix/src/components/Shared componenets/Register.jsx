@@ -20,72 +20,63 @@ const Register = () => {
   const [storeTitle, setStoreTitle] = useState("");
   const [storeLogo, setStoreLogo] = useState("");
   const [storeDescription, setStoreDescription] = useState("");
-  const [ownerId, setOwnerId] = useState(null);
+
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const makeOwnerStates = () => {
     setUserRole(2);
     setAsOwner(true);
   };
+
   const makeUserStates = () => {
     setUserRole(3);
     setAsOwner(false);
   };
 
-  const userRegisterData = {
-    firstName,
-    lastName,
-    age,
-    country,
-    phoneNumber,
-    date_of_birthday,
-    email,
-    password,
-    role_id,
-  };
-
-  const storeRegisterData = {
-    title: storeTitle,
-    logo: storeLogo,
-    description: storeDescription,
-  };
-
   const confirmRegister = async () => {
     try {
+      setErrorMessage("");
+
       const userRegisterResult = await axios.post(
         "http://localhost:5000/users/register",
-        userRegisterData
+        {
+          firstName,
+          lastName,
+          age,
+          country,
+          phoneNumber,
+          date_of_birthday,
+          email,
+          password,
+          role_id,
+        }
       );
 
-      const newId = userRegisterResult.data.user.id;
-      setOwnerId(newId);
+      const newUserId = userRegisterResult.data.user.id;
 
       if (role_id === 2) {
         await axios.post("http://localhost:5000/stores/addnewstore", {
-          ...storeRegisterData,
-          owner_id: newId,
+          title: storeTitle,
+          logo: storeLogo,
+          description: storeDescription,
+          owner_id: newUserId,
         });
       }
 
-      const loginResult = await axios.post(
-        "http://localhost:5000/users/login",
-        { email: email, password: password }
-      );
+      setShowSuccessPopup(true);
 
-      localStorage.setItem("token", loginResult.data.token);
-      localStorage.setItem("role", loginResult.data.role);
-      axios
-        .get("http://localhost:5000/cart/getCartWhereIsDeletedFalse", {
-          headers: {
-            Authorization: `Bearer ${loginResult.data.token}`,
-          },
-        })
-        .then((res) => {
-          localStorage.setItem("CartId", res.data.items[0].id);
-        });
-
-      navigate("/");
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
     } catch (err) {
-      console.log(err);
+      console.error("REGISTER ERROR 👉", err);
+
+      if (err.response?.status === 409) {
+        setErrorMessage("Email already exists ❌");
+      } else {
+        setErrorMessage("Something went wrong ❌");
+      }
     }
   };
 
@@ -94,6 +85,8 @@ const Register = () => {
       <div className="register-card">
         <h2>Create Account</h2>
         <p>Join Bretix for a sustainable future</p>
+
+        {errorMessage && <p className="error-msg">{errorMessage}</p>}
 
         <div className="owner-toggle">
           <input
@@ -116,18 +109,21 @@ const Register = () => {
             placeholder="Last Name"
             onChange={(e) => setLastName(e.target.value)}
           />
+
           <input
             className="full-width"
             type="email"
             placeholder="Email Address"
             onChange={(e) => setEmail(e.target.value)}
           />
+
           <input
             className="full-width"
             type="password"
             placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
           />
+
           <input
             type="number"
             placeholder="Mobile Number"
@@ -152,16 +148,19 @@ const Register = () => {
               <div className="full-width">
                 <hr />
               </div>
+
               <input
                 className="full-width"
                 placeholder="Store Name"
                 onChange={(e) => setStoreTitle(e.target.value)}
               />
+
               <input
                 className="full-width"
                 placeholder="About Store"
                 onChange={(e) => setStoreDescription(e.target.value)}
               />
+
               <input
                 className="full-width"
                 placeholder="Store Logo URL"
@@ -175,6 +174,16 @@ const Register = () => {
           Register Now
         </button>
       </div>
+
+      {showSuccessPopup && (
+        <div className="success-popup">
+          <div className="popup-card">
+            <h3>✅ Registration Successful</h3>
+            <p>Your account has been created</p>
+            <p>Redirecting to login...</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
