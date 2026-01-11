@@ -230,3 +230,74 @@ hr {
     border: 0;
     border-top: 1px solid #edf2f7;
 }
+
+
+.nav-search-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5%;
+  z-index: 100;
+  transform: translateY(-100%);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.nav-search-overlay.active {
+  transform: translateY(0); 
+}
+
+.search-box-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
+  background: #f1f3f0;
+  padding: 10px 20px;
+  border-radius: 50px;
+  gap: 15px;
+}
+
+.search-box-container input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 1.1rem;
+  color: #283618;
+}
+
+.search-icon-inside {
+  color: #7fa17a;
+}
+
+.close-search {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #d4a373;
+  padding: 5px;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.close-search:hover {
+  background: rgba(0,0,0,0.05);
+}
+
+
+.search-trigger {
+  margin-right: 5px;
+}
+
+
+.search-trigger:active {
+  transform: scale(0.9);
+}
+

@@ -1,18 +1,28 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./ProductsGrid.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import SearchBar from "material-ui-search-bar";
 
 function Products() {
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedStores, setSelectedStores] = useState("");
-
+  const [search, setSearch] = useState(""); 
   const [stores, setStores] = useState([]);
   const [toast, setToast] = useState({ show: false, message: "" });
   const [showDropDownCatagry, setShowDropDownCatagry] = useState(false);
   const [showDropDownStores, setShowDropDownStores] = useState(false);
+
+
+  const location = useLocation();
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const searchTermFromUrl = queryParams.get("search") || "";
+    setSearch(searchTermFromUrl); 
+  }, [location.search]);
+
   useEffect(() => {
     axios
       .get("http://localhost:5000/products/all")
@@ -36,35 +46,36 @@ function Products() {
       .catch((err) => console.log("Error stores:", err));
   }, []);
 
-const productsByCategory = products.filter(
-  (item) => !selectedCategory || item.categories_id == selectedCategory
-);
+  const handleSearch = (newSearch) => {
+    setSearch(newSearch);
+  };
 
 
-const storeIds = [...new Set(productsByCategory.map((p) => p.store_id))];
+  const filteredProducts = products.filter((item) => {
+    const matchCategory = selectedCategory
+      ? item.categories_id == selectedCategory
+      : true;
 
+    const matchStore = selectedStores ? item.store_id == selectedStores : true;
 
-const filteredStore = selectedCategory
-  ? stores.filter((store) => storeIds.includes(store.id))
-  : stores;
+    const matchSearch = item.title
+      ? item.title.toLowerCase().includes(search.toLowerCase())
+      : true;
 
-const filteredProducts = products.filter((item) => {
-  const matchCategory = selectedCategory
-    ? item.categories_id == selectedCategory
-    : true;
+    return matchCategory && matchStore && matchSearch;
+  });
 
-  const matchStore = selectedStores
-    ? item.store_id == selectedStores
-    : true;
+  const storeIds = [...new Set(products.filter(p => !selectedCategory || p.categories_id == selectedCategory).map((p) => p.store_id))];
 
-  return matchCategory && matchStore;
-});
-
+  const filteredStore = selectedCategory
+    ? stores.filter((store) => storeIds.includes(store.id))
+    : stores;
 
   const showToast = (message) => {
     setToast({ show: true, message });
     setTimeout(() => setToast({ show: false, message: "" }), 3000);
   };
+
 
   const handleFlyAnimation = (e, imgsrc) => {
     const cart = document.getElementById("cart-icon-nav");
@@ -75,8 +86,7 @@ const filteredProducts = products.filter((item) => {
     flyingImg.className = "flying-product-premium";
 
     const rect = e.target.getBoundingClientRect();
-    const scrollLeft =
-      window.pageXOffset || document.documentElement.scrollLeft;
+    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
     flyingImg.style.left = `${rect.left + scrollLeft}px`;
@@ -86,14 +96,8 @@ const filteredProducts = products.filter((item) => {
     const cartRect = cart.getBoundingClientRect();
 
     requestAnimationFrame(() => {
-      flyingImg.style.setProperty(
-        "--target-x",
-        `${cartRect.left + scrollLeft - rect.left}px`
-      );
-      flyingImg.style.setProperty(
-        "--target-y",
-        `${cartRect.top + scrollTop - rect.top}px`
-      );
+      flyingImg.style.setProperty("--target-x", `${cartRect.left + scrollLeft - rect.left}px`);
+      flyingImg.style.setProperty("--target-y", `${cartRect.top + scrollTop - rect.top}px`);
       flyingImg.classList.add("is-flying");
     });
 
@@ -137,18 +141,17 @@ const filteredProducts = products.filter((item) => {
       {toast.show && (
         <div className="toast-premium">
           <span>{toast.message}</span>
-          <button onClick={() => setToast({ show: false, message: "" })}>
-            ✕
-          </button>
+          <button onClick={() => setToast({ show: false, message: "" })}>✕</button>
         </div>
       )}
 
-      <div className="category-filter-bar">
+      
+      <div className="filter-controls">
         <button
           className={selectedCategory === "" ? "active" : ""}
           onClick={() => setShowDropDownCatagry(!showDropDownCatagry)}
         >
-          All Categories
+          {selectedCategory ? category.find(c => c.id == selectedCategory)?.name : "All Categories"}
         </button>
 
         {showDropDownCatagry && (
@@ -160,25 +163,20 @@ const filteredProducts = products.filter((item) => {
               setShowDropDownCatagry(false);
             }}
           >
-            <option value="">All Products</option>
-
+            <option value="">All Categories</option>
             {category.map((cat) => (
-              <option key={cat.id} value={cat.id}>
-                {cat.name}
-              </option>
+              <option key={cat.id} value={cat.id}>{cat.name}</option>
             ))}
           </select>
         )}
-      </div>
 
-      <div>
-        {" "}
         <button
           className={selectedStores === "" ? "active" : ""}
           onClick={() => setShowDropDownStores(!showDropDownStores)}
         >
-          All Stores
+          {selectedStores ? stores.find(s => s.id == selectedStores)?.title : "All Stores"}
         </button>
+
         {showDropDownStores && (
           <select
             className="stores-dropdown"
@@ -188,19 +186,31 @@ const filteredProducts = products.filter((item) => {
               setShowDropDownStores(false);
             }}
           >
+            <option value="">All Stores</option>
             {filteredStore.map((store) => (
-              <option key={store.id} value={store.id}>
-                {store.title}
-              </option>
+              <option key={store.id} value={store.id}>{store.title}</option>
             ))}
           </select>
         )}
       </div>
 
+      <div className="search-bar-container">
+        <SearchBar
+          value={search}
+          onChange={(newVal) => handleSearch(newVal)}
+          onCancelSearch={() => handleSearch("")}
+          placeholder="Search in your products..."
+        />
+      </div>
+
       <div className="header-section">
         <p className="sub-title">Eco Essentials Planet-Friendly</p>
         <h2 className="main-title">
-          Bestselling <span>✨ Products</span>
+          {search ? (
+            <>Results for: <span>"{search}"</span></>
+          ) : (
+            <>Bestselling <span>✨ Products</span></>
+          )}
         </h2>
       </div>
 
