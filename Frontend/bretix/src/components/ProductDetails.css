@@ -114,3 +114,135 @@
     cursor: pointer;
     font-weight: 600;
 }
+
+
+
+.add-to-cart-btn {
+  background: #2d5a27; 
+  color: white;
+  border: none;
+  padding: 15px 35px;
+  border-radius: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 10px 20px rgba(45, 90, 39, 0.2);
+}
+
+.add-to-cart-btn:hover:not(:disabled) {
+  background: #283618;
+  transform: translateY(-3px);
+  box-shadow: 0 15px 25px rgba(45, 90, 39, 0.3);
+}
+
+
+.add-to-cart-btn.success-state {
+  background: #d4a373 !important;
+  transform: scale(1.05);
+}
+
+.check-icon {
+  animation: scaleIn 0.3s ease-out;
+}
+
+@keyframes scaleIn {
+  0% { transform: scale(0); }
+  100% { transform: scale(1.2); }
+}
+
+/* تأثير الـ Bounce لأيقونة السلة في الناف بار */
+.cart-bounce-premium {
+  animation: cartBounce 0.5s ease;
+}
+
+@keyframes cartBounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.4) rotate(-10deg); }
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  color: #2d5a27;
+  font-weight: bold;
+}
+
+/* Toast Styles المدمجة */
+.premium-toast-container {
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 16px 28px;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  z-index: 10001;
+  display: flex;
+  flex-direction: column;
+  min-width: 320px;
+  border-left: 6px solid #2ecc71;
+  animation: toastSlideIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+.toast-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.toast-progress {
+  height: 4px;
+  background: #eee;
+  margin-top: 12px;
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.toast-progress::after {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 100%;
+  background: #2ecc71;
+  animation: progress 3.5s linear forwards;
+}
+
+@keyframes toastSlideIn {
+  from { transform: translateX(120%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes progress {
+  from { width: 100%; }
+  to { width: 0%; }
+}
+
+
+.qty-selector-eco {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #f8f9fa;
+  padding: 5px 15px;
+  border-radius: 50px;
+  width: fit-content;
+}
+
+.qty-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #224037;
+  transition: 0.3s;
+}
+
+.qty-btn:hover { transform: scale(1.2); }

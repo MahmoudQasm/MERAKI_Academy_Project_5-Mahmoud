@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import GoogleMapReact from "google-map-react";
+import SearchBar from "material-ui-search-bar";
+
 import {
   Trash2,
   ShoppingBag,
   CreditCard,
   Truck,
-  Minus,
-  Plus,
+  MinusCircle, // تغيير الأيقونة
+  PlusCircle,  // تغيير الأيقونة
   MapPin,
   X,
+  CheckCircle,
+  AlertCircle,
 } from "lucide-react";
 import "./Cart.css";
 import { useNavigate } from "react-router-dom";
@@ -19,11 +23,21 @@ const Cart = () => {
   const [cartId, setCartId] = useState(null);
   const [showLocationModal, setShowLocationModal] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState(null);
+  const [selectedPayment, setSelectedPayment] = useState("COD");
+
   const [currentLocation, setCurrentLocation] = useState(null);
   const token = localStorage.getItem("token");
   const [addressData, setAddressData] = useState({});
   const navigate = useNavigate();
   const [address, setAddress] = useState("Loading address...");
+  const [selAddressData, setSelAddressData] = useState({});
+
+  const [toast, setToast] = useState({ show: false, message: "", type: "info" });
+
+  const showCustomToast = (msg, type = "info") => {
+    setToast({ show: true, message: msg, type });
+    setTimeout(() => setToast({ show: false, message: "", type: "info" }), 3500);
+  };
 
   useEffect(() => {
     axios
@@ -74,14 +88,41 @@ const Cart = () => {
 
   const confirmCheckout = () => {
     if (items.length === 0) {
-      alert("Your cart is empty!");
+      showCustomToast("Your cart is empty!", "error");
       return;
     }
     if (!selectedLocation) {
-      alert("Please select delivery location first!");
+      showCustomToast("Please select delivery location first!", "error");
       return;
     }
-    navigate("/checkout");
+    if (selectedPayment === "COD") {
+      const cartId = localStorage.getItem("cartId");
+      axios
+        .put(
+          `http://localhost:5000/cart/complete/${cartId}`,
+          { payment_method: "COD" },
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
+        .then((res) => {
+          localStorage.setItem(cartId, res.data.newCartId);
+          navigate("/Success");
+        })
+        .catch((err) => {
+          console.log("OrderFailed", err);
+          showCustomToast("Order failed, please try again.", "error");
+        });
+    } else {
+      navigate("/checkout");
+    }
+  };
+
+  const handleSelLocationClick = async (lat, lng) => {
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`
+    );
+
+    const data = await response.json();
+    setSelAddressData(data.address);
   };
 
   const handleLocationClick = () => {
@@ -102,12 +143,14 @@ const Cart = () => {
         },
         (error) => {
           console.error(error.message);
+          showCustomToast("Please enable location access", "error");
         }
       );
     }
   };
 
   const handleMapClick = ({ lat, lng }) => {
+    handleSelLocationClick(lat, lng);
     setSelectedLocation({ lat, lng });
   };
 
@@ -118,10 +161,9 @@ const Cart = () => {
         JSON.stringify(selectedLocation)
       );
       setShowLocationModal(false);
-      alert(
-        `Location saved: ${selectedLocation.lat.toFixed(
-          4
-        )}, ${selectedLocation.lng.toFixed(4)}`
+      showCustomToast(
+        `Location saved: ${selAddressData.country || ''} ${selAddressData.state || ''}`, 
+        "success"
       );
     }
   };
@@ -141,6 +183,16 @@ const Cart = () => {
 
   return (
     <div className="cart-premium-wrapper">
+      {toast.show && (
+        <div className={`premium-toast-container ${toast.type}`}>
+          <div className="toast-content">
+            {toast.type === "success" ? <CheckCircle size={20} /> : <AlertCircle size={20} />}
+            <span>{toast.message}</span>
+          </div>
+          <div className="toast-progress"></div>
+        </div>
+      )}
+
       <div className="cart-main-container">
         <div className="cart-items-section">
           <div className="cart-header-title">
@@ -164,23 +216,31 @@ const Cart = () => {
                   <h4>{item.title}</h4>
                   <p className="unit-price">${item.price}</p>
                 </div>
-                <div className="quantity-box">
+
+           
+                <div className="quantity-box-premium">
                   <button
+                    className="qty-btn-neo minus"
                     onClick={() =>
                       updateQuantity(item.cart_product_id, item.quantity - 1)
                     }
                   >
-                    <Minus size={14} />
+                    <MinusCircle size={22} strokeWidth={1.5} />
                   </button>
-                  <span>{item.quantity}</span>
+                  
+                  <span className="qty-number" >{item.quantity}</span>
+                  
                   <button
+                    className="qty-btn-neo plus"
                     onClick={() =>
                       updateQuantity(item.cart_product_id, item.quantity + 1)
                     }
                   >
-                    <Plus size={14} />
+                    <PlusCircle size={22} strokeWidth={1.5} />
                   </button>
                 </div>
+                {/* ------------------------ */}
+
                 <div className="item-subtotal">
                   ${(item.price * item.quantity).toFixed(2)}
                 </div>
@@ -214,14 +274,22 @@ const Cart = () => {
                   type="radio"
                   name="payment_method"
                   value="COD"
-                  defaultChecked
+                  checked={selectedPayment === "COD"}
+                  onChange={(e) => setSelectedPayment(e.target.value)}
                 />
                 <div className="radio-design">
                   <Truck size={16} /> Cash on Delivery
                 </div>
               </label>
+
               <label className="radio-label">
-                <input type="radio" name="payment_method" value="Card" />
+                <input
+                  type="radio"
+                  name="payment_method"
+                  value="Card"
+                  checked={selectedPayment === "Card"}
+                  onChange={(e) => setSelectedPayment(e.target.value)}
+                />
                 <div className="radio-design">
                   <CreditCard size={16} /> Pay by card
                 </div>
@@ -231,8 +299,9 @@ const Cart = () => {
             <button className="location-btn" onClick={handleLocationClick}>
               Insert Location for Delivery
             </button>
+
             <button className="checkout-btn-final" onClick={confirmCheckout}>
-              Confirm Order
+              {selectedPayment === "COD" ? "Confirm Order" : "Go to Payment"}
             </button>
           </div>
         </div>
@@ -257,8 +326,8 @@ const Cart = () => {
               </p>
               {selectedLocation && (
                 <p className="selected-coords">
-                  Selected: {selectedLocation.lat.toFixed(4)},{" "}
-                  {selectedLocation.lng.toFixed(4)}
+                  Selected: {selAddressData.country}, {selAddressData.state} -
+                  {selAddressData.road}
                 </p>
               )}
               <div style={{ height: "400px", width: "100%" }}>

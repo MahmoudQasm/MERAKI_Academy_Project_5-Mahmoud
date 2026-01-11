@@ -155,8 +155,7 @@ const requestForgotPassword = (req, res) => {
         expiresIn: "15m",
       });
 
-      const resetLink = `http://localhost:5173/reset-password?token=${token}`;
-
+      const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
       const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
