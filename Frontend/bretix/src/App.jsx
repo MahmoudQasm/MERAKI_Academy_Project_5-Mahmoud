@@ -28,7 +28,7 @@ import Orders from "./components/Shared componenets/Orders";
 import StoreInfo from "./components/Owners/StoreInfo";
 import Dashboard from "./components/Owners/Dashboard";
 import ContactUs from "./components/Shared componenets/ContactUs";
-import AdminDashboard from "./components/admin/AdminDashboard";
+import AdminDashboard from "./components/Admin/AdminDashboard";
 import OrderDetails from "./components/Owners/OrderDetails";
 import CheckoutPage from "./components/User/CheckoutPage";
 import SuccessPage from "./components/User/SuccessPage";

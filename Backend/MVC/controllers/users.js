@@ -81,7 +81,7 @@ const login = (req, res) => {
     if (result.rows.length === 0) {
       res.status(403).json({
         success: false,
-        massage:
+        message:
           "The email doesn’t exist or the password you’ve entered is incorrect",
       });
     }
@@ -90,7 +90,7 @@ const login = (req, res) => {
       if (!ismatch) {
         return res.status(403).json({
           success: false,
-          massage:
+          message:
             "The email doesn’t exist or the password you’ve entered is incorrect",
         });
       }
@@ -110,7 +110,7 @@ const login = (req, res) => {
           .then((response) => {
             res.status(200).json({
               success: true,
-              massage: "Valid login credentials",
+              message: "Valid login credentials",
               token: token,
               userId: user.id,
               role: user.role_id,
@@ -121,14 +121,14 @@ const login = (req, res) => {
           .catch((err) => {
             res.status(500).json({
               success: false,
-              massage: "Server Error",
+              message: "Server Error",
               err: err.message,
             });
           });
       } else {
         res.status(200).json({
           success: true,
-          massage: "Valid login credentials",
+          message: "Valid login credentials",
           token: token,
           userId: user.id,
           role: user.role_id,
@@ -500,7 +500,7 @@ const updateUserInformation = (req, res) => {
     .then((result) => {
       res.status(201).json({
         success: true,
-        massage: "user information update Succsesfly",
+        message: "user information update Succsesfly",
         result: result.rows,
       });
     })
