@@ -5,6 +5,7 @@ require("dotenv").config();
 const db = require("./MVC/models/db");
 const cartRouter = require("./MVC/routes/cart");
 const usersRouter = require("./MVC/routes/users");
+const favouritesRouter = require("./MVC/routes/favourites");
 const categoriesRouter = require("./MVC/routes/categories");
 const productsRouter = require("./MVC/routes/products");
 const storesRouter = require("./MVC/routes/stores");
@@ -16,6 +17,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/users", usersRouter);
+app.use("/favourites", favouritesRouter);
 app.use("/categories", categoriesRouter);
 app.use("/cart", cartRouter);
 app.use("/products", productsRouter);

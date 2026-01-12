@@ -25,7 +25,7 @@ storesRouter.get("/:id", getStoreById);
 storesRouter.get("/:id/products", getProductsInStore); 
 
 //====================================================================================
-storesRouter.post("/addnewstore", authentication, addNewStore);
+storesRouter.post("/addnewstore", addNewStore);
 storesRouter.get("/order-details/:order_id", authentication, getOrderDetails);
 
 //====================================================================================

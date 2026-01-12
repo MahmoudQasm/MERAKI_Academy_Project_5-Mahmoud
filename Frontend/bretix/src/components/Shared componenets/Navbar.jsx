@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./Navbar.css";
 import { FaUser, FaSignOutAlt, FaIdCard, FaKey } from "react-icons/fa";
-import { Package, Store, ShieldCheck, Home, MessageSquare, ShoppingCart, ClipboardList, Search, X } from "lucide-react";
+import { Package, Store, ShieldCheck, Home, MessageSquare, ShoppingCart, ClipboardList,Heart , Search, X } from "lucide-react";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -70,6 +70,7 @@ const Navbar = () => {
         <button className="icon-btn" onClick={() => navigate("/stores")} title="Stores"><Store size={35} /></button>
         <button className="icon-btn" onClick={() => navigate("/products")} title="Products"><Package size={35} /></button>
         {role && <button className="icon-btn" onClick={() => navigate("/Orders")} title="Orders"><ClipboardList size={35} /></button>}
+        {role && <button className="icon-btn" onClick={() => navigate("/favourites")} title="Favourites"><Heart  size={35} /></button>}
         <button className="icon-btn" onClick={() => navigate("/ContactUs")} title="Contact Us"><MessageSquare size={35} /></button>
       </div>
 

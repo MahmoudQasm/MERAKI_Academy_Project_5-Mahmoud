@@ -9,6 +9,8 @@ const Store = () => {
   const [store, setStore] = useState(null);
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isFavourite, setIsFavourite] = useState(false); 
+  const token = localStorage.getItem("token"); 
 
   useEffect(() => {
     const fetchStoreData = async () => {
@@ -21,6 +23,15 @@ const Store = () => {
         const productsResponse = await axios.get(`http://localhost:5000/stores/${id}/products`);
         setProducts(productsResponse.data.result);
 
+        
+        if (token) {
+          const favResponse = await axios.get(
+            `http://localhost:5000/favourites/check/${id}`,
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+          setIsFavourite(favResponse.data.isFavourite);
+        }
+
       } catch (err) {
         console.error(err);
       } finally {
@@ -29,7 +40,37 @@ const Store = () => {
     };
 
     fetchStoreData();
-  }, [id]);
+  }, [id, token]);
+
+
+  const toggleFavourite = async () => {
+    if (!token) {
+      alert("Please login first!");
+      navigate("/login");
+      return;
+    }
+
+    try {
+      if (isFavourite) {
+        
+        await axios.delete(`http://localhost:5000/favourites/${id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setIsFavourite(false);
+      } else {
+        
+        await axios.post(
+          "http://localhost:5000/favourites",
+          { store_id: parseInt(id) },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        setIsFavourite(true);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error updating favourite");
+    }
+  };
 
   if (isLoading) {
     return (
@@ -62,7 +103,18 @@ const Store = () => {
             <p className="store-desc">{store.description}</p>
 
             <div className="action-buttons">
-              <button className="wishlist-btn">♥ Favorite</button>
+              <button 
+                className="wishlist-btn"
+                onClick={toggleFavourite}
+                style={{
+                  backgroundColor: isFavourite ? '#e74c3c' : 'transparent',
+                  color: isFavourite ? 'white' : '#e74c3c',
+                  border: `2px solid #e74c3c`,
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                {isFavourite ? '❤️ Favourited' : '🤍 Add to Favourite'}
+              </button>
             </div>
           </div>
         </div>

@@ -36,6 +36,7 @@ import ForgetPassword from "./components/Shared componenets/forgetPassword";
 import ResetPassword from "./components/Shared componenets/ResetPassword";
 import Profile from "./components/Shared componenets/Profile";
 import ChangePassword from "./components/Shared componenets/ChangePassword";
+import Favourites from "./components/Shared componenets/Favourites";
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
 function App() {
@@ -89,6 +90,7 @@ function App() {
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/success" element={<SuccessPage />} />
           <Route path="/change-password" element={<ChangePassword />} />
+          <Route path="/favourites" element={<Favourites />} />
         </Routes>
         <Footer />
       </div>
