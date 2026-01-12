@@ -142,3 +142,10 @@
   .input-group-modern.full-width { grid-column: span 1; }
   .profile-card-modern { padding: 25px; }
 }
+
+.emailin{
+display: flex;
+justify-content: center;
+align-items: center;
+width: 375px;
+}

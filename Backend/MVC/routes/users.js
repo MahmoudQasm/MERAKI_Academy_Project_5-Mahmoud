@@ -11,6 +11,7 @@ const {
   updateMyProfile,
   changePassword,
   requestEmailChange,
+  updateUserInformationAdmin,
   verifyEmailChange,
 } = require("../controllers/users");
 
@@ -26,6 +27,7 @@ usersRouter.post("/request-forgot-password", requestForgotPassword);
 usersRouter.post("/reset-password", resetPassword);
 usersRouter.get("/", getAllUser);
 usersRouter.put("/update/:id", updateUserInformation);
+usersRouter.put("/update/admin/:id", updateUserInformationAdmin);
 usersRouter.put("/change-password", authentication, changePassword);
 usersRouter.post("/request-email-change", authentication, requestEmailChange);
 usersRouter.put("/verify-email-change", authentication, verifyEmailChange);

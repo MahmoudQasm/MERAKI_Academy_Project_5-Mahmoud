@@ -63,10 +63,16 @@ const AdminDashboard = () => {
       console.error("User ID is missing!");
       return;
     }
+    console.log(usersEdit);
 
     axios
-      .put(`http://localhost:5000/users/update/${usersEdit.id}`, usersEdit)
+      .put(
+        `http://localhost:5000/users/update/admin/${usersEdit.id}`,
+        usersEdit
+      )
       .then((result) => {
+        console.log(result);
+
         const updatedUsers = users.map((u) =>
           u.id === usersEdit.id ? { ...u, ...usersEdit } : u
         );
@@ -547,7 +553,14 @@ const AdminDashboard = () => {
                           <button
                             className="action-edit-btn"
                             onClick={() => {
-                              setUsersEdit(user);
+                              console.log(user);
+
+                              setUsersEdit({
+                                firstname: user.firstname,
+                                lastname: user.lastname,
+                                country: user.country,
+                                id: user.id,
+                              });
                               setShowEditForm(true);
                             }}
                           >
@@ -851,91 +864,93 @@ const AdminDashboard = () => {
       </div>
 
       {showToast && (
-  <div className="eco-toast-box">
-    <div className="toast-icon">
-      <CheckCircle size={24} color="#10b981" />
-    </div>
-    <div className="toast-message">
-      <h4>Success!</h4>
-      <p>Action completed successfully.</p>
-    </div>
-  </div>
-)}
-
-{showAddCategoryForm && (
-  <div className="modal-overlay animate-fade-in">
-    <div className="modal-content animate-slide-up" style={{ maxWidth: "500px" }}>
-      <div className="modal-header">
-        <div className="modal-title-box">
-          <h3>Add New Category</h3>
+        <div className="eco-toast-box">
+          <div className="toast-icon">
+            <CheckCircle size={24} color="#10b981" />
+          </div>
+          <div className="toast-message">
+            <h4>Success!</h4>
+            <p>Action completed successfully.</p>
+          </div>
         </div>
-        <button
-          className="close-modal-btn"
-          onClick={() => {
-            setShowAddCategoryForm(false);
-            setNewCategoryName("");
-          }}
-        >
-          ✕
-        </button>
-      </div>
+      )}
 
-      <div className="modal-body">
-        <div className="input-field-premium">
-          <label>Category Name</label>
-          <input
-            type="text"
-            value={newCategoryName}
-            onChange={(e) => setNewCategoryName(e.target.value)}
-            placeholder="Enter category name"
-            style={{
-              width: "100%",
-              padding: "12px",
-              border: "1px solid #d1d5db",
-              borderRadius: "8px",
-              fontSize: "15px"
-            }}
-          />
+      {showAddCategoryForm && (
+        <div className="modal-overlay animate-fade-in">
+          <div
+            className="modal-content animate-slide-up"
+            style={{ maxWidth: "500px" }}
+          >
+            <div className="modal-header">
+              <div className="modal-title-box">
+                <h3>Add New Category</h3>
+              </div>
+              <button
+                className="close-modal-btn"
+                onClick={() => {
+                  setShowAddCategoryForm(false);
+                  setNewCategoryName("");
+                }}
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="modal-body">
+              <div className="input-field-premium">
+                <label>Category Name</label>
+                <input
+                  type="text"
+                  value={newCategoryName}
+                  onChange={(e) => setNewCategoryName(e.target.value)}
+                  placeholder="Enter category name"
+                  style={{
+                    width: "100%",
+                    padding: "12px",
+                    border: "1px solid #d1d5db",
+                    borderRadius: "8px",
+                    fontSize: "15px",
+                  }}
+                />
+              </div>
+            </div>
+
+            <div className="modal-footer">
+              <button
+                className="cancel-btn"
+                onClick={() => {
+                  setShowAddCategoryForm(false);
+                  setNewCategoryName("");
+                }}
+                style={{
+                  padding: "10px 20px",
+                  background: "#e5e7eb",
+                  border: "none",
+                  borderRadius: "8px",
+                  cursor: "pointer",
+                  marginRight: "10px",
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                className="submit-btn-eco"
+                onClick={addCategory}
+                style={{
+                  padding: "10px 20px",
+                  background: "#10b981",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "8px",
+                  cursor: "pointer",
+                }}
+              >
+                Add Category
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
-
-      <div className="modal-footer">
-        <button 
-          className="cancel-btn" 
-          onClick={() => {
-            setShowAddCategoryForm(false);
-            setNewCategoryName("");
-          }}
-          style={{
-            padding: "10px 20px",
-            background: "#e5e7eb",
-            border: "none",
-            borderRadius: "8px",
-            cursor: "pointer",
-            marginRight: "10px"
-          }}
-        >
-          Cancel
-        </button>
-        <button 
-          className="submit-btn-eco" 
-          onClick={addCategory}
-          style={{
-            padding: "10px 20px",
-            background: "#10b981",
-            color: "white",
-            border: "none",
-            borderRadius: "8px",
-            cursor: "pointer"
-          }}
-        >
-          Add Category
-        </button>
-      </div>
-    </div>
-  </div>
-)}
-
+      )}
     </div>
   );
 };

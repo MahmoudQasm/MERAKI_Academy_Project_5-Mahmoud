@@ -199,6 +199,7 @@ function Profile() {
 
             <div className="email-edit-wrapper">
               <input
+              className="emailin"
                 type="email"
                 value={newEmail}
                 onChange={(e) => {

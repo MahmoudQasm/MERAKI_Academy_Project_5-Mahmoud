@@ -483,7 +483,7 @@ const updateUserInformation = (req, res) => {
     date_of_birthday,
     email,
   } = req.body;
-  
+
   pool
     .query(
       `UPDATE users SET 
@@ -522,6 +522,36 @@ const updateUserInformation = (req, res) => {
       });
     });
 };
+
+const updateUserInformationAdmin = (req, res) => {
+  const { id } = req.params;
+  const { firstname, lastname, country } = req.body;
+
+  pool
+    .query(
+      `UPDATE users SET 
+        firstname=$1,
+        lastname=$2,
+        country=$3
+      WHERE id=$4 
+      RETURNING *`,
+      [firstname, lastname, country, id]
+    )
+    .then((result) => {
+      res.status(201).json({
+        success: true,
+        message: "user information updated successfully",
+        result: result.rows,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        success: false,
+        message: "server error",
+      });
+    });
+};
 module.exports = {
   register,
   login,
@@ -534,4 +564,5 @@ module.exports = {
   changePassword,
   requestEmailChange,
   verifyEmailChange,
+  updateUserInformationAdmin,
 };
