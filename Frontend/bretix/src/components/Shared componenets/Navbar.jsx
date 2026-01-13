@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import "./Navbar.css";
 import { FaUser, FaSignOutAlt, FaIdCard, FaKey } from "react-icons/fa";
 import { Package, Store, ShieldCheck, Home, MessageSquare, ShoppingCart, ClipboardList,Heart , Search, X } from "lucide-react";
+import axios from "axios";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -11,7 +12,15 @@ const Navbar = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const dropdownRef = useRef(null);
   const searchRef = useRef(null);
-
+ const [user, setUser] = useState({
+    firstname: "",
+    lastname: "",
+    age: "",
+    country: "",
+    phonenumber: "",
+    date_of_birthday: "",
+    email: "",
+  });
   const role = localStorage.getItem("role");
   const [cartCount, setCartCount] = useState(parseInt(localStorage.getItem("cartCount") || "0"));
 
@@ -39,6 +48,34 @@ const Navbar = () => {
     window.addEventListener("cartUpdated", handleStorageChange);
     return () => window.removeEventListener("cartUpdated", handleStorageChange);
   }, []);
+const token = localStorage.getItem("token");
+
+  // ================== Load Profile ==================
+  useEffect(() => {
+    if (!token) return;
+
+    axios
+      .get("http://localhost:5000/users/profile", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        const data = res.data.user;
+        setUser({
+          firstname: data.firstname || "",
+          lastname: data.lastname || "",
+          age: data.age !== null ? data.age.toString() : "",
+          country: data.country || "",
+          phonenumber:
+            data.phonenumber !== null ? data.phonenumber.toString() : "",
+          date_of_birthday: data.date_of_birthday || "",
+          email: data.email || "",
+        });
+        setNewEmail(data.email || "");
+        setIsEmailVerified(true);
+        setIsCodeSent(false);
+      })
+      .catch(() => setMessage("Failed to load profile ❌"));
+  }, [token]);
 
   return (
     <nav className="navbar-container">
@@ -104,7 +141,7 @@ const Navbar = () => {
     {role === null ? (
       <span>Login</span>
     ) : (
-      <span>PL</span>
+      <span>{user.firstname[0]}{user.lastname[0]}</span>
     )}
   </button>
 

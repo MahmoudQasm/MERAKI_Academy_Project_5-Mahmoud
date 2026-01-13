@@ -372,7 +372,7 @@ const AdminDashboard = () => {
             <div className="products-grid-container animate-fade-in">
               <div className="section-header">
                 <div>
-                  <h3>Eco-Products Catalog</h3>
+                  <h3>Bretix-Products Catalog</h3>
                   <p className="subtitle">Manage your sustainable inventory</p>
                 </div>
                 <div style={{ display: "flex", gap: "12px" }}>
@@ -385,7 +385,7 @@ const AdminDashboard = () => {
                   <button
                     className="add-product-btn"
                     onClick={() => setShowAddCategoryForm(true)}
-                    style={{ background: "#8b5cf6" }}
+                    style={{ background: "#4af094ff" }}
                   >
                     + Add Category
                   </button>
@@ -486,7 +486,7 @@ const AdminDashboard = () => {
                     className="submit-product-btn"
                     onClick={productsAdmin}
                   >
-                    Save Product to Bretix Eco
+                    Save Product to Bretix 
                   </button>
                 </div>
               )}
@@ -585,7 +585,7 @@ const AdminDashboard = () => {
                   type="emerald"
                 />
                 <StatCard
-                  title="Eco Projects"
+                  title="Bretix Projects"
                   value="24"
                   change="+2"
                   icon={<Leaf size={20} />}
