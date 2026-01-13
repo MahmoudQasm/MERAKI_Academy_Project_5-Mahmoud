@@ -96,12 +96,16 @@ const token = localStorage.getItem("token");
         </div>
       </div>
 
-      <div className="nav-group left">
-        <div className="nav-logo" onClick={() => navigate("/")}>
-          <Home size={20} />
-          <span>Bretix</span>
-        </div>
-      </div>
+     <div className="nav-group left">
+  <div className="nav-logo" onClick={() => navigate("/")}>
+    
+    <img 
+      src="/logo1.png" 
+      alt="Logic Cartel " 
+      className="navbar-custom-img" 
+    />
+  </div>
+</div>
 
       <div className="nav-group center">
         <button className="icon-btn" onClick={() => navigate("/stores")} title="Stores"><Store size={35} /></button>
