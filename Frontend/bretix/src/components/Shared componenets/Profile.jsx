@@ -112,7 +112,7 @@ function Profile() {
     <div className="profile-page-wrapper">
       <div className="profile-card-modern">
         <div className="profile-header-section">
-          <div className="avatar-circle">PL</div>
+          <div className="avatar-circle">{user.firstname[0]}{user.lastname[0]}</div>
           <div className="header-text">
             <h2>
               {user.firstname} {user.lastname}

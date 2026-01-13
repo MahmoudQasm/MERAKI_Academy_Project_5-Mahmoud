@@ -424,12 +424,3 @@ a {
   border-color: var(--primary-eco) !important;
   box-shadow: 0 8px 20px rgba(45, 90, 39, 0.1) !important;
 }
-.stores-dropdown{
-  margin-top: 10px;
-  padding: 8px 12px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  background: #fff;
-  font-size: 14px;
-}
-
