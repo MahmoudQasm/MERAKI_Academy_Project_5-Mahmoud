@@ -12,8 +12,7 @@ const ProductDetails = () => {
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const [addingToCart, setAddingToCart] = useState(false);
-  const [showToast, setShowToast] = useState(false); // حالة التوست الجديدة
-
+  const [showToast, setShowToast] = useState(false);
   const increseQu = () => setQuantity((prev) => prev + 1);
   const decreseQu = () => {
     if (quantity > 1) setQuantity((prev) => prev - 1);
@@ -48,23 +47,19 @@ const ProductDetails = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      // تفعيل التوست
       setShowToast(true);
-      
-      // تفعيل حركة السلة في الناف بار (تأكد من وجود ID للأيقونة هناك)
+
       const cartIcon = document.getElementById("cart-icon-nav");
       if (cartIcon) {
         cartIcon.classList.add("cart-bounce-premium");
         setTimeout(() => cartIcon.classList.remove("cart-bounce-premium"), 500);
       }
 
-      // إخفاء التوست تلقائياً بعد انتهاء شريط التقدم (3.5 ثانية)
       setTimeout(() => setShowToast(false), 3500);
 
       const currentCount = parseInt(localStorage.getItem("cartCount") || "0");
       localStorage.setItem("cartCount", currentCount + 1);
       window.dispatchEvent(new Event("cartUpdated"));
-
     } catch (err) {
       console.error(err);
     } finally {
@@ -77,7 +72,6 @@ const ProductDetails = () => {
 
   return (
     <div className="details-container">
-      {/* الـ Premium Toast اللي طلبته */}
       {showToast && (
         <div className="premium-toast-container">
           <div className="toast-content">
@@ -102,23 +96,34 @@ const ProductDetails = () => {
           <div className="quantity-section">
             <span className="qty-label">Quantity</span>
             <div className="qty-selector-eco">
-              <button onClick={decreseQu} className="qty-btn"><FaMinus /></button>
+              <button onClick={decreseQu} className="qty-btn">
+                <FaMinus />
+              </button>
               <span className="qty-value">{quantity}</span>
-              <button onClick={increseQu} className="qty-btn"><FaPlus /></button>
+              <button onClick={increseQu} className="qty-btn">
+                <FaPlus />
+              </button>
             </div>
           </div>
 
           <div className="details-footer">
             <span className="price">${product.price}</span>
-            <button 
-              className={`add-to-cart-btn ${showToast ? "success-state" : ""}`} 
+            <button
+              className={`add-to-cart-btn ${showToast ? "success-state" : ""}`}
               onClick={addToCart}
               disabled={addingToCart || showToast}
             >
               {showToast ? (
-                <> <FaCheckCircle className="check-icon" /> Added </>
+                <>
+                  {" "}
+                  <FaCheckCircle className="check-icon" /> Added{" "}
+                </>
               ) : (
-                <> <span className="plus-icon">+</span> {addingToCart ? "Adding..." : "Cart"} </>
+                <>
+                  {" "}
+                  <span className="plus-icon">+</span>{" "}
+                  {addingToCart ? "Adding..." : "Cart"}{" "}
+                </>
               )}
             </button>
           </div>
