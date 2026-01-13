@@ -15,7 +15,6 @@ const register = (req, res) => {
     password,
     role_id,
   } = req.body;
-
   bcrypt
     .hash(password, 10)
     .then((hashedPassword) => {
