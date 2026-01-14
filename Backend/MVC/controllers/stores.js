@@ -117,7 +117,7 @@ const getProductsInStore = async (req, res) => {
   try {
     const result = await pool.query(
       `
-       SELECT products.id,products.imgsrc,products.title,products.rate
+       SELECT products.id,products.imgsrc,products.title,products.rate,products.price
         FROM products
        FULL OUTER JOIN store 
        ON products.store_id = store.id WHERE store.id =$1 `,

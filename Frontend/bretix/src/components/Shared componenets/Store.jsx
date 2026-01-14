@@ -9,21 +9,24 @@ const Store = () => {
   const [store, setStore] = useState(null);
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isFavourite, setIsFavourite] = useState(false); 
-  const token = localStorage.getItem("token"); 
+  const [isFavourite, setIsFavourite] = useState(false);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchStoreData = async () => {
       try {
         setIsLoading(true);
 
-        const storeResponse = await axios.get(`http://localhost:5000/stores/${id}`);
+        const storeResponse = await axios.get(
+          `http://localhost:5000/stores/${id}`
+        );
         setStore(storeResponse.data.result[0]);
 
-        const productsResponse = await axios.get(`http://localhost:5000/stores/${id}/products`);
+        const productsResponse = await axios.get(
+          `http://localhost:5000/stores/${id}/products`
+        );
         setProducts(productsResponse.data.result);
 
-        
         if (token) {
           const favResponse = await axios.get(
             `http://localhost:5000/favourites/check/${id}`,
@@ -31,7 +34,6 @@ const Store = () => {
           );
           setIsFavourite(favResponse.data.isFavourite);
         }
-
       } catch (err) {
         console.error(err);
       } finally {
@@ -42,7 +44,6 @@ const Store = () => {
     fetchStoreData();
   }, [id, token]);
 
-
   const toggleFavourite = async () => {
     if (!token) {
       alert("Please login first!");
@@ -52,13 +53,11 @@ const Store = () => {
 
     try {
       if (isFavourite) {
-        
         await axios.delete(`http://localhost:5000/favourites/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setIsFavourite(false);
       } else {
-        
         await axios.post(
           "http://localhost:5000/favourites",
           { store_id: parseInt(id) },
@@ -103,17 +102,17 @@ const Store = () => {
             <p className="store-desc">{store.description}</p>
 
             <div className="action-buttons">
-              <button 
+              <button
                 className="wishlist-btn"
                 onClick={toggleFavourite}
                 style={{
-                  backgroundColor: isFavourite ? '#e74c3c' : 'transparent',
-                  color: isFavourite ? 'white' : '#e74c3c',
+                  backgroundColor: isFavourite ? "#e74c3c" : "transparent",
+                  color: isFavourite ? "white" : "#e74c3c",
                   border: `2px solid #e74c3c`,
-                  transition: 'all 0.3s ease'
+                  transition: "all 0.3s ease",
                 }}
               >
-                {isFavourite ? '❤️ Favourited' : '🤍 Add to Favourite'}
+                {isFavourite ? "❤️ Favourited" : "🤍 Add to Favourite"}
               </button>
             </div>
           </div>
@@ -124,23 +123,25 @@ const Store = () => {
         <h3 style={{ color: "#1b4332", marginBottom: "20px" }}>
           Available Products ({products.length})
         </h3>
-        
+
         {products.length === 0 ? (
-          <div style={{ 
-            textAlign: 'center', 
-            padding: '40px', 
-            color: '#999' 
-          }}>
+          <div
+            style={{
+              textAlign: "center",
+              padding: "40px",
+              color: "#999",
+            }}
+          >
             <p>No products available in this store yet.</p>
           </div>
         ) : (
           <div className="products-grid">
             {products.map((product) => (
-              <div 
-                key={product.id} 
+              <div
+                key={product.id}
                 className="product-card-store"
                 onClick={() => navigate(`/product/${product.id}`)}
-                style={{ cursor: 'pointer' }}
+                style={{ cursor: "pointer" }}
               >
                 <div className="product-image">
                   <img src={product.imgsrc} alt={product.title} />
