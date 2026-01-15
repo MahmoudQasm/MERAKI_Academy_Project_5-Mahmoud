@@ -21,7 +21,7 @@ function ForgetPassword() {
     setMessage("");
 
     axios
-      .post("http://localhost:5000/users/request-forgot-password", {
+      .post("https://meraki-academy-project-5-bn67.onrender.com/users/request-forgot-password", {
         email,
       })
       .then((res) => {

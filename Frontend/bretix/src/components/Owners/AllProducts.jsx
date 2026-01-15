@@ -21,13 +21,13 @@ const AllProducts = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    axios.get(`http://localhost:5000/stores/${id}`, {
+    axios.get(`https://meraki-academy-project-5-bn67.onrender.com/stores/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
     })
     .then((res) => setStoreInfo(res.data.result[0]))
     .catch((err) => console.log(err));
 
-    axios.get(`http://localhost:5000/stores/${id}/productsinstore`, {
+    axios.get(`https://meraki-academy-project-5-bn67.onrender.com/stores/${id}/productsinstore`, {
       headers: { Authorization: `Bearer ${token}` },
     })
     .then((res) => setStoreProducts(res.data.result))

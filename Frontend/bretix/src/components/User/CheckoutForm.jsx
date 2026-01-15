@@ -53,7 +53,7 @@ const CheckoutForm = () => {
 
       axios
         .put(
-          `http://localhost:5000/cart/complete/${cartId}`,
+          `https://meraki-academy-project-5-bn67.onrender.com/cart/complete/${cartId}`,
           {},
           { headers: { Authorization: `Bearer ${token}` } }
         )

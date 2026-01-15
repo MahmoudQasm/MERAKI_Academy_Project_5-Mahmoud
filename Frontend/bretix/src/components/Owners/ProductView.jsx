@@ -26,7 +26,7 @@ const ProductView = () => {
   useEffect(() => {
     const getCategories = async () => {
       try {
-        const result = await axios.get(`http://localhost:5000/categories/`);
+        const result = await axios.get(`https://meraki-academy-project-5-bn67.onrender.com/categories/`);
         setAllCategories(result.data.categories);
       } catch (err) {
         console.log(err);
@@ -41,7 +41,7 @@ const ProductView = () => {
     const getProduct = async () => {
       try {
         const result = await axios.get(
-          `http://localhost:5000/products/${productId}`,
+          `https://meraki-academy-project-5-bn67.onrender.com/products/${productId}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -86,7 +86,7 @@ const ProductView = () => {
       try {
  
         await axios.put(
-          `http://localhost:5000/products/${productId}/update`,
+          `https://meraki-academy-project-5-bn67.onrender.com/products/${productId}/update`,
           {
             ...editedProduct,
           },
@@ -134,7 +134,7 @@ const ProductView = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`http://localhost:5000/products/${productId}`, {
+          await axios.delete(`https://meraki-academy-project-5-bn67.onrender.com/products/${productId}`, {
             headers: { Authorization: `Bearer ${token}` },
           });
 

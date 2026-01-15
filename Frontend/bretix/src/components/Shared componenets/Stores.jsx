@@ -9,7 +9,7 @@ const Stores = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/stores/all")
+      .get("https://meraki-academy-project-5-bn67.onrender.com/stores/all")
       .then((res) => {
         setStores(res.data.result);
       })

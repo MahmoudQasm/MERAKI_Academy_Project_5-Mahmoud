@@ -29,10 +29,10 @@ function Login() {
     setError("");
 
     axios
-      .post("http://localhost:5000/users/login", { email, password })
+      .post("https://meraki-academy-project-5-bn67.onrender.com/users/login", { email, password })
       .then((result) => {
         axios
-          .get("http://localhost:5000/cart/getCartWhereIsDeletedFalse", {
+          .get("https://meraki-academy-project-5-bn67.onrender.com/cart/getCartWhereIsDeletedFalse", {
             headers: {
               Authorization: `Bearer ${result.data.token}`,
             },

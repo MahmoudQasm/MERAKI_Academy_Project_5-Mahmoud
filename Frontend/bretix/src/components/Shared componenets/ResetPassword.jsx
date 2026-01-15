@@ -12,7 +12,7 @@ function ResetPassword() {
 
   const resetPassword = () => {
     axios
-      .post("http://localhost:5000/users/reset-password", {
+      .post("https://meraki-academy-project-5-bn67.onrender.com/users/reset-password", {
         token,
         newPassword,
       })

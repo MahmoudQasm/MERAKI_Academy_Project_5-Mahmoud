@@ -25,7 +25,7 @@ const StoreInfo = () => {
     const token = localStorage.getItem("token");
     const getStoreInfo = async () => {
       try {
-        const result = await axios.get(`http://localhost:5000/stores/${storeId}`, {
+        const result = await axios.get(`https://meraki-academy-project-5-bn67.onrender.com/stores/${storeId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = result.data.result[0];
@@ -58,7 +58,7 @@ const StoreInfo = () => {
       });
 
       try {
-        await axios.put(`http://localhost:5000/stores/${storeId}/update`, storeInfoEdition, {
+        await axios.put(`https://meraki-academy-project-5-bn67.onrender.com/stores/${storeId}/update`, storeInfoEdition, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setStoreInfo(storeInfoEdition);

@@ -24,21 +24,21 @@ function Products() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/products/all")
+      .get("https://meraki-academy-project-5-bn67.onrender.com/products/all")
       .then((res) => {
         setProducts(res.data.products || []);
       })
       .catch((err) => console.log("Error products:", err));
 
     axios
-      .get("http://localhost:5000/categories/")
+      .get("https://meraki-academy-project-5-bn67.onrender.com/categories/")
       .then((result) => {
         setCategory(result.data.categories || []);
       })
       .catch((err) => console.log("Error categories:", err));
 
     axios
-      .get("http://localhost:5000/stores/all")
+      .get("https://meraki-academy-project-5-bn67.onrender.com/stores/all")
       .then((result) => {
         setStores(result.data.result || []);
       })
@@ -129,7 +129,7 @@ function Products() {
 
     axios
       .post(
-        "http://localhost:5000/cart",
+        "https://meraki-academy-project-5-bn67.onrender.com/cart",
         {
           products_id: item.id,
           cart_id: localStorage.getItem("CartId"),

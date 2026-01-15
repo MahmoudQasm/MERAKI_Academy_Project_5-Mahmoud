@@ -24,7 +24,7 @@ const OrderDetails = () => {
     const token = localStorage.getItem("token");
 
     axios
-      .get(`http://localhost:5000/stores/order-details/${order_id}`, {
+      .get(`https://meraki-academy-project-5-bn67.onrender.com/stores/order-details/${order_id}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {

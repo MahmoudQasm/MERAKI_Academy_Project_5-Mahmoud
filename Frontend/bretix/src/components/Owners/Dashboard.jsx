@@ -28,7 +28,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    axios.get(`http://localhost:5000/stores/${id}/statistic`, {
+    axios.get(`https://meraki-academy-project-5-bn67.onrender.com/stores/${id}/statistic`, {
       headers: { Authorization: `Bearer ${token}` },
     })
     .then((res) => setStats(res.data))
@@ -37,7 +37,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    axios.get(`http://localhost:5000/stores/${id}/last-seven-days-chart`, {
+    axios.get(`https://meraki-academy-project-5-bn67.onrender.com/stores/${id}/last-seven-days-chart`, {
       headers: { Authorization: `Bearer ${token}` },
     })
     .then((res) => setChartData(res.data.data))
@@ -47,8 +47,8 @@ const Dashboard = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     const url = fromDate && toDate 
-      ? `http://localhost:5000/stores/${id}/orders?page=${page}&from_date=${fromDate}&to_date=${toDate}`
-      : `http://localhost:5000/stores/${id}/orders?page=${page}`;
+      ? `https://meraki-academy-project-5-bn67.onrender.com/stores/${id}/orders?page=${page}&from_date=${fromDate}&to_date=${toDate}`
+      : `https://meraki-academy-project-5-bn67.onrender.com/stores/${id}/orders?page=${page}`;
     
     axios.get(url, { headers: { Authorization: `Bearer ${token}` } })
     .then((res) => {

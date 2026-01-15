@@ -18,18 +18,18 @@ const Store = () => {
         setIsLoading(true);
 
         const storeResponse = await axios.get(
-          `http://localhost:5000/stores/${id}`
+          `https://meraki-academy-project-5-bn67.onrender.com/stores/${id}`
         );
         setStore(storeResponse.data.result[0]);
 
         const productsResponse = await axios.get(
-          `http://localhost:5000/stores/${id}/products`
+          `https://meraki-academy-project-5-bn67.onrender.com/stores/${id}/products`
         );
         setProducts(productsResponse.data.result);
 
         if (token) {
           const favResponse = await axios.get(
-            `http://localhost:5000/favourites/check/${id}`,
+            `https://meraki-academy-project-5-bn67.onrender.com/favourites/check/${id}`,
             { headers: { Authorization: `Bearer ${token}` } }
           );
           setIsFavourite(favResponse.data.isFavourite);
@@ -53,13 +53,13 @@ const Store = () => {
 
     try {
       if (isFavourite) {
-        await axios.delete(`http://localhost:5000/favourites/${id}`, {
+        await axios.delete(`https://meraki-academy-project-5-bn67.onrender.com/favourites/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setIsFavourite(false);
       } else {
         await axios.post(
-          "http://localhost:5000/favourites",
+          "https://meraki-academy-project-5-bn67.onrender.com/favourites",
           { store_id: parseInt(id) },
           { headers: { Authorization: `Bearer ${token}` } }
         );

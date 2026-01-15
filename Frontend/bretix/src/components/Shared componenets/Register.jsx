@@ -39,7 +39,7 @@ const Register = () => {
       setErrorMessage("");
 
       const userRegisterResult = await axios.post(
-        "http://localhost:5000/users/register",
+        "https://meraki-academy-project-5-bn67.onrender.com/users/register",
         {
           firstName,
           lastName,
@@ -56,7 +56,7 @@ const Register = () => {
       const newUserId = userRegisterResult.data.user.id;
 
       if (role_id === 2) {
-        await axios.post("http://localhost:5000/stores/addnewstore", {
+        await axios.post("https://meraki-academy-project-5-bn67.onrender.com/stores/addnewstore", {
           title: storeTitle,
           logo: storeLogo,
           description: storeDescription,

@@ -16,7 +16,7 @@ const Favourites = () => {
 
     
     axios
-      .get("http://localhost:5000/favourites", {
+      .get("https://meraki-academy-project-5-bn67.onrender.com/favourites", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -32,7 +32,7 @@ const Favourites = () => {
   
   const removeFromFavourites = (storeId) => {
     axios
-      .delete(`http://localhost:5000/favourites/${storeId}`, {
+      .delete(`https://meraki-academy-project-5-bn67.onrender.com/favourites/${storeId}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(() => {

@@ -24,7 +24,7 @@ const Orders = () => {
 
     try {
       const response = await axios.get(
-        `http://localhost:5000/cart/my-orders?page=${currentPage}`,
+        `https://meraki-academy-project-5-bn67.onrender.com/cart/my-orders?page=${currentPage}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

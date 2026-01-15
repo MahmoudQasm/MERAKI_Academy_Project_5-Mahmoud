@@ -20,7 +20,7 @@ const ProductDetails = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/products/${id}`)
+      .get(`https://meraki-academy-project-5-bn67.onrender.com/products/${id}`)
       .then((res) => {
         setProduct(res.data.product);
         setLoading(false);
@@ -43,7 +43,7 @@ console.log(product);
 
     try {
       await axios.post(
-        "http://localhost:5000/cart",
+        "https://meraki-academy-project-5-bn67.onrender.com/cart",
         { products_id: id, quantity: quantity },
         { headers: { Authorization: `Bearer ${token}` } }
       );

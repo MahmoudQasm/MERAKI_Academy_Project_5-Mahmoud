@@ -109,7 +109,7 @@ cp .env.example .env
 Edit `.env`:
 ```env
 VITE_STRIPE_PUBLIC_KEY=pk_test_your_stripe_public_key
-VITE_API_URL=http://localhost:5000
+VITE_API_URL=https://meraki-academy-project-5-bn67.onrender.com
 ```
 
 Start frontend:
@@ -133,7 +133,7 @@ Run the schema file to create all necessary tables and relationships.
 
 **5. Access the Application**
 - **Frontend:** http://localhost:5173
-- **Backend API:** http://localhost:5000
+- **Backend API:** https://meraki-academy-project-5-bn67.onrender.com
 
 ---
 

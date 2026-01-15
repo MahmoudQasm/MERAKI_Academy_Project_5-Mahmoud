@@ -67,7 +67,7 @@ const AdminDashboard = () => {
 
     axios
       .put(
-        `http://localhost:5000/users/update/admin/${usersEdit.id}`,
+        `https://meraki-academy-project-5-bn67.onrender.com/users/update/admin/${usersEdit.id}`,
         usersEdit
       )
       .then((result) => {
@@ -97,7 +97,7 @@ const AdminDashboard = () => {
       store_id,
     };
     axios
-      .post(`http://localhost:5000/products/`, adminAddProduct)
+      .post(`https://meraki-academy-project-5-bn67.onrender.com/products/`, adminAddProduct)
       .then((result) => {
         if (result.data.result) {
           setProducts([...products, result.data.result]);
@@ -127,7 +127,7 @@ const AdminDashboard = () => {
 
     axios
       .post(
-        `http://localhost:5000/categories/add`,
+        `https://meraki-academy-project-5-bn67.onrender.com/categories/add`,
         { name: newCategoryName },
         {
           headers: {
@@ -154,7 +154,7 @@ const AdminDashboard = () => {
 
     try {
       const response = await axios.get(
-        "http://localhost:5000/cart/allcompleted",
+        "https://meraki-academy-project-5-bn67.onrender.com/cart/allcompleted",
         {
           params: {
             pageNumber: currentPage,
@@ -179,23 +179,23 @@ const AdminDashboard = () => {
   };
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/users/`).then((result) => {
+    axios.get(`https://meraki-academy-project-5-bn67.onrender.com/users/`).then((result) => {
       setUsers(result.data.result || []);
     });
 
-    axios.get(`http://localhost:5000/products/all`).then((result) => {
+    axios.get(`https://meraki-academy-project-5-bn67.onrender.com/products/all`).then((result) => {
       setProducts(result.data.products || []);
     });
 
     axios
-      .get(`http://localhost:5000/stores/all`)
+      .get(`https://meraki-academy-project-5-bn67.onrender.com/stores/all`)
       .then((result) => {
         setStores(result.data.result || []);
       })
       .catch((err) => console.log(err));
 
     axios
-      .get(`http://localhost:5000/categories/all`)
+      .get(`https://meraki-academy-project-5-bn67.onrender.com/categories/all`)
       .then((result) => {
         setCategories(result.data.categories || []);
       })
@@ -203,10 +203,10 @@ const AdminDashboard = () => {
   }, []);
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/users/`).then((result) => {
+    axios.get(`https://meraki-academy-project-5-bn67.onrender.com/users/`).then((result) => {
       setUsers(result.data.result || []);
     });
-    axios.get(`http://localhost:5000/products/all`).then((result) => {
+    axios.get(`https://meraki-academy-project-5-bn67.onrender.com/products/all`).then((result) => {
       setProducts(result.data.products || []);
     });
   }, []);
@@ -216,7 +216,7 @@ const AdminDashboard = () => {
       const token = localStorage.getItem("token");
       try {
         const result = await axios.get(
-          `http://localhost:5000/cart/totalsales`,
+          `https://meraki-academy-project-5-bn67.onrender.com/cart/totalsales`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -235,7 +235,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const numOfStores = async () => {
       try {
-        const result = await axios.get(`http://localhost:5000/stores/all`);
+        const result = await axios.get(`https://meraki-academy-project-5-bn67.onrender.com/stores/all`);
         setStoresCount(result.data.result.length);
       } catch (err) {
         console.log(err);
