@@ -1,4 +1,4 @@
-const sgMail = require('@sendgrid/mail');
+const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const { pool } = require("../models/db");
 const bcrypt = require("bcrypt");
@@ -42,7 +42,7 @@ const register = (req, res) => {
           email,
           hashedPassword,
           role_id,
-        ]
+        ],
       );
     })
     .then((result) => {
@@ -142,7 +142,9 @@ const requestForgotPassword = async (req, res) => {
   const { email } = req.body;
 
   try {
-    const result = await pool.query("SELECT * FROM users WHERE email=$1", [email]);
+    const result = await pool.query("SELECT * FROM users WHERE email=$1", [
+      email,
+    ]);
 
     if (result.rows.length === 0) {
       return res.status(404).json({
@@ -151,14 +153,14 @@ const requestForgotPassword = async (req, res) => {
       });
     }
 
-    const token = jwt.sign({ email }, process.env.SECRET, { expiresIn: '15m' });
+    const token = jwt.sign({ email }, process.env.SECRET, { expiresIn: "15m" });
 
     const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
-    
+
     const msg = {
       to: email,
-      from: 'm.alshiekhqasem@gmail.com',
-      subject: 'Reset Password - Bretix',
+      from: "mah.alshiekhq@gmail.com",
+      subject: "Reset Password - Bretix",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #10b981;">Reset Your Password</h2>
@@ -172,7 +174,7 @@ const requestForgotPassword = async (req, res) => {
           <p style="color: #666; font-size: 14px;">This link expires in 15 minutes.</p>
           <p style="color: #666; font-size: 14px;">If you didn't request this, please ignore this email.</p>
         </div>
-      `
+      `,
     };
 
     await sgMail.send(msg);
@@ -181,21 +183,17 @@ const requestForgotPassword = async (req, res) => {
       success: true,
       message: "Reset link sent to your email",
     });
-
   } catch (err) {
-  console.error("STATUS:", err.code);
-  console.error(
-    "BODY:",
-    JSON.stringify(err.response?.body, null, 2)
-  );
-  console.error("FULL ERROR:", err);
+    console.error("STATUS:", err.code);
+    console.error("BODY:", JSON.stringify(err.response?.body, null, 2));
+    console.error("FULL ERROR:", err);
 
-  return res.status(500).json({
-    success: false,
-    message: "Server internal error",
-    error: err.message,
-  });
-}
+    return res.status(500).json({
+      success: false,
+      message: "Server internal error",
+      error: err.message,
+    });
+  }
 };
 
 const resetPassword = (req, res) => {
@@ -247,7 +245,7 @@ const getMyProfile = (req, res) => {
         email
       FROM users
       WHERE id=$1 AND is_deleted=false`,
-      [userId]
+      [userId],
     )
     .then((result) => {
       res.status(200).json({
@@ -280,7 +278,15 @@ const updateMyProfile = (req, res) => {
         date_of_birthday=$6
       WHERE id=$7
       RETURNING *`,
-      [firstname, lastname, age, country, phonenumber, date_of_birthday, userId]
+      [
+        firstname,
+        lastname,
+        age,
+        country,
+        phonenumber,
+        date_of_birthday,
+        userId,
+      ],
     )
     .then((result) => {
       res.status(200).json({
@@ -296,7 +302,6 @@ const updateMyProfile = (req, res) => {
       });
     });
 };
-
 
 const requestEmailChange = async (req, res) => {
   try {
@@ -314,7 +319,7 @@ const requestEmailChange = async (req, res) => {
       `SELECT email_verification_code 
        FROM users 
        WHERE id=$1`,
-      [userId]
+      [userId],
     );
 
     const existingCode = existingCodeResult.rows[0]?.email_verification_code;
@@ -332,14 +337,14 @@ const requestEmailChange = async (req, res) => {
       `UPDATE users 
        SET pending_email=$1, email_verification_code=$2 
        WHERE id=$3`,
-      [newEmail, code, userId]
+      [newEmail, code, userId],
     );
 
     // SendGrid Email
     const msg = {
       to: newEmail,
-      from: 'm.alshiekhqasem@gmail.com',
-      subject: 'Email Verification - Bretix',
+      from: "mah.alshiekhq@gmail.com",
+      subject: "Email Verification - Bretix",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #10b981;">Verify Your Email</h2>
@@ -351,7 +356,7 @@ const requestEmailChange = async (req, res) => {
           </div>
           <p style="color: #666; font-size: 14px;">This code expires in 15 minutes.</p>
         </div>
-      `
+      `,
     };
 
     await sgMail.send(msg);
@@ -372,26 +377,34 @@ const requestEmailChange = async (req, res) => {
 const verifyEmailChange = async (req, res) => {
   try {
     const userId = req.token?.user_id;
-    if (!userId) return res.status(401).json({ success: false, message: "Unauthorized" });
+    if (!userId)
+      return res.status(401).json({ success: false, message: "Unauthorized" });
 
     const code = String(req.body.code || "").replace(/\s/g, "");
 
     const result = await pool.query(
       `SELECT pending_email, email_verification_code FROM users WHERE id=$1`,
-      [userId]
+      [userId],
     );
 
     if (!result.rows.length) {
-      return res.status(400).json({ success: false, message: "User not found" });
+      return res
+        .status(400)
+        .json({ success: false, message: "User not found" });
     }
 
     const user = result.rows[0];
-    const dbCode = String(user.email_verification_code || "").replace(/\s/g, "");
+    const dbCode = String(user.email_verification_code || "").replace(
+      /\s/g,
+      "",
+    );
 
     console.log("DB Code:", dbCode, "User Input:", code);
 
     if (parseInt(dbCode) !== parseInt(code)) {
-      return res.status(400).json({ success: false, message: "Invalid verification code" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid verification code" });
     }
 
     await pool.query(
@@ -400,7 +413,7 @@ const verifyEmailChange = async (req, res) => {
            pending_email=NULL,
            email_verification_code=NULL
        WHERE id=$1`,
-      [userId]
+      [userId],
     );
 
     res.json({ success: true, message: "Email updated successfully" });
@@ -494,7 +507,7 @@ const updateUserInformation = (req, res) => {
         date_of_birthday,
         email,
         id,
-      ]
+      ],
     )
     .then((result) => {
       res.status(201).json({
@@ -524,7 +537,7 @@ const updateUserInformationAdmin = (req, res) => {
         country=$3
       WHERE id=$4 
       RETURNING *`,
-      [firstname, lastname, country, id]
+      [firstname, lastname, country, id],
     )
     .then((result) => {
       res.status(201).json({
