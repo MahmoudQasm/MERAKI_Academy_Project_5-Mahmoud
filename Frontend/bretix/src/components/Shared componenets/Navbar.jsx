@@ -212,8 +212,8 @@ const Navbar = () => {
               <span>Login</span>
             ) : (
               <span>
-                {user.firstname[0]}
-                {user.lastname[0]}
+                {(user.firstname || "").charAt(0)}
+                {(user.lastname || "").charAt(0)}
               </span>
             )}
           </button>
