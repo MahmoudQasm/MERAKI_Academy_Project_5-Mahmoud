@@ -67,6 +67,9 @@ const Cart = () => {
 
   const updateQuantity = (cartProductId, newQuantity) => {
     const token = localStorage.getItem("token");
+    console.log("TOKEN:", token);
+    console.log("ID:", cartProductId);
+    console.log("QTY:", newQuantity);
     axios
       .patch(
         `${API_URL}/cart/${cartProductId}`,
@@ -116,6 +119,9 @@ const Cart = () => {
           navigate("/Success");
         })
         .catch((err) => {
+          console.log("FULL ERROR:", err);
+          console.log(err.response);
+          console.log(err.request);
           console.log("OrderFailed", err);
           showCustomToast("Order failed, please try again.", "error");
         });
