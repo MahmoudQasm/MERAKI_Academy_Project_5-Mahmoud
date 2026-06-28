@@ -28,7 +28,14 @@ app.use(
 );
 
 app.use(express.json());
-app.use(express.json());
+app.use((req, res, next) => {
+  console.log("================================");
+  console.log("METHOD:", req.method);
+  console.log("URL:", req.originalUrl);
+  console.log("AUTH:", req.headers.authorization);
+  console.log("================================");
+  next();
+});
 
 app.use("/users", usersRouter);
 app.use("/products", productsRouter);
