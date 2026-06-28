@@ -1,4 +1,5 @@
 const express = require("express");
+console.log("=== CART ROUTES LOADED ===");
 const {
   addToCart,
   getCartWereIsDeletedFalse,
