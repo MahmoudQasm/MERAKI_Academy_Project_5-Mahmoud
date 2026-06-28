@@ -2,6 +2,9 @@ const jwt = require("jsonwebtoken");
 
 const authentication = async (req, res, next) => {
   if (!req.headers.authorization) {
+    console.log("=== AUTH MIDDLEWARE ===");
+    console.log(req.method, req.originalUrl);
+    console.log(req.headers.authorization);
     res.status(403).json({
       success: false,
       message: "Forbidden",
