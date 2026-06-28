@@ -70,13 +70,20 @@ const Cart = () => {
     console.log("TOKEN:", token);
     console.log("ID:", cartProductId);
     console.log("QTY:", newQuantity);
+    axios;
     axios
       .patch(
         `${API_URL}/cart/${cartProductId}`,
         { quantity: newQuantity },
-        { headers: { Authorization: `Bearer ${token}` } },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
       )
-      .then(() => {
+      .then((res) => {
+        console.log("SUCCESS:", res.data);
+
         if (newQuantity === 0) {
           setItems(items.filter((i) => i.cart_product_id !== cartProductId));
         } else {
@@ -88,6 +95,13 @@ const Cart = () => {
             ),
           );
         }
+      })
+      .catch((err) => {
+        console.log("FULL ERROR:", err);
+        console.log("MESSAGE:", err.message);
+        console.log("CODE:", err.code);
+        console.log("RESPONSE:", err.response);
+        console.log("REQUEST:", err.request);
       });
   };
 
