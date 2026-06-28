@@ -38,7 +38,7 @@ import Profile from "./components/Shared componenets/Profile";
 import ChangePassword from "./components/Shared componenets/ChangePassword";
 import Favourites from "./components/Shared componenets/Favourites";
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
-
+console.log("Stripe Key:", import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 function App() {
   const [showNav, setShowNav] = useState(true);
   const location = useLocation();
