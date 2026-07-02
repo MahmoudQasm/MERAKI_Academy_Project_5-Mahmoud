@@ -68,7 +68,6 @@ const Cart = () => {
   const updateQuantity = (cartProductId, newQuantity) => {
     const token = localStorage.getItem("token");
 
-    axios;
     axios
       .patch(
         `${API_URL}/cart/${cartProductId}`,
@@ -132,7 +131,11 @@ const Cart = () => {
           { headers: { Authorization: `Bearer ${token}` } },
         )
         .then((res) => {
-          localStorage.setItem(cartId, res.data.newCartId);
+          localStorage.setItem("cartId", res.data.newCartId);
+
+          localStorage.setItem("cartCount", "0");
+          window.dispatchEvent(new Event("cartUpdated"));
+
           navigate("/Success");
         })
         .catch((err) => {
