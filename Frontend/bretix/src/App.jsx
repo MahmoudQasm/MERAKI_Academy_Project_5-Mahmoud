@@ -37,6 +37,7 @@ import ResetPassword from "./components/Shared componenets/ResetPassword";
 import Profile from "./components/Shared componenets/Profile";
 import ChangePassword from "./components/Shared componenets/ChangePassword";
 import Favourites from "./components/Shared componenets/Favourites";
+import MobileNavbar from "./components/Shared componenets/MobileNavbar";
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 console.log("Stripe Key:", import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 function App() {
@@ -52,7 +53,14 @@ function App() {
   return (
     <Elements stripe={stripePromise}>
       <div>
-        <Navbar />
+        <div className="desktop-navbar">
+          <Navbar />
+        </div>
+
+        <div className="mobile-navbar-wrapper">
+          <MobileNavbar />
+        </div>
+
         <Routes>
           <Route
             path="/"

@@ -93,20 +93,6 @@
   background-color: #fef2f2 !important;
 }
 
-@media (max-width: 768px) {
-  .navbar-container {
-    padding: 0 15px;
-  }
-
-  .nav-group.center {
-    display: none;
-  }
-
-  .nav-logo span {
-    display: none;
-  }
-}
-
 .navbar-container {
   position: fixed;
   top: 0;
@@ -122,6 +108,7 @@
   z-index: 1000;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
+
 
 body {
   padding-top: 100px;
@@ -314,70 +301,78 @@ login-btn {
   transform: scale(1.3);
 }
 
-@media (max-width: 768px) {
-  .navbar-container {
-    height: 120px;
-    padding: 10px;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-  }
+@media (max-width:768px){
 
-  body {
-    padding-top: 130px;
-  }
+    .navbar-container{
+        height:120px;
+        padding:10px;
+        flex-wrap:wrap;
+        justify-content:space-between;
+        align-items:center;
+    }
 
-  .nav-group.left {
-    flex: 1;
-  }
+    body{
+        padding-top:130px;
+    }
 
-  .nav-group.right {
-    flex: 1;
-    justify-content: flex-end;
-    gap: 6px;
-  }
+    .nav-group.left{
+        flex:1;
+    }
 
-  .nav-group.center {
-    width: 100%;
-    order: 3;
+    .nav-group.right{
+        flex:1;
+        justify-content:flex-end;
+        gap:6px;
+    }
 
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+    .nav-group.center{
 
-    margin-top: 8px;
-    padding-top: 8px;
+        width:100%;
+        order:3;
 
-    border-top: 1px solid #ececec;
-  }
+        display:flex;
+        justify-content:space-around;
+        align-items:center;
 
-  .mobile-nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+        margin-top:8px;
+        padding-top:8px;
 
-    gap: 3px;
+        border-top:1px solid #ececec;
+    }
 
-    padding: 0;
-  }
+    .mobile-nav-item{
 
-  .mobile-nav-item span {
-    display: block;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
 
-    font-size: 10px;
-    font-weight: 600;
-    color: #64748b;
-  }
+        gap:3px;
 
-  .mobile-nav-item svg {
-    width: 20px;
-    height: 20px;
-  }
+        padding:0;
 
-  .navbar-custom-img {
-    height: 70px !important;
-  }
-}
-.mobile-nav-item span {
-  display: none;
+    }
+
+    .mobile-nav-item span{
+
+        display:block;
+
+        font-size:10px;
+        font-weight:600;
+        color:#64748b;
+
+    }
+
+    .mobile-nav-item svg{
+
+        width:20px;
+        height:20px;
+
+    }
+
+    .navbar-custom-img{
+
+        height:70px !important;
+
+    }
+
 }
