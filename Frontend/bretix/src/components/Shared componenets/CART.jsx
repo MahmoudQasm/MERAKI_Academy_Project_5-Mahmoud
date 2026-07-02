@@ -67,9 +67,7 @@ const Cart = () => {
 
   const updateQuantity = (cartProductId, newQuantity) => {
     const token = localStorage.getItem("token");
-    console.log("TOKEN:", token);
-    console.log("ID:", cartProductId);
-    console.log("QTY:", newQuantity);
+
     axios;
     axios
       .patch(
@@ -84,24 +82,29 @@ const Cart = () => {
       .then((res) => {
         console.log("SUCCESS:", res.data);
 
+        let updatedItems;
+
         if (newQuantity === 0) {
-          setItems(items.filter((i) => i.cart_product_id !== cartProductId));
+          updatedItems = items.filter(
+            (i) => i.cart_product_id !== cartProductId,
+          );
         } else {
-          setItems(
-            items.map((item) =>
-              item.cart_product_id === cartProductId
-                ? { ...item, quantity: newQuantity }
-                : item,
-            ),
+          updatedItems = items.map((item) =>
+            item.cart_product_id === cartProductId
+              ? { ...item, quantity: newQuantity }
+              : item,
           );
         }
-      })
-      .catch((err) => {
-        console.log("FULL ERROR:", err);
-        console.log("MESSAGE:", err.message);
-        console.log("CODE:", err.code);
-        console.log("RESPONSE:", err.response);
-        console.log("REQUEST:", err.request);
+
+        setItems(updatedItems);
+
+        const newCount = updatedItems.reduce(
+          (sum, item) => sum + item.quantity,
+          0,
+        );
+
+        localStorage.setItem("cartCount", newCount);
+        window.dispatchEvent(new Event("cartUpdated"));
       });
   };
 
