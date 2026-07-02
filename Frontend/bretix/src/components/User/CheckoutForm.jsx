@@ -57,13 +57,9 @@ const CheckoutForm = () => {
           { headers: { Authorization: `Bearer ${token}` } },
         )
         .then((res) => {
-          console.log("Before:", localStorage.getItem("cartCount"));
-
           localStorage.setItem("cartId", res.data.newCartId);
 
           localStorage.setItem("cartCount", "0");
-
-          console.log("After:", localStorage.getItem("cartCount"));
 
           window.dispatchEvent(new Event("cartUpdated"));
 
