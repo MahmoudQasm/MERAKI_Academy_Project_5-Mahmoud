@@ -24,7 +24,6 @@ const Stores = () => {
         <h2>Our Eco-Friendly Stores</h2>
         <p>Discover businesses that care about our planet</p>
       </div>
-      <h1>Count: {stores.length}</h1>
       <div className="stores-grid">
         {(stores || []).map((store) => (
           <div

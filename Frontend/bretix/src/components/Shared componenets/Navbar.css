@@ -6,7 +6,6 @@
   --nav-height: 80px;
 }
 
-
 .nav-group {
   display: flex;
   align-items: center;
@@ -315,62 +314,70 @@ login-btn {
   transform: scale(1.3);
 }
 
+@media (max-width: 768px) {
+  .navbar-container {
+    height: 120px;
+    padding: 10px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+  }
 
-@media (max-width:768px){
+  body {
+    padding-top: 130px;
+  }
 
-    .navbar-container{
-        height:65px;
-        padding:0 12px;
-    }
+  .nav-group.left {
+    flex: 1;
+  }
 
-    body{
-        padding-top:70px;
-    }
+  .nav-group.right {
+    flex: 1;
+    justify-content: flex-end;
+    gap: 6px;
+  }
 
-    .nav-group{
-        gap:8px;
-    }
+  .nav-group.center {
+    width: 100%;
+    order: 3;
 
-    .nav-group.center{
-        display:none;
-    }
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 
-    .nav-group.right{
-        gap:4px;
-        flex:0;
-    }
+    margin-top: 8px;
+    padding-top: 8px;
 
-    .nav-logo{
-        padding:0;
-    }
+    border-top: 1px solid #ececec;
+  }
 
-    .navbar-custom-img{
-        height:70px;
-        transform:none;
-    }
+  .mobile-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-    .nav-logo:hover .navbar-custom-img{
-        transform:none;
-    }
+    gap: 3px;
 
-    .icon-btn{
-        padding:5px;
-    }
+    padding: 0;
+  }
 
-    .icon-btn svg{
-        width:24px;
-        height:24px;
-    }
+  .mobile-nav-item span {
+    display: block;
 
-    .profile-circle-btn{
-        width:38px;
-        height:38px;
-        font-size:13px;
-    }
+    font-size: 10px;
+    font-weight: 600;
+    color: #64748b;
+  }
 
-    .cart-badge-premium{
-        top:-2px;
-        right:-2px;
-    }
+  .mobile-nav-item svg {
+    width: 20px;
+    height: 20px;
+  }
 
+  .navbar-custom-img {
+    height: 70px !important;
+  }
+}
+.mobile-nav-item span {
+  display: none;
 }

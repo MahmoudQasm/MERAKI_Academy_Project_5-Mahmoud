@@ -128,43 +128,44 @@ const Navbar = () => {
 
       <div className="nav-group center">
         <button
-          className="icon-btn"
+          className="icon-btn mobile-nav-item"
           onClick={() => navigate("/stores")}
           title="Stores"
         >
-          <Store size={35} />
+          <Store size={24} />
+          <span>Stores</span>
         </button>
         <button
-          className="icon-btn"
+          className="icon-btn mobile-nav-item"
           onClick={() => navigate("/products")}
-          title="Products"
         >
-          <Package size={35} />
+          <Package size={24} />
+          <span>Products</span>
         </button>
         {role && (
           <button
-            className="icon-btn"
+            className="icon-btn mobile-nav-item"
             onClick={() => navigate("/Orders")}
-            title="Orders"
           >
-            <ClipboardList size={35} />
+            <ClipboardList size={24} />
+            <span>Orders</span>
           </button>
         )}
         {role && (
           <button
-            className="icon-btn"
+            className="icon-btn mobile-nav-item"
             onClick={() => navigate("/favourites")}
-            title="Favourites"
           >
-            <Heart size={35} />
+            <Heart size={24} />
+            <span>Favorites</span>
           </button>
         )}
         <button
-          className="icon-btn"
+          className="icon-btn mobile-nav-item"
           onClick={() => navigate("/ContactUs")}
-          title="Contact Us"
         >
-          <MessageSquare size={35} />
+          <MessageSquare size={24} />
+          <span>Contact</span>
         </button>
       </div>
 
